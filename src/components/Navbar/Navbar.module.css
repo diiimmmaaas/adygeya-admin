@@ -5,6 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
 }
 
 .container {
@@ -35,13 +36,13 @@
 .btn {
     cursor: pointer;
     padding: 5px;
-    border-radius: 15px;
+    border-radius: 12px;
 }
 
 .activeBtn {
     padding: 5px;
     background: #028959;
-    border-radius: 15px;
+    border-radius: 12px;
     color: #FFFFFF;
 }
 
