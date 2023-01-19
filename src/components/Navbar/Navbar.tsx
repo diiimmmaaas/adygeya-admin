@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Navbar.module.css'
 import logo from '../../assets/img/logo.png'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 
 const buttons = [
