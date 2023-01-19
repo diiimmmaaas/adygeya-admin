@@ -1,0 +1,21 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  gap: 42px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #303030;
+  font-size: 40px;
+}
+
+.containerMobile {
+  min-height: 100vh;
+  display: flex;
+  gap: 21px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #303030;
+  font-size: 20px;
+}
