@@ -1,0 +1,39 @@
+.waypoints {
+
+}
+
+.waypointsTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 24px;
+}
+
+.waypointContainer {
+    margin-bottom: 64px;
+}
+
+.waypointBlock {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 16px;
+}
+
+.waypointText {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 290%;
+    color: #7B7B7B;
+}
+
+.waypointInputName {
+ width: 35%;
+}

@@ -13,6 +13,7 @@
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 16px;
+    gap: 8px;
 }
 
 .content {

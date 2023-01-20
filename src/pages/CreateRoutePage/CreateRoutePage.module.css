@@ -1,0 +1,26 @@
+.routes {
+    margin-top: 60px;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background: #F5F5F5;
+}
+
+.content {}
+
+.uploadMediaContainer {
+
+}
+
+.uploadMediaTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 16px;
+}
+
+

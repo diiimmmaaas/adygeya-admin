@@ -4,6 +4,7 @@ import main from '../../style/common.module.css'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
+import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 
 const ObjectPage = () => {
   const navigate = useNavigate()
@@ -15,6 +16,7 @@ const ObjectPage = () => {
       <div className={main.container}>
         <h1 className={main.title}>Список объектов</h1>
         <div className={styles.createObjectBtnContainer} onClick={onRedirectToCreateObject}>
+          <SearchFunctionalityComponent />
           <CustomButton name='Создать объект' />
         </div>
         <div className={styles.content}></div>

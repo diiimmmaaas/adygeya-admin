@@ -1,17 +1,16 @@
 import React from 'react'
 import styles from './MainPage.module.css'
 import main from '../../style/common.module.css'
-import CustomButton from '../../components/CustomButton/CustomButton'
-import search from '../../assets/icons/search.svg'
 import { PATH } from '../../navigation/path'
 import { useNavigate } from 'react-router-dom'
+import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
   { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
   { id: 3, title: 'Создать Маршрут', path: PATH.createRouteCardPage },
-  { id: 4, title: 'Пользователи', path: PATH.usersPage },
-  { id: 5, title: 'Создать уведомление', path: PATH.notificationsPage },
+  { id: 4, title: 'Создать уведомление', path: PATH.notificationsPage },
+  { id: 5, title: 'Пользователи', path: PATH.usersPage },
   { id: 6, title: 'Настройки', path: PATH.settingsPage },
 ]
 
@@ -45,13 +44,7 @@ const MainPage = () => {
             <h3 className={styles.searchTitle}>
               Поиск по уже существующим объектам, событиям, маршрутам
             </h3>
-            <div className={styles.searchFunctionality}>
-              <div className={styles.searchInputContainer}>
-                <img className={styles.searchIcon} src={search} alt='search' />
-                <input className={styles.searchInput} type='text' placeholder='Поиск' />
-              </div>
-              <CustomButton name={'Редактировать'} />
-            </div>
+            <SearchFunctionalityComponent />
           </div>
         </div>
       </div>
