@@ -154,6 +154,12 @@ const CreateObjectPage = () => {
             <UploadPhotoComponent />
             <UploadVideoComponent />
             <UploadAudioComponent />
+            <CustomNameInput name='Исполнитель' placeholder='Введите имя исполнителя' type='text' />
+            <CustomNameInput
+              name='Ссылка на аккаунт исполнителя'
+              placeholder='Введите ссылку'
+              type='text'
+            />
             <UploadDescriptionComponent placeholder='' title='Описание' />
             <TimeTable />
             <ContactsComponent />

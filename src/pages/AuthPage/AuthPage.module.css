@@ -1,0 +1,32 @@
+.auth {
+    margin-top: 60px;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F5F5F5;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.title {
+    width: 100%;
+    text-align: center;
+}
+
+.loginBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

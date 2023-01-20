@@ -12,6 +12,7 @@ const buttons = [
   { id: 4, title: 'Пользователи', path: PATH.usersPage },
   // { id: 5, title: 'Уведомления', path: PATH.notificationsPage },
   { id: 6, title: 'Настройки', path: PATH.settingsPage },
+  { id: 7, title: 'Выйти', path: PATH.auth },
 ]
 
 const Navbar = () => {
@@ -38,7 +39,7 @@ const Navbar = () => {
           <div className={styles.logoContainer}>
             <img className={styles.logo} src={logo} alt='logo' onClick={onActiveLogo} />
           </div>
-          {isAuth ? (
+          {isAuth && (
             <div className={styles.functionalityContainer}>
               <ul className={styles.buttonsList}>
                 {buttons.map((btn) => {
@@ -57,10 +58,6 @@ const Navbar = () => {
                   )
                 })}
               </ul>
-            </div>
-          ) : (
-            <div className={styles.loginContainer}>
-              <p className={styles.loginText}>Log In</p>
             </div>
           )}
         </div>

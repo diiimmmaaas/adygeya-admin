@@ -8,5 +8,6 @@ export const PATH = {
   usersPage: '/users-page',
   notificationsPage: '/notifications-page',
   settingsPage: '/settings-page',
+  auth: '/auth',
   error404: '/error404',
 }

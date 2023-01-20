@@ -13,6 +13,7 @@ import MainPage from '../pages/NotificationPage/MainPage'
 import ObjectPage from '../pages/ObjectPage/ObjectPage'
 import NewsPage from '../pages/NewsPage/NewsPage'
 import RoutePage from '../pages/RoutePage/RoutePage'
+import AuthPage from '../pages/AuthPage/AuthPage'
 
 const RouteList = () => {
   return (
@@ -27,6 +28,7 @@ const RouteList = () => {
       <Route path={PATH.usersPage} element={<UsersPage />} />
       <Route path={PATH.notificationsPage} element={<NotificationPage />} />
       <Route path={PATH.settingsPage} element={<SettingsPage />} />
+      <Route path={PATH.auth} element={<AuthPage />} />
       <Route path={PATH.error404} element={<Error404 />} />
       <Route path='*' element={<Navigate to={PATH.error404} />} />
     </Routes>
