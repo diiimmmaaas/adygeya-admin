@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from './CreateObjectPage.module.css'
+import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
 import CustomDoubleInputComponent from '../../components/CustomDoubleInputComponent/CustomDoubleInputComponent'
 import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
@@ -68,8 +69,8 @@ const CreateObjectPage = () => {
 
   return (
     <div className={styles.object}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Создать объект</h1>
+      <div className={main.container}>
+        <h1 className={main.title}>Создать объект</h1>
         <div className={styles.content}>
           <CustomNameInput
             name='Название объекта'

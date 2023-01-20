@@ -1,14 +1,15 @@
 import React from 'react'
 import styles from './MainPage.module.css'
+import main from '../../style/common.module.css'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import search from '../../assets/icons/search.svg'
 import { PATH } from '../../navigation/path'
 import { useNavigate } from 'react-router-dom'
 
 const blocks = [
-  { id: 1, title: 'Создать объект', path: PATH.objectCardPage },
-  { id: 2, title: 'Создать событие', path: PATH.newsCardPage },
-  { id: 3, title: 'Создать Маршрут', path: PATH.routeCardPage },
+  { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
+  { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
+  { id: 3, title: 'Создать Маршрут', path: PATH.createRouteCardPage },
   { id: 4, title: 'Пользователи', path: PATH.usersPage },
   { id: 5, title: 'Создать уведомление', path: PATH.notificationsPage },
   { id: 6, title: 'Настройки', path: PATH.settingsPage },
@@ -19,8 +20,8 @@ const MainPage = () => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Главная</h1>
+      <div className={main.container}>
+        <h1 className={main.title}>Главная</h1>
         <div className={styles.content}>
           <h2 className={styles.subTitle}>Панель инструментов</h2>
           <div className={styles.functionalBlocks}>

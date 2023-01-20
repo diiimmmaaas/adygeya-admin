@@ -1,0 +1,15 @@
+.usersPageContainer {
+    margin-top: 60px;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background: #F5F5F5;
+}
+
+.content {
+    width: 100%;
+    height: 800px;
+    background: #FFFFFF;
+    margin-bottom: 218px;
+}

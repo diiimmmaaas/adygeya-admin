@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Navbar.module.css'
 import logo from '../../assets/img/logo.png'
+import main from '../../style/common.module.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 
@@ -32,7 +33,7 @@ const Navbar = () => {
 
   return (
     <div className={styles.navbar}>
-      <div className={styles.container}>
+      <div className={main.container}>
         <div className={styles.content}>
           <div className={styles.logoContainer}>
             <img className={styles.logo} src={logo} alt='logo' onClick={onActiveLogo} />
