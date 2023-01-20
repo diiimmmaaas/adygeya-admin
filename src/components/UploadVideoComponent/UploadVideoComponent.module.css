@@ -1,0 +1,27 @@
+.uploadVideoContainer {
+ margin-bottom: 32px;
+}
+
+.uploadVideoText {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.uploadVideoBoard {
+    width: 100%;
+    min-height: 400px;
+    background: #FFFFFF;
+    margin-bottom: 16px;
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

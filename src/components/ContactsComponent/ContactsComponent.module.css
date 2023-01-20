@@ -1,0 +1,50 @@
+.contactsContainer {
+    width: 100%;
+}
+
+.contactsTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.contactBlock {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.contactText {
+    width: 35%;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 290%;
+    color: #7B7B7B;
+}
+
+.contactInput {
+    width: 65%;
+}
+
+.subTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+}
+
+.createContactBtn {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 64px;
+}

@@ -1,0 +1,111 @@
+.timeTableContainer {
+    width: 100%;
+    margin-bottom: 70px;
+}
+
+.timeTableTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 16px;
+}
+
+.scheduleContainer {
+    width: 100%;
+    display: flex;
+}
+
+.daysBlock {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.titleBlock {
+    display: flex;
+}
+
+.daysTitle,
+.timeTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 12px;
+}
+
+.daysTitle {
+    width: 35%;
+}
+
+.timeTitleContainer {
+    width: 65%;
+    display: flex;
+    justify-content: center;
+}
+
+.timeTitle {
+    width: 65%;
+}
+
+.dayContainer {
+    display: flex;
+    width: 100%;
+}
+
+.dayName {
+    width: 35%;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 290%;
+    color: #7B7B7B;
+    margin-bottom: 12px;
+}
+
+.timeContainer {
+    display: flex;
+    align-items: center;
+    width: 65%;
+    gap: 5px;
+}
+
+.input {
+    width: 128px;
+    height: 48px;
+    background: #E8E8E8;
+    border-radius: 20px;
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #7B7B7B;
+}
+
+.dash {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 250%;
+    color: #7B7B7B;
+}
+
+.checkbox {}
+
+.dayOff {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 290%;
+    color: #7B7B7B;
+}

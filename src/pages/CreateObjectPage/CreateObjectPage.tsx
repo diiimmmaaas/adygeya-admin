@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import styles from './CreateObjectPage.module.css'
-import CustomInput from '../../components/CustomInput/CustomInput'
+import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
+import CustomDoubleInputComponent from '../../components/CustomDoubleInputComponent/CustomDoubleInputComponent'
+import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
+import UploadVideoComponent from '../../components/UploadVideoComponent/UploadVideoComponent'
+import UploadAudioComponent from '../../components/UploadAudioComponent/UploadAudioComponent'
+import UploadDescriptionComponent from '../../components/UploadDescriptionComponent/UploadDescriptionComponent'
+import TimeTable from '../../components/TimeTable/TimeTable'
+import ContactsComponent from '../../components/ContactsComponent/ContactsComponent'
 
 const categories = [
   {
@@ -64,23 +71,20 @@ const CreateObjectPage = () => {
       <div className={styles.container}>
         <h1 className={styles.title}>Создать объект</h1>
         <div className={styles.content}>
-          <div className={styles.objectNameContainer}>
-            <h4 className={styles.objectNameTitle}>Название объекта</h4>
-            <CustomInput placeholder='Введите название объекта' type='text' />
-          </div>
-          <div className={styles.objectCoordinatesContainer}>
-            <h4 className={styles.objectCoordinatesTitle}>Координаты объекта</h4>
-            <div className={styles.allCoordinatesBlock}>
-              <div className={styles.coordinatesBlock}>
-                <p className={styles.coordinatesTitle}>Широта</p>
-                <CustomInput placeholder='Введите широту' type='number' />
-              </div>
-              <div className={styles.coordinatesBlock}>
-                <p className={styles.coordinatesTitle}>Долгота</p>
-                <CustomInput placeholder='Введите широту' type='number' />
-              </div>
-            </div>
-          </div>
+          <CustomNameInput
+            name='Название объекта'
+            placeholder='Введите название объекта'
+            type='text'
+          />
+          <CustomNameInput name='Адрес объекта' placeholder='Введите адрес объекта' type='text' />
+          <CustomDoubleInputComponent
+            name='Координаты объекта'
+            firstPlaceholder='Введите широту'
+            secondPlaceholder='Введите долготу'
+            firstSubTitle='Широта'
+            secondSubTitle='Долгота'
+            type='text'
+          />
           <div className={styles.categoriesBlock}>
             <h4 className={styles.categoriesTitle}>Выбрать категорию объекта</h4>
             <div className={styles.categoriesContainer}>
@@ -143,6 +147,15 @@ const CreateObjectPage = () => {
                 )
               })}
             </div>
+          </div>
+          <div className={styles.uploadMediaContainer}>
+            <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
+            <UploadPhotoComponent />
+            <UploadVideoComponent />
+            <UploadAudioComponent />
+            <UploadDescriptionComponent />
+            <TimeTable />
+            <ContactsComponent />
           </div>
         </div>
       </div>

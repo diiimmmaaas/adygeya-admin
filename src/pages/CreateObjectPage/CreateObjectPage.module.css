@@ -25,49 +25,6 @@
 }
 
 .content {}
-.objectNameContainer {
-    margin-bottom: 32px;
-}
-.objectNameTitle {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 125%;
-    color: #414141;
-    margin-bottom: 8px;
-}
-
-.objectCoordinatesContainer {
-    margin-bottom: 32px;
-}
-
-.objectCoordinatesTitle {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 125%;
-    color: #414141;
-    margin-bottom: 16px;
-}
-.allCoordinatesBlock {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-.coordinatesBlock {
-    width: 48%;
-}
-.coordinatesTitle {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 125%;
-    color: #7B7B7B;
-    margin-bottom: 8px;
-}
 
 .categoriesBlock {
 
@@ -120,3 +77,19 @@
 .activeCategoryName {
     color: #FFFFFF;
 }
+
+.uploadMediaContainer {
+
+}
+
+.uploadMediaTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 16px;
+}
+
+
