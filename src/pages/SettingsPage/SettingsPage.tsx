@@ -6,7 +6,7 @@ const SettingsPage = () => {
   return (
     <div className={styles.settingsPageContainer}>
       <div className={main.container}>
-        <h1 className={main.title}>Создать уведомление</h1>
+        <h1 className={main.title}>Настройки</h1>
         <div className={styles.content}></div>
       </div>
     </div>

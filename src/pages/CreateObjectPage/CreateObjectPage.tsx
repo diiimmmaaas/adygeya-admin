@@ -154,7 +154,7 @@ const CreateObjectPage = () => {
             <UploadPhotoComponent />
             <UploadVideoComponent />
             <UploadAudioComponent />
-            <UploadDescriptionComponent />
+            <UploadDescriptionComponent placeholder='' title='Описание' />
             <TimeTable />
             <ContactsComponent />
           </div>
