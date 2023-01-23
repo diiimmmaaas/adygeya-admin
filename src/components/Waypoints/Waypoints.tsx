@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './Waypoints.module.css'
 import SearchFunctionalityComponent from '../SearchFunctionalityComponent/SearchFunctionalityComponent'
 import CustomInput from '../CustomInput/CustomInput'
-import SubmitButton from '../SubmitButton/SubmitButton'
 
 const Waypoints = () => {
   return (
