@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/adygeya-admin/static/css/main.24fd9a6e.css",
-    "main.js": "/adygeya-admin/static/js/main.524cd467.js",
-    "static/js/787.d8efedc5.chunk.js": "/adygeya-admin/static/js/787.d8efedc5.chunk.js",
-    "static/media/search.svg": "/adygeya-admin/static/media/search.9a444a47517a09d1271fb05ecf354956.svg",
-    "index.html": "/adygeya-admin/index.html",
-    "main.24fd9a6e.css.map": "/adygeya-admin/static/css/main.24fd9a6e.css.map",
-    "main.524cd467.js.map": "/adygeya-admin/static/js/main.524cd467.js.map",
-    "787.d8efedc5.chunk.js.map": "/adygeya-admin/static/js/787.d8efedc5.chunk.js.map"
+    "main.css": "/Adygeya-admin/static/css/main.24fd9a6e.css",
+    "main.js": "/Adygeya-admin/static/js/main.e454741b.js",
+    "static/js/787.d8efedc5.chunk.js": "/Adygeya-admin/static/js/787.d8efedc5.chunk.js",
+    "static/media/search.svg": "/Adygeya-admin/static/media/search.9a444a47517a09d1271fb05ecf354956.svg",
+    "index.html": "/Adygeya-admin/index.html",
+    "main.24fd9a6e.css.map": "/Adygeya-admin/static/css/main.24fd9a6e.css.map",
+    "main.e454741b.js.map": "/Adygeya-admin/static/js/main.e454741b.js.map",
+    "787.d8efedc5.chunk.js.map": "/Adygeya-admin/static/js/787.d8efedc5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.24fd9a6e.css",
-    "static/js/main.524cd467.js"
+    "static/js/main.e454741b.js"
   ]
 }
