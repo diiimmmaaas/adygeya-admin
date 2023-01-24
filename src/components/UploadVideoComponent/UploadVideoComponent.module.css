@@ -1,5 +1,5 @@
 .uploadVideoContainer {
- margin-bottom: 32px;
+    margin-bottom: 32px;
 }
 
 .uploadVideoText {
@@ -12,12 +12,55 @@
     margin-bottom: 8px;
 }
 
+.videosContainer {
+    display: flex;
+    height: 200px;
+    position: relative;
+}
+
+.videoPlayer {
+    width: 350px;
+    height: 200px;
+}
+
+.videoExit {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    z-index: 3;
+}
+
 .uploadVideoBoard {
+    padding: 16px;
     width: 100%;
     min-height: 400px;
     background: #FFFFFF;
     margin-bottom: 16px;
+    color: #303030;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
+
+.label {
+    width: 150px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #c7c2c2;
+    cursor: pointer;
+}
+
+.activeLabel {
+    border: 2px dashed #0004ff;
+}
+
+.inputFile {
+    display: none;
+}
+
 
 .btnContainer {
     width: 100%;
