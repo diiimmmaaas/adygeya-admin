@@ -4,6 +4,8 @@ import logo from '../../assets/img/logo.png'
 import main from '../../style/common.module.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
+import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
+import { logout } from '../../redux/reducers/auth/authSlice'
 
 const buttons = [
   { id: 1, title: 'Объекты', path: PATH.objectCardPage },
@@ -18,15 +20,16 @@ const buttons = [
 const Navbar = () => {
   const [activeBtn, setActiveBtn] = useState('')
 
+  const { isAuth } = useAppSelector((state) => state.auth)
+
   const navigate = useNavigate()
   const location = useLocation()
+  const dispatch = useAppDispatch()
 
   const onActiveLogo = () => {
     navigate('/')
     setActiveBtn('')
   }
-
-  const isAuth = true
 
   useEffect(() => {
     setActiveBtn(location.pathname)
@@ -43,9 +46,12 @@ const Navbar = () => {
             <div className={styles.functionalityContainer}>
               <ul className={styles.buttonsList}>
                 {buttons.map((btn) => {
-                  const onClickBtn = () => {
+                  const onClickBtn = async () => {
                     navigate(btn.path)
                     setActiveBtn(btn.path)
+                    if (btn.path === PATH.auth) {
+                      await dispatch(logout())
+                    }
                   }
                   return (
                     <li

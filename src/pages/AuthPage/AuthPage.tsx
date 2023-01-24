@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './AuthPage.module.css'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { loginUser } from '../../redux/actions/authActions'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton/CustomButton'
+import Loading from '../../components/Loading/Loading'
 
 interface FormValues {
   username: string
@@ -23,7 +24,7 @@ const AuthPage = () => {
       .min(6, 'Пароль слишком короткий: минимум 6 символов.'),
   })
 
-  const { error, isLoading } = useAppSelector((state) => state.auth)
+  const { error, isLoading, isAuth } = useAppSelector((state) => state.auth)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -36,6 +37,14 @@ const AuthPage = () => {
     //   console.log(String(error))
     // } else {
     // }
+  }
+
+  if (isAuth) {
+    navigate('/')
+  }
+
+  if (isLoading) {
+    return <Loading />
   }
 
   return (
