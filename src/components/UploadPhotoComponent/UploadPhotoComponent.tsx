@@ -80,6 +80,7 @@ const UploadPhotoComponent = () => {
           multiple
           id='filephotos'
           onChange={handleFileChange}
+          accept='image/*'
         />
         {photos.length > 0 &&
           photos.map((photo, index) => {
