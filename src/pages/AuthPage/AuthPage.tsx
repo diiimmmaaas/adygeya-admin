@@ -61,7 +61,9 @@ const AuthPage = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
-                  className={errors.username && touched.username ? styles.inputError : ''}
+                  className={
+                    errors.username && touched.username ? styles.inputError : styles.customInput
+                  }
                 />
                 {touched.username && errors.username && (
                   <p className={styles.errorValidation}>{errors.username}</p>
@@ -74,7 +76,9 @@ const AuthPage = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
-                  className={errors.password && touched.password ? styles.inputError : ''}
+                  className={
+                    errors.password && touched.password ? styles.inputError : styles.customInput
+                  }
                 />
                 {touched.password && errors.password && (
                   <p className={styles.errorValidation}>{errors.password}</p>

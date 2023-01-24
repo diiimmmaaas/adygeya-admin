@@ -9,7 +9,7 @@
 
 .signInContainer {
     width: 400px;
-    height: 400px;
+    height: 500px;
     background-color: #FFFFFF;
     border-radius: 20px;
     padding: 24px;
@@ -29,7 +29,6 @@
 .signInInputGroup {
     display: flex;
     flex-direction: column;
-    gap: 12px;
     margin-bottom: 12px;
 }
 
@@ -37,8 +36,13 @@
     border: 1px solid red;
 }
 
+.customInput {
+    margin-bottom: 30px;
+}
+
 .errorValidation {
     color: red;
+    margin-bottom: 12px;
 }
 
 .errorNetwork {
