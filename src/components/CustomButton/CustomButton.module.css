@@ -10,5 +10,9 @@
     font-size: 20px;
     line-height: 133%;
     color: #FFFFFF;
+}
 
+.btn:disabled {
+    background-color: #d1d1d1;
+    cursor: auto;
 }

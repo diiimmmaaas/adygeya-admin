@@ -1,32 +1,98 @@
-.auth {
-    margin-top: 60px;
-    min-width: 100vw;
+.login {
     min-height: 100vh;
     display: flex;
+    width: 100%;
     justify-content: center;
     align-items: center;
-    background: #F5F5F5;
+    background-color: #F5F5F5;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 500px;
-    height: 500px;
-    background: #FFFFFF;
-    border-radius: 24px;
+.signInContainer {
+    width: 400px;
+    height: 400px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
     padding: 24px;
 }
 
-.title {
-    width: 100%;
+.signInDescription {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 135%;
     text-align: center;
+    color: #414141;
+    margin-bottom: 32px;
 }
 
-.loginBtn {
-    width: 100%;
+.signInInputGroup {
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.inputError {
+    border: 1px solid red;
+}
+
+.errorValidation {
+    color: red;
+}
+
+.errorNetwork {
+    color: red;
+    margin-bottom: 20px;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.haveAccount {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: #171718;
+    margin: 24px 0 88px 0;
+    text-align: center;
+    gap: 2px;
+}
+
+form {
+    display: flex;
+    align-items: center;
     justify-content: center;
+}
+
+.passwordLink {
+    display: inline-block;
+    color: #325df4;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0em;
+    margin-bottom: 24px;
+}
+
+.haveAccount {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: #171718;
+    margin: 24px 0 0;
+    text-align: center;
+    gap: 2px;
+}
+
+.logInLink {
+    color: #325df4;
 }
