@@ -3,7 +3,7 @@ import styles from './UploadVideoComponent.module.css'
 import CustomButton from '../CustomButton/CustomButton'
 import exit from '../../assets/icons/exit.svg'
 
-type VideoType = {
+export type FileType = {
   name: string
   type: string
   size: string
@@ -11,7 +11,7 @@ type VideoType = {
 }
 
 const UploadVideoComponent = () => {
-  const [videos, setVideos] = useState<VideoType[]>([])
+  const [videos, setVideos] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {

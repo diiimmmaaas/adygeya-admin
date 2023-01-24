@@ -2,16 +2,10 @@ import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadPhotoComponent.module.css'
 import CustomButton from '../CustomButton/CustomButton'
 import exit from '../../assets/icons/exit.svg'
-
-type PhotoType = {
-  name: string
-  type: string
-  size: string
-  src: string
-}
+import { FileType } from '../UploadVideoComponent/UploadVideoComponent'
 
 const UploadPhotoComponent = () => {
-  const [photos, setPhotos] = useState<PhotoType[]>([])
+  const [photos, setPhotos] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
