@@ -110,9 +110,6 @@ const UploadVideoComponent = () => {
           Добавьте видео
         </label>
       </div>
-      <div className={styles.btnContainer}>
-        <CustomButton name='Загрузить видео' />
-      </div>
     </div>
   )
 }

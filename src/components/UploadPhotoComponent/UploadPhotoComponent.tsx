@@ -102,9 +102,6 @@ const UploadPhotoComponent = () => {
           Добавьте фото
         </label>
       </div>
-      <div className={styles.btnContainer}>
-        <CustomButton name='Загрузить фото' />
-      </div>
     </div>
   )
 }

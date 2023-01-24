@@ -106,9 +106,6 @@ const UploadAudioComponent = () => {
           Добавьте аудио
         </label>
       </div>
-      <div className={styles.btnContainer}>
-        <CustomButton name='Загрузить аудио' />
-      </div>
     </div>
   )
 }
