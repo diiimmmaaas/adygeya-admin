@@ -31,17 +31,13 @@ const AuthPage = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (values: FormValues) => {
-    console.log(values)
     const resultAction = await dispatch(loginUser(values))
 
-    // if (loginUser.rejected.match(resultAction)) {
-    //   console.log(String(error))
-    // } else {
-    // }
-  }
-
-  if (isAuth) {
-    navigate(PATH.adygeyaAdmin)
+    if (loginUser.rejected.match(resultAction)) {
+      console.log(String(error))
+    } else {
+      navigate('/')
+    }
   }
 
   if (isLoading) {

@@ -6,6 +6,7 @@ export const PATH = {
   createObjectCardPage: '/create-object-card-page',
   createNewsCardPage: '/create-news-card-page',
   createRouteCardPage: '/create-route-card-page',
+  createUsersPage: '/create-users-page',
   usersPage: '/users-page',
   notificationsPage: '/notifications-page',
   settingsPage: '/settings-page',

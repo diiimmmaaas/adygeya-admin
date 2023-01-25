@@ -9,9 +9,9 @@ import { useAppSelector } from '../../redux/utils/redux-utils'
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
   { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
-  { id: 3, title: 'Создать Маршрут', path: PATH.createRouteCardPage },
+  { id: 3, title: 'Создать маршрут', path: PATH.createRouteCardPage },
   { id: 4, title: 'Создать уведомление', path: PATH.notificationsPage },
-  { id: 5, title: 'Пользователи', path: PATH.usersPage },
+  { id: 5, title: 'Создать пользователей', path: PATH.createUsersPage },
   { id: 6, title: 'Настройки', path: PATH.settingsPage },
 ]
 
@@ -20,11 +20,11 @@ const MainPage = () => {
 
   const { isAuth } = useAppSelector((state) => state.auth)
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate(PATH.auth)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!isAuth) {
+  //     navigate(PATH.auth)
+  //   }
+  // }, [])
 
   return (
     <div className={styles.main}>

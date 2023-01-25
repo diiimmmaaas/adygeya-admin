@@ -6,13 +6,19 @@ type CustomNameInputType = {
   name: string
   placeholder: string
   type: string
+  callbackHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const CustomNameInput: React.FC<CustomNameInputType> = ({ name, placeholder, type }) => {
+const CustomNameInput: React.FC<CustomNameInputType> = ({
+  name,
+  placeholder,
+  type,
+  callbackHandler,
+}) => {
   return (
     <div className={styles.objectNameContainer}>
       <h4 className={styles.objectNameTitle}>{name}</h4>
-      <CustomInput placeholder={placeholder} type={type} />
+      <CustomInput placeholder={placeholder} type={type} callbackHandler={callbackHandler} />
     </div>
   )
 }

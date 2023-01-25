@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { setCookie } from 'nookies'
+import { handleAppRequestError } from '../utils/error-utils'
 
 export const loginUser = createAsyncThunk(
   'auth/login',
@@ -22,9 +23,7 @@ export const loginUser = createAsyncThunk(
 
       return response.data
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return thunkAPI.rejectWithValue(error.message as string)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },
 )

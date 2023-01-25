@@ -14,17 +14,19 @@ import ObjectPage from '../pages/ObjectPage/ObjectPage'
 import NewsPage from '../pages/NewsPage/NewsPage'
 import RoutePage from '../pages/RoutePage/RoutePage'
 import AuthPage from '../pages/AuthPage/AuthPage'
+import CreateUsersPage from '../pages/CreateUsersPage/CreateUsersPage'
 
 const RouteList = () => {
   return (
     <Routes>
-      <Route path={PATH.adygeyaAdmin} element={<MainPage />} />
+      <Route path={'/'} element={<MainPage />} />
       <Route path={PATH.objectCardPage} element={<ObjectPage />} />
       <Route path={PATH.newsCardPage} element={<NewsPage />} />
       <Route path={PATH.routeCardPage} element={<RoutePage />} />
       <Route path={PATH.createObjectCardPage} element={<CreateObjectPage />} />
       <Route path={PATH.createNewsCardPage} element={<CreateNewsPage />} />
       <Route path={PATH.createRouteCardPage} element={<CreateRoutePage />} />
+      <Route path={PATH.createUsersPage} element={<CreateUsersPage />} />
       <Route path={PATH.usersPage} element={<UsersPage />} />
       <Route path={PATH.notificationsPage} element={<NotificationPage />} />
       <Route path={PATH.settingsPage} element={<SettingsPage />} />
