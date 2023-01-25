@@ -8,7 +8,9 @@ const Waypoints = () => {
   return (
     <div className={styles.waypoints}>
       <h4 className={styles.waypointsTitle}>Маршрут</h4>
-      <SearchFunctionalityComponent />
+      <div className={styles.waypointMarginSearch}>
+        <SearchFunctionalityComponent />
+      </div>
       <div className={styles.waypointContainer}>
         <div className={styles.waypointBlock}>
           <div className={styles.waypointText}>Точка 1</div>
