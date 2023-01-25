@@ -27,7 +27,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch()
 
   const onActiveLogo = () => {
-    navigate('/')
+    navigate(PATH.adygeyaAdmin)
     setActiveBtn('')
   }
 

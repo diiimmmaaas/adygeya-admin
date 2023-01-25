@@ -18,7 +18,7 @@ import AuthPage from '../pages/AuthPage/AuthPage'
 const RouteList = () => {
   return (
     <Routes>
-      <Route path='/' element={<MainPage />} />
+      <Route path={PATH.adygeyaAdmin} element={<MainPage />} />
       <Route path={PATH.objectCardPage} element={<ObjectPage />} />
       <Route path={PATH.newsCardPage} element={<NewsPage />} />
       <Route path={PATH.routeCardPage} element={<RoutePage />} />
