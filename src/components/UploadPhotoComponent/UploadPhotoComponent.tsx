@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadPhotoComponent.module.css'
-import CustomButton from '../CustomButton/CustomButton'
 import exit from '../../assets/icons/exit.svg'
 import { FileType } from '../UploadVideoComponent/UploadVideoComponent'
 

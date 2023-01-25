@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './ContactsComponent.module.css'
 import CustomInput from '../CustomInput/CustomInput'
 import SubmitButton from '../SubmitButton/SubmitButton'

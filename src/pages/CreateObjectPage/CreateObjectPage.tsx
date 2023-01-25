@@ -103,16 +103,9 @@ export type CheckedParametersType = {
 }
 
 const CreateObjectPage = () => {
-  console.log('CreateObjectPage is render')
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
-
-  // const [contacts, setContacts] = useState([
-  //   { name: 'Мобильный телефон', contact: '' },
-  //   { name: 'Сайт', contact: '' },
-  //   { name: 'Почта', contact: '' },
-  // ])
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
     name: '',
@@ -123,7 +116,15 @@ const CreateObjectPage = () => {
       latitude: 0,
       address: '',
     },
-    schedule: [],
+    schedule: [
+      { weekday: 0, open: '', close: '' },
+      { weekday: 1, open: '', close: '' },
+      { weekday: 2, open: '', close: '' },
+      { weekday: 3, open: '', close: '' },
+      { weekday: 4, open: '', close: '' },
+      { weekday: 5, open: '', close: '' },
+      { weekday: 6, open: '', close: '' },
+    ],
     contacts: [
       { name: 'Мобильный телефон', contact: '' },
       { name: 'Сайт', contact: '' },
@@ -164,7 +165,6 @@ const CreateObjectPage = () => {
       ),
     })
   }
-
   const onChangeSiteNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
@@ -173,12 +173,30 @@ const CreateObjectPage = () => {
       ),
     })
   }
-
   const onChangeEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
         ctc.name === 'Почта' ? { ...ctc, contact: e.target.value } : { ...ctc },
+      ),
+    })
+  }
+  const onChangeDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCheckedParameters({ ...checkedParameters, description: e.target.value })
+  }
+  const onOpenChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      schedule: checkedParameters.schedule.map((ctc) =>
+        ctc.weekday === weekday ? { ...ctc, open: e.target.value } : { ...ctc },
+      ),
+    })
+  }
+  const onCloseChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      schedule: checkedParameters.schedule.map((ctc) =>
+        ctc.weekday === weekday ? { ...ctc, close: e.target.value } : { ...ctc },
       ),
     })
   }
@@ -292,14 +310,31 @@ const CreateObjectPage = () => {
             <UploadPhotoComponent />
             <UploadVideoComponent />
             <UploadAudioComponent />
-            <CustomNameInput name='Исполнитель' placeholder='Введите имя исполнителя' type='text' />
+            <CustomNameInput
+              name='Исполнитель'
+              placeholder='Введите имя исполнителя'
+              type='text'
+              callbackHandler={() => {
+                console.log('')
+              }}
+            />
             <CustomNameInput
               name='Ссылка на аккаунт исполнителя'
               placeholder='Введите ссылку'
               type='text'
+              callbackHandler={() => {
+                console.log('')
+              }}
             />
-            <UploadDescriptionComponent placeholder='' title='Описание' />
-            <TimeTable />
+            <UploadDescriptionComponent
+              placeholder='Добавьте описание объекта'
+              title='Описание'
+              callbackHandler={onChangeDescriptionHandler}
+            />
+            <TimeTable
+              onOpenChangeHandler={onOpenChangeHandler}
+              onCloseChangeHandler={onCloseChangeHandler}
+            />
             <ContactsComponent
               onChangePhoneNumberHandler={onChangePhoneNumberHandler}
               onChangeSiteNameHandler={onChangeSiteNameHandler}

@@ -2,16 +2,21 @@ import React from 'react'
 import styles from './TimeTable.module.css'
 
 const days = [
-  { id: 1, name: 'Понедельник' },
-  { id: 2, name: 'Вторник' },
-  { id: 3, name: 'Среда' },
-  { id: 4, name: 'Четверг' },
-  { id: 5, name: 'Пятница' },
-  { id: 6, name: 'Суббота' },
-  { id: 7, name: 'Воскресение' },
+  { weekday: 0, name: 'Понедельник' },
+  { weekday: 1, name: 'Вторник' },
+  { weekday: 2, name: 'Среда' },
+  { weekday: 3, name: 'Четверг' },
+  { weekday: 4, name: 'Пятница' },
+  { weekday: 5, name: 'Суббота' },
+  { weekday: 6, name: 'Воскресение' },
 ]
 
-const TimeTable = () => {
+type TimeTablePropsType = {
+  onOpenChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => void
+  onCloseChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => void
+}
+
+const TimeTable: React.FC<TimeTablePropsType> = ({ onOpenChangeHandler, onCloseChangeHandler }) => {
   return (
     <div className={styles.timeTableContainer}>
       <h4 className={styles.timeTableTitle}>Расписание</h4>
@@ -26,12 +31,20 @@ const TimeTable = () => {
 
           {days.map((day) => {
             return (
-              <div className={styles.dayContainer} key={day.id}>
+              <div className={styles.dayContainer} key={day.weekday}>
                 <div className={styles.dayName}>{day.name}</div>
                 <div className={styles.timeContainer}>
-                  <input className={styles.input} type='text' />
+                  <input
+                    className={styles.input}
+                    type='text'
+                    onChange={(e) => onOpenChangeHandler(e, day.weekday)}
+                  />
                   <p className={styles.dash}>-</p>
-                  <input className={styles.input} type='text' />
+                  <input
+                    className={styles.input}
+                    type='text'
+                    onChange={(e) => onCloseChangeHandler(e, day.weekday)}
+                  />
                   <input className={styles.checkbox} type='checkbox' />
                   <div className={styles.dayOff}>Выходной</div>
                 </div>
