@@ -9,6 +9,8 @@ type CustomNameInputType = {
   firstSubTitle: string
   secondSubTitle: string
   type: string
+  callbackFirstHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  callbackSecondHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
@@ -18,6 +20,8 @@ const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
   firstPlaceholder,
   secondPlaceholder,
   type,
+  callbackFirstHandler,
+  callbackSecondHandler,
 }) => {
   return (
     <div className={styles.objectCoordinatesContainer}>
@@ -25,11 +29,19 @@ const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
       <div className={styles.allCoordinatesBlock}>
         <div className={styles.coordinatesBlock}>
           <p className={styles.coordinatesTitle}>{firstSubTitle}</p>
-          <CustomInput placeholder={firstPlaceholder} type={type} />
+          <CustomInput
+            placeholder={firstPlaceholder}
+            type={type}
+            callbackHandler={callbackFirstHandler}
+          />
         </div>
         <div className={styles.coordinatesBlock}>
           <p className={styles.coordinatesTitle}>{secondSubTitle}</p>
-          <CustomInput placeholder={secondPlaceholder} type={type} />
+          <CustomInput
+            placeholder={secondPlaceholder}
+            type={type}
+            callbackHandler={callbackSecondHandler}
+          />
         </div>
       </div>
     </div>

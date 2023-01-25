@@ -1,5 +1,4 @@
 export const PATH = {
-  adygeyaAdmin: '/adygeya-admin',
   objectCardPage: '/object-card-page',
   newsCardPage: '/news-card-page',
   routeCardPage: '/route-card-page',

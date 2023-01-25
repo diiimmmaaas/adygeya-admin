@@ -9,6 +9,8 @@ import UploadAudioComponent from '../../components/UploadAudioComponent/UploadAu
 import UploadDescriptionComponent from '../../components/UploadDescriptionComponent/UploadDescriptionComponent'
 import TimeTable from '../../components/TimeTable/TimeTable'
 import ContactsComponent from '../../components/ContactsComponent/ContactsComponent'
+import CustomSelect from '../../components/CustomSelect/CustomSelect'
+import { loginUser } from '../../redux/actions/authActions'
 
 const categories = [
   {
@@ -62,10 +64,108 @@ const categories = [
   },
 ]
 
+const options = [
+  { label: 'Достопримечательности (музеи, объекты архитектуры и т.д.)', value: 'museum' },
+  { label: 'Достопримечательности (горы)', value: 'mountain' },
+  { label: 'Активный отдых', value: 'skiing' },
+  { label: 'Места отдыха', value: 'highway' },
+  { label: 'Маршруты', value: 'route' },
+  { label: 'Проживание', value: 'lodging' },
+  { label: 'Питание', value: 'restaraunt' },
+]
+
+type ScheduleType = {
+  weekday: number
+  open: string
+  close: string
+}
+
+type ContactsType = {
+  name: string
+  contact: string
+}
+
+export type CheckedParametersType = {
+  name: string
+  icon: string
+  description: string
+  location: {
+    longitude: number
+    latitude: number
+    address: string
+  }
+  schedule: ScheduleType[]
+  contacts: ContactsType[]
+  categories: number[]
+  waypoints: number[]
+  filters: number[]
+  publishAt: string
+}
+
 const CreateObjectPage = () => {
+  console.log('CreateObjectPage is render')
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
+
+  const [contacts, setContacts] = useState([
+    { name: 'Мобильный телефон', contact: '' },
+    { name: 'Сайт', contact: '' },
+    { name: 'Почта', contact: '' },
+  ])
+
+  const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
+    name: '',
+    icon: '',
+    description: '',
+    location: {
+      longitude: 0,
+      latitude: 0,
+      address: '',
+    },
+    schedule: [],
+    contacts: contacts,
+    categories: [1],
+    waypoints: [],
+    filters: [],
+    publishAt: '',
+  })
+
+  const onChangeObjectNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedParameters({ ...checkedParameters, name: e.target.value })
+  }
+  const onChangeObjectAddressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      location: { ...checkedParameters.location, address: e.target.value },
+    })
+  }
+  const onChangeObjectLatitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      location: { ...checkedParameters.location, latitude: +e.target.value },
+    })
+  }
+  const onChangeObjectLongitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      location: { ...checkedParameters.location, longitude: +e.target.value },
+    })
+  }
+  const onChangePhoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+    setContacts([...contacts, contacts[0]])
+  }
+
+  const onChangeSiteNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+  }
+
+  const onChangeEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+  }
+
+  console.log(checkedParameters)
 
   return (
     <div className={styles.object}>
@@ -76,8 +176,14 @@ const CreateObjectPage = () => {
             name='Название объекта'
             placeholder='Введите название объекта'
             type='text'
+            callbackHandler={onChangeObjectNameHandler}
           />
-          <CustomNameInput name='Адрес объекта' placeholder='Введите адрес объекта' type='text' />
+          <CustomNameInput
+            name='Адрес объекта'
+            placeholder='Введите адрес объекта'
+            type='text'
+            callbackHandler={onChangeObjectAddressHandler}
+          />
           <CustomDoubleInputComponent
             name='Координаты объекта'
             firstPlaceholder='Введите широту'
@@ -85,7 +191,20 @@ const CreateObjectPage = () => {
             firstSubTitle='Широта'
             secondSubTitle='Долгота'
             type='text'
+            callbackFirstHandler={onChangeObjectLatitudeHandler}
+            callbackSecondHandler={onChangeObjectLongitudeHandler}
           />
+          <div className={styles.selectBlock}>
+            <h4 className={styles.objectNameTitle}>Выберите тип иконки</h4>
+            <CustomSelect
+              value={options[0].label}
+              defaultValue='admin'
+              options={options}
+              callbackHandler={(newValue) => {
+                setCheckedParameters({ ...checkedParameters, icon: newValue.value })
+              }}
+            />
+          </div>
           <div className={styles.categoriesBlock}>
             <h4 className={styles.categoriesTitle}>Выбрать категорию объекта</h4>
             <div className={styles.categoriesContainer}>
@@ -124,6 +243,7 @@ const CreateObjectPage = () => {
               {categories[activeCategory].subCategories.map((subcategory) => {
                 const onActiveSubCategory = () => {
                   setActiveSubCategoryId(subcategory.id)
+                  setCheckedParameters({ ...checkedParameters, categories: [subcategory.id] })
                 }
                 return (
                   <div
@@ -162,7 +282,11 @@ const CreateObjectPage = () => {
             />
             <UploadDescriptionComponent placeholder='' title='Описание' />
             <TimeTable />
-            <ContactsComponent />
+            <ContactsComponent
+              onChangePhoneNumberHandler={onChangePhoneNumberHandler}
+              onChangeSiteNameHandler={onChangeSiteNameHandler}
+              onChangeEmailHandler={onChangeEmailHandler}
+            />
           </div>
         </div>
       </div>
