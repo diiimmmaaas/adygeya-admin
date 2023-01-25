@@ -108,11 +108,11 @@ const CreateObjectPage = () => {
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
 
-  const [contacts, setContacts] = useState([
-    { name: 'Мобильный телефон', contact: '' },
-    { name: 'Сайт', contact: '' },
-    { name: 'Почта', contact: '' },
-  ])
+  // const [contacts, setContacts] = useState([
+  //   { name: 'Мобильный телефон', contact: '' },
+  //   { name: 'Сайт', contact: '' },
+  //   { name: 'Почта', contact: '' },
+  // ])
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
     name: '',
@@ -124,8 +124,12 @@ const CreateObjectPage = () => {
       address: '',
     },
     schedule: [],
-    contacts: contacts,
-    categories: [1],
+    contacts: [
+      { name: 'Мобильный телефон', contact: '' },
+      { name: 'Сайт', contact: '' },
+      { name: 'Почта', contact: '' },
+    ],
+    categories: [],
     waypoints: [],
     filters: [],
     publishAt: '',
@@ -153,16 +157,30 @@ const CreateObjectPage = () => {
     })
   }
   const onChangePhoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
-    setContacts([...contacts, contacts[0]])
+    setCheckedParameters({
+      ...checkedParameters,
+      contacts: checkedParameters.contacts.map((ctc) =>
+        ctc.name === 'Мобильный' + ' телефон' ? { ...ctc, contact: e.target.value } : { ...ctc },
+      ),
+    })
   }
 
   const onChangeSiteNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
+    setCheckedParameters({
+      ...checkedParameters,
+      contacts: checkedParameters.contacts.map((ctc) =>
+        ctc.name === 'Сайт' ? { ...ctc, contact: e.target.value } : { ...ctc },
+      ),
+    })
   }
 
   const onChangeEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
+    setCheckedParameters({
+      ...checkedParameters,
+      contacts: checkedParameters.contacts.map((ctc) =>
+        ctc.name === 'Почта' ? { ...ctc, contact: e.target.value } : { ...ctc },
+      ),
+    })
   }
 
   console.log(checkedParameters)
