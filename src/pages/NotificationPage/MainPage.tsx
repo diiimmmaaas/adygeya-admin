@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './MainPage.module.css'
 import main from '../../style/common.module.css'
 import { PATH } from '../../navigation/path'
 import { useNavigate } from 'react-router-dom'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
+import { useAppSelector } from '../../redux/utils/redux-utils'
 
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
@@ -16,6 +17,14 @@ const blocks = [
 
 const MainPage = () => {
   const navigate = useNavigate()
+
+  const { isAuth } = useAppSelector((state) => state.auth)
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate(PATH.auth)
+    }
+  }, [])
 
   return (
     <div className={styles.main}>

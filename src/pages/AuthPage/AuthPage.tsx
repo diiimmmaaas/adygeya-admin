@@ -9,6 +9,7 @@ import { loginUser } from '../../redux/actions/authActions'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import Loading from '../../components/Loading/Loading'
+import { PATH } from '../../navigation/path'
 
 interface FormValues {
   username: string
@@ -40,7 +41,7 @@ const AuthPage = () => {
   }
 
   if (isAuth) {
-    navigate('/')
+    navigate(PATH.adygeyaAdmin)
   }
 
   if (isLoading) {
