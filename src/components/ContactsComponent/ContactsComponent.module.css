@@ -33,19 +33,6 @@
     width: 65%;
 }
 
-.submitContainer {
-    margin-top: 64px;
-}
-
-.subTitle {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 125%;
-    color: #414141;
-}
-
 .createContactBtn {
     width: 100%;
     display: flex;

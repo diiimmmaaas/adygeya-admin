@@ -12,6 +12,8 @@ const UploadPhotoComponent = () => {
     handFiles(files)
   }
 
+  console.log(photos)
+
   const handFiles = (files: any) => {
     const photosArr: {
       name: string

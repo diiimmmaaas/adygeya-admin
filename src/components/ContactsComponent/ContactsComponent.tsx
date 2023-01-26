@@ -50,9 +50,6 @@ const ContactsComponent: React.FC<ContactsComponentPropsType> = ({
           />
         </div>
       </div>
-      <div className={styles.submitContainer}>
-        <SubmitButton name='Сохранить' />
-      </div>
     </div>
   )
 }

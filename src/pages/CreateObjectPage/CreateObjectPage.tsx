@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './CreateObjectPage.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -10,7 +10,12 @@ import UploadDescriptionComponent from '../../components/UploadDescriptionCompon
 import TimeTable from '../../components/TimeTable/TimeTable'
 import ContactsComponent from '../../components/ContactsComponent/ContactsComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
-import InputMask from 'react-input-mask'
+import SubmitButton from '../../components/SubmitButton/SubmitButton'
+import { postObject } from '../../redux/actions/objectsActions'
+import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
+import { useNavigate } from 'react-router-dom'
+import { PATH } from '../../navigation/path'
+import Loading from '../../components/Loading/Loading'
 
 const categories = [
   {
@@ -106,6 +111,7 @@ const CreateObjectPage = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
+  const [error, setError] = useState(false)
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
     name: '',
@@ -135,29 +141,34 @@ const CreateObjectPage = () => {
     filters: [],
     publishAt: '',
   })
+  const { token } = useAppSelector((state) => state.auth)
+  const { isLoading } = useAppSelector((state) => state.objects)
 
-  const onChangeObjectNameHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const onChangeObjectNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({ ...checkedParameters, name: e.target.value })
-  }, [])
-  const onChangeObjectAddressHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const onChangeObjectAddressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       location: { ...checkedParameters.location, address: e.target.value },
     })
-  }, [])
-  const onChangeObjectLatitudeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const onChangeObjectLatitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       location: { ...checkedParameters.location, latitude: +e.target.value },
     })
-  }, [])
-  const onChangeObjectLongitudeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const onChangeObjectLongitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       location: { ...checkedParameters.location, longitude: +e.target.value },
     })
-  }, [])
-  const onChangePhoneNumberHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const onChangePhoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
@@ -169,26 +180,26 @@ const CreateObjectPage = () => {
           : { ...ctc },
       ),
     })
-  }, [])
-  const onChangeSiteNameHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const onChangeSiteNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
         ctc.name === 'Сайт' ? { ...ctc, contact: e.target.value } : { ...ctc },
       ),
     })
-  }, [])
-  const onChangeEmailHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const onChangeEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
         ctc.name === 'Почта' ? { ...ctc, contact: e.target.value } : { ...ctc },
       ),
     })
-  }, [])
-  const onChangeDescriptionHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  }
+  const onChangeDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCheckedParameters({ ...checkedParameters, description: e.target.value })
-  }, [])
+  }
   const onOpenChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
     setCheckedParameters({
       ...checkedParameters,
@@ -206,10 +217,34 @@ const CreateObjectPage = () => {
     })
   }
 
+  const onSubmitFormHandler = async () => {
+    const resultAction = await dispatch(postObject({ checkedParameters, token }))
+    if (postObject.rejected.match(resultAction)) {
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 2000)
+      console.log(String(error))
+    } else {
+      navigate(PATH.objectCardPage)
+    }
+  }
+
   console.log(checkedParameters)
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <div className={styles.object}>
+      <div className={styles.errorBlock}>
+        {error && (
+          <div className={styles.errorText}>
+            Произошла ошибка при создании объекта, попробуйте еще раз...
+          </div>
+        )}
+      </div>
       <div className={main.container}>
         <h1 className={main.title}>Создать объект</h1>
         <div className={styles.content}>
@@ -348,6 +383,9 @@ const CreateObjectPage = () => {
               onChangeSiteNameHandler={onChangeSiteNameHandler}
               onChangeEmailHandler={onChangeEmailHandler}
             />
+            <div className={styles.submitContainer}>
+              <SubmitButton name='Сохранить' onClickHandler={onSubmitFormHandler} />
+            </div>
           </div>
         </div>
       </div>

@@ -4,7 +4,27 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
     background: #F5F5F5;
+    position: relative;
+}
+
+.errorBlock {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.errorText {
+    color: red;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    margin-top: 24px;
 }
 
 .content {}
@@ -89,5 +109,18 @@
     color: #414141;
     margin-bottom: 16px;
 }
+.submitContainer {
+    margin-top: 64px;
+}
+
+.subTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+}
+
 
 
