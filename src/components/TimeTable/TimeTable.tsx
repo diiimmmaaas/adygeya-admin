@@ -14,20 +14,9 @@ const days = [
 type TimeTablePropsType = {
   onOpenChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => void
   onCloseChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => void
-  onCheckedWeekendHandler: (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => void
 }
 
-const TimeTable: React.FC<TimeTablePropsType> = ({
-  onOpenChangeHandler,
-  onCloseChangeHandler,
-  onCheckedWeekendHandler,
-}) => {
-  const [open, setOpen] = useState('')
-  const [close, setClose] = useState('')
-
-  const onOpenHandler = () => {}
-  const onCloseHandler = () => {}
-
+const TimeTable: React.FC<TimeTablePropsType> = ({ onOpenChangeHandler, onCloseChangeHandler }) => {
   return (
     <div className={styles.timeTableContainer}>
       <h4 className={styles.timeTableTitle}>Расписание</h4>
@@ -46,24 +35,16 @@ const TimeTable: React.FC<TimeTablePropsType> = ({
                 <div className={styles.dayName}>{day.name}</div>
                 <div className={styles.timeContainer}>
                   <input
-                    value={open}
                     className={styles.input}
                     type='text'
                     onChange={(e) => onOpenChangeHandler(e, day.weekday)}
                   />
                   <p className={styles.dash}>-</p>
                   <input
-                    value={close}
                     className={styles.input}
                     type='text'
                     onChange={(e) => onCloseChangeHandler(e, day.weekday)}
                   />
-                  <input
-                    className={styles.checkbox}
-                    type='checkbox'
-                    onChange={(e) => onCheckedWeekendHandler(e, day.weekday)}
-                  />
-                  <div className={styles.dayOff}>Выходной</div>
                 </div>
               </div>
             )

@@ -201,18 +201,6 @@ const CreateObjectPage = () => {
     })
   }
 
-  const onCheckedWeekendHandler = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
-      setCheckedParameters({
-        ...checkedParameters,
-        schedule: checkedParameters.schedule.map((ctc) =>
-          e.target.checked ? { ...ctc, open: '', close: '' } : { ...ctc },
-        ),
-      })
-    },
-    [],
-  )
-
   console.log(checkedParameters)
 
   return (
@@ -346,7 +334,6 @@ const CreateObjectPage = () => {
             <TimeTable
               onOpenChangeHandler={onOpenChangeHandler}
               onCloseChangeHandler={onCloseChangeHandler}
-              onCheckedWeekendHandler={onCheckedWeekendHandler}
             />
             <ContactsComponent
               onChangePhoneNumberHandler={onChangePhoneNumberHandler}
