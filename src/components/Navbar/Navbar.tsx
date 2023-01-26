@@ -12,7 +12,7 @@ const buttons = [
   { id: 2, title: 'События', path: PATH.newsCardPage },
   { id: 3, title: 'Маршруты', path: PATH.routeCardPage },
   { id: 4, title: 'Пользователи', path: PATH.usersPage },
-  // { id: 5, title: 'Уведомления', path: PATH.notificationsPage },
+  { id: 5, title: 'Уведомления', path: PATH.notificationsPage },
   { id: 6, title: 'Настройки', path: PATH.settingsPage },
   { id: 7, title: 'Выйти', path: PATH.auth },
 ]

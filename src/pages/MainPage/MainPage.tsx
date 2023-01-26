@@ -10,7 +10,7 @@ const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
   { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
   { id: 3, title: 'Создать маршрут', path: PATH.createRouteCardPage },
-  { id: 4, title: 'Создать уведомление', path: PATH.notificationsPage },
+  { id: 4, title: 'Создать уведомление', path: PATH.createNotificationsPage },
   { id: 5, title: 'Создать пользователей', path: PATH.createUsersPage },
   { id: 6, title: 'Настройки', path: PATH.settingsPage },
 ]
