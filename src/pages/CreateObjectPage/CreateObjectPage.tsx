@@ -10,7 +10,7 @@ import UploadDescriptionComponent from '../../components/UploadDescriptionCompon
 import TimeTable from '../../components/TimeTable/TimeTable'
 import ContactsComponent from '../../components/ContactsComponent/ContactsComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
-import { loginUser } from '../../redux/actions/authActions'
+import InputMask from 'react-input-mask'
 
 const categories = [
   {
@@ -161,7 +161,12 @@ const CreateObjectPage = () => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
-        ctc.name === 'Мобильный' + ' телефон' ? { ...ctc, contact: e.target.value } : { ...ctc },
+        ctc.name === 'Мобильный' + ' телефон'
+          ? {
+              ...ctc,
+              contact: e.target.value,
+            }
+          : { ...ctc },
       ),
     })
   }, [])
@@ -279,7 +284,10 @@ const CreateObjectPage = () => {
               {categories[activeCategory].subCategories.map((subcategory) => {
                 const onActiveSubCategory = () => {
                   setActiveSubCategoryId(subcategory.id)
-                  setCheckedParameters({ ...checkedParameters, categories: [subcategory.id] })
+                  setCheckedParameters({
+                    ...checkedParameters,
+                    categories: [subcategory.id],
+                  })
                 }
                 return (
                   <div

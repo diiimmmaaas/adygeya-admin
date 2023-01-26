@@ -90,6 +90,10 @@
     color: #7B7B7B;
 }
 
+.input::placeholder {
+    color: #bbb8b8;
+}
+
 .dash {
     font-family: 'Roboto';
     font-style: normal;

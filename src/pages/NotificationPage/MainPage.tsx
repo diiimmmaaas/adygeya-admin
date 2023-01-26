@@ -20,11 +20,11 @@ const MainPage = () => {
 
   const { isAuth } = useAppSelector((state) => state.auth)
 
-  // useEffect(() => {
-  //   if (!isAuth) {
-  //     navigate(PATH.auth)
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (!isAuth) {
+      navigate(PATH.auth)
+    }
+  }, [])
 
   return (
     <div className={styles.main}>

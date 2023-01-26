@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './ContactsComponent.module.css'
 import CustomInput from '../CustomInput/CustomInput'
 import SubmitButton from '../SubmitButton/SubmitButton'
+import InputMask from 'react-input-mask'
 
 type ContactsComponentPropsType = {
   onChangePhoneNumberHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -20,10 +21,12 @@ const ContactsComponent: React.FC<ContactsComponentPropsType> = ({
       <div className={styles.contactBlock}>
         <div className={styles.contactText}>Телефон</div>
         <div className={styles.contactInput}>
-          <CustomInput
+          <InputMask
+            mask='+7 (999) 999-99-99'
             placeholder='Введите номер телефона'
             type='text'
-            callbackHandler={onChangePhoneNumberHandler}
+            className={styles.input}
+            onChange={onChangePhoneNumberHandler}
           />
         </div>
       </div>

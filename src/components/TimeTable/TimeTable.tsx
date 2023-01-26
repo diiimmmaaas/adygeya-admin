@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from './TimeTable.module.css'
+import InputMask from 'react-input-mask'
 
 const days = [
   { weekday: 0, name: 'Понедельник' },
@@ -34,13 +35,17 @@ const TimeTable: React.FC<TimeTablePropsType> = ({ onOpenChangeHandler, onCloseC
               <div className={styles.dayContainer} key={day.weekday}>
                 <div className={styles.dayName}>{day.name}</div>
                 <div className={styles.timeContainer}>
-                  <input
+                  <InputMask
+                    mask='99 : 99'
+                    placeholder='00 : 00'
                     className={styles.input}
                     type='text'
                     onChange={(e) => onOpenChangeHandler(e, day.weekday)}
                   />
                   <p className={styles.dash}>-</p>
-                  <input
+                  <InputMask
+                    mask='99 : 99'
+                    placeholder='00 : 00'
                     className={styles.input}
                     type='text'
                     onChange={(e) => onCloseChangeHandler(e, day.weekday)}
