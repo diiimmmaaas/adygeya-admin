@@ -3,16 +3,18 @@ import styles from './UploadPhotoComponent.module.css'
 import exit from '../../assets/icons/exit.svg'
 import { FileType } from '../UploadVideoComponent/UploadVideoComponent'
 
-const UploadPhotoComponent = () => {
-  const [photos, setPhotos] = useState<FileType[]>([])
+type UploadPhotoComponentPropsType = {
+  photos: FileType[]
+  setPhotos: (photos: FileType[]) => void
+}
+
+const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({ photos, setPhotos }) => {
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     handFiles(files)
   }
-
-  console.log(photos)
 
   const handFiles = (files: any) => {
     const photosArr: {

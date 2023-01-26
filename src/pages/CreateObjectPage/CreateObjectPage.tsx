@@ -4,14 +4,16 @@ import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
 import CustomDoubleInputComponent from '../../components/CustomDoubleInputComponent/CustomDoubleInputComponent'
 import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
-import UploadVideoComponent from '../../components/UploadVideoComponent/UploadVideoComponent'
+import UploadVideoComponent, {
+  FileType,
+} from '../../components/UploadVideoComponent/UploadVideoComponent'
 import UploadAudioComponent from '../../components/UploadAudioComponent/UploadAudioComponent'
 import UploadDescriptionComponent from '../../components/UploadDescriptionComponent/UploadDescriptionComponent'
 import TimeTable from '../../components/TimeTable/TimeTable'
 import ContactsComponent from '../../components/ContactsComponent/ContactsComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
-import { postObject } from '../../redux/actions/objectsActions'
+import { postImageForObject, postObject } from '../../redux/actions/objectsActions'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
@@ -104,7 +106,7 @@ export type CheckedParametersType = {
   categories: number[]
   waypoints: number[]
   filters: number[]
-  publishAt: string
+  publishAt: null
 }
 
 const CreateObjectPage = () => {
@@ -112,6 +114,7 @@ const CreateObjectPage = () => {
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
   const [error, setError] = useState(false)
+  const [photos, setPhotos] = useState<FileType[]>([])
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
     name: '',
@@ -139,10 +142,10 @@ const CreateObjectPage = () => {
     categories: [],
     waypoints: [],
     filters: [],
-    publishAt: '',
+    publishAt: null,
   })
   const { token } = useAppSelector((state) => state.auth)
-  const { isLoading } = useAppSelector((state) => state.objects)
+  const { isLoading, id } = useAppSelector((state) => state.objects)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -218,19 +221,28 @@ const CreateObjectPage = () => {
   }
 
   const onSubmitFormHandler = async () => {
-    const resultAction = await dispatch(postObject({ checkedParameters, token }))
-    if (postObject.rejected.match(resultAction)) {
-      setError(true)
-      setTimeout(() => {
-        setError(false)
-      }, 2000)
-      console.log(String(error))
-    } else {
-      navigate(PATH.objectCardPage)
+    // const resultAction = await dispatch(postObject({ checkedParameters, token }))
+    // if (postObject.rejected.match(resultAction)) {
+    //   setError(true)
+    //   setTimeout(() => {
+    //     setError(false)
+    //   }, 2000)
+    //   console.log(String(error))
+    // } else {
+    //   if (photos) {
+    //     console.log(photos)
+    //   }
+    // }
+    if (photos) {
+      console.log(photos)
+
+      photos.forEach(async (photo) => {
+        const formData = new FormData()
+        formData.append('image', photo.src)
+        await dispatch(postImageForObject({ formData, id: 31, token }))
+      })
     }
   }
-
-  console.log(checkedParameters)
 
   if (isLoading) {
     return <Loading />
@@ -350,7 +362,7 @@ const CreateObjectPage = () => {
           </div>
           <div className={styles.uploadMediaContainer}>
             <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-            <UploadPhotoComponent />
+            <UploadPhotoComponent photos={photos} setPhotos={setPhotos} />
             <UploadVideoComponent />
             <UploadAudioComponent />
             <CustomNameInput

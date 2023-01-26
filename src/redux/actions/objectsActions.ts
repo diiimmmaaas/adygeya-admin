@@ -24,7 +24,10 @@ export const postObject = createAsyncThunk(
 
 export const postImageForObject = createAsyncThunk(
   'objects/postImageForObject',
-  async ({ formData, id, token }: { formData: any; id: number; token: string }, thunkAPI) => {
+  async (
+    { formData, id, token }: { formData: any; id: number | null; token: string },
+    thunkAPI,
+  ) => {
     try {
       const response = await instance.post(`landmarks/${id}/image`, formData, {
         headers: { authorization: `Bearer ${token}` },

@@ -36,8 +36,8 @@ const CreateNewsPage = () => {
           />
           <div className={styles.uploadMediaContainer}>
             <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-            <UploadPhotoComponent />
-            <UploadVideoComponent />
+            {/* <UploadPhotoComponent /> */}
+            {/* <UploadVideoComponent /> */}
             <UploadDescriptionComponent placeholder='' title='Описание' />
           </div>
           <HighlightComponent />
