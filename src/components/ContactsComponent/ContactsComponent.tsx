@@ -54,4 +54,4 @@ const ContactsComponent: React.FC<ContactsComponentPropsType> = ({
   )
 }
 
-export default ContactsComponent
+export default React.memo(ContactsComponent)

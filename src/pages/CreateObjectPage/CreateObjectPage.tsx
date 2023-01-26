@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import styles from './CreateObjectPage.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -136,54 +136,54 @@ const CreateObjectPage = () => {
     publishAt: '',
   })
 
-  const onChangeObjectNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeObjectNameHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({ ...checkedParameters, name: e.target.value })
-  }
-  const onChangeObjectAddressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [])
+  const onChangeObjectAddressHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       location: { ...checkedParameters.location, address: e.target.value },
     })
-  }
-  const onChangeObjectLatitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [])
+  const onChangeObjectLatitudeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       location: { ...checkedParameters.location, latitude: +e.target.value },
     })
-  }
-  const onChangeObjectLongitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [])
+  const onChangeObjectLongitudeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       location: { ...checkedParameters.location, longitude: +e.target.value },
     })
-  }
-  const onChangePhoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [])
+  const onChangePhoneNumberHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
         ctc.name === 'Мобильный' + ' телефон' ? { ...ctc, contact: e.target.value } : { ...ctc },
       ),
     })
-  }
-  const onChangeSiteNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [])
+  const onChangeSiteNameHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
         ctc.name === 'Сайт' ? { ...ctc, contact: e.target.value } : { ...ctc },
       ),
     })
-  }
-  const onChangeEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [])
+  const onChangeEmailHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({
       ...checkedParameters,
       contacts: checkedParameters.contacts.map((ctc) =>
         ctc.name === 'Почта' ? { ...ctc, contact: e.target.value } : { ...ctc },
       ),
     })
-  }
-  const onChangeDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  }, [])
+  const onChangeDescriptionHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCheckedParameters({ ...checkedParameters, description: e.target.value })
-  }
+  }, [])
   const onOpenChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
     setCheckedParameters({
       ...checkedParameters,
@@ -200,6 +200,18 @@ const CreateObjectPage = () => {
       ),
     })
   }
+
+  const onCheckedWeekendHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
+      setCheckedParameters({
+        ...checkedParameters,
+        schedule: checkedParameters.schedule.map((ctc) =>
+          e.target.checked ? { ...ctc, open: '', close: '' } : { ...ctc },
+        ),
+      })
+    },
+    [],
+  )
 
   console.log(checkedParameters)
 
@@ -334,6 +346,7 @@ const CreateObjectPage = () => {
             <TimeTable
               onOpenChangeHandler={onOpenChangeHandler}
               onCloseChangeHandler={onCloseChangeHandler}
+              onCheckedWeekendHandler={onCheckedWeekendHandler}
             />
             <ContactsComponent
               onChangePhoneNumberHandler={onChangePhoneNumberHandler}

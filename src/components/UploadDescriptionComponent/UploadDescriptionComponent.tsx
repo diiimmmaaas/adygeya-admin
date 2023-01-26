@@ -26,4 +26,4 @@ const UploadDescriptionComponent: React.FC<UploadDescriptionComponentPropsType> 
   )
 }
 
-export default UploadDescriptionComponent
+export default React.memo(UploadDescriptionComponent)

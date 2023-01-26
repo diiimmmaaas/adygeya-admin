@@ -114,4 +114,4 @@ const UploadVideoComponent = () => {
   )
 }
 
-export default UploadVideoComponent
+export default React.memo(UploadVideoComponent)

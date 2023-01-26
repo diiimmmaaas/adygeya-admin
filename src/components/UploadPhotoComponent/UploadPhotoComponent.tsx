@@ -105,4 +105,4 @@ const UploadPhotoComponent = () => {
   )
 }
 
-export default UploadPhotoComponent
+export default React.memo(UploadPhotoComponent)

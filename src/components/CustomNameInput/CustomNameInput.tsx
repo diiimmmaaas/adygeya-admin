@@ -23,4 +23,4 @@ const CustomNameInput: React.FC<CustomNameInputType> = ({
   )
 }
 
-export default CustomNameInput
+export default React.memo(CustomNameInput)

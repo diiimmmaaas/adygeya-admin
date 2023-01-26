@@ -109,4 +109,4 @@ const UploadAudioComponent = () => {
   )
 }
 
-export default UploadAudioComponent
+export default React.memo(UploadAudioComponent)

@@ -48,4 +48,4 @@ const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
   )
 }
 
-export default CustomDoubleInputComponent
+export default React.memo(CustomDoubleInputComponent)
