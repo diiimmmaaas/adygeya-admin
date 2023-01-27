@@ -1,15 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { postObject } from '../../actions/objectsActions'
+import { postAudioForObject, postImageForObject, postObject } from '../../actions/objectsActions'
 
 export interface IObjects {
   id: number | null
   isLoading: boolean
+  isLoadingAudio: boolean
+  isLoadingPhoto: boolean
   error: unknown | string
 }
 
 const initialState: IObjects = {
   id: null,
   isLoading: false,
+  isLoadingAudio: false,
+  isLoadingPhoto: false,
   error: '',
 }
 
@@ -28,6 +32,28 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(postObject.rejected, (state, action) => {
       state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(postImageForObject.pending, (state) => {
+      state.isLoadingPhoto = true
+    })
+    builder.addCase(postImageForObject.fulfilled, (state) => {
+      state.isLoadingPhoto = false
+      state.error = ''
+    })
+    builder.addCase(postImageForObject.rejected, (state, action) => {
+      state.isLoadingPhoto = false
+      state.error = action.payload
+    })
+    builder.addCase(postAudioForObject.pending, (state) => {
+      state.isLoadingAudio = true
+    })
+    builder.addCase(postAudioForObject.fulfilled, (state) => {
+      state.isLoadingAudio = false
+      state.error = ''
+    })
+    builder.addCase(postAudioForObject.rejected, (state, action) => {
+      state.isLoadingAudio = false
       state.error = action.payload
     })
   },

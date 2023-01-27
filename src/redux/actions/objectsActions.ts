@@ -33,9 +33,7 @@ export const postImageForObject = createAsyncThunk(
         headers: { authorization: `Bearer ${token}` },
       })
 
-      console.log(response.data)
-
-      // return response.data
+      return response.data
     } catch (error) {
       console.log('error', error)
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
@@ -45,15 +43,16 @@ export const postImageForObject = createAsyncThunk(
 
 export const postAudioForObject = createAsyncThunk(
   'objects/postAudioForObject',
-  async ({ formData, id, token }: { formData: any; id: number; token: string }, thunkAPI) => {
+  async (
+    { formData, id, token }: { formData: any; id: number | null; token: string },
+    thunkAPI,
+  ) => {
     try {
       const response = await instance.post(`landmarks/${id}/audio`, formData, {
         headers: { authorization: `Bearer ${token}` },
       })
 
-      console.log(response.data)
-
-      // return response.data
+      return response.data
     } catch (error) {
       console.log('error', error)
       return thunkAPI.rejectWithValue(handleAppRequestError(error))

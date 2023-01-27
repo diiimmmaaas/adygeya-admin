@@ -127,6 +127,7 @@ const CreateObjectPage = () => {
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
   const [error, setError] = useState(false)
+  const [correct, setCorrect] = useState(false)
   const [photosFiles, setPhotosFiles] = useState<any>()
   const [audioFiles, setAudioFiles] = useState<any>()
   const [videosFiles, setVideosFiles] = useState<any>()
@@ -164,7 +165,7 @@ const CreateObjectPage = () => {
     publishAt: null,
   })
   const { token } = useAppSelector((state) => state.auth)
-  const { isLoading, id } = useAppSelector((state) => state.objects)
+  const { isLoading, isLoadingPhoto, isLoadingAudio, id } = useAppSelector((state) => state.objects)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -252,61 +253,50 @@ const CreateObjectPage = () => {
   }
 
   const onSubmitFormHandler = async () => {
-    // const resultAction = await dispatch(postObject({ checkedParameters, token }))
-    // if (postObject.rejected.match(resultAction)) {
-    //   setError(true)
-    //   setTimeout(() => {
-    //     setError(false)
-    //   }, 2000)
-    //   console.log(String(error))
-    // } else {
-    // if (photosFiles) {
-    //   photosFiles.forEach(async (photo: any) => {
-    //     const formData = new FormData()
-    //     formData.append('image', photo)
-    //     await dispatch(postImageForObject({ formData, id: 31, token }))
-    //   })
-    // }
-    // if (audioFiles) {
-    //   photosFiles.forEach(async (audio: any) => {
-    //     const formData = new FormData()
-    //     formData.append('audio', audio)
-    //     formData.append('voiced', audioParameters.voiced)
-    //     formData.append('voicedLink', audioParameters.voicedLink)
-    //     await dispatch(
-    //       postAudioForObject({
-    //         formData,
-    //         voiced: audioParameters.voiced,
-    //         voicedLink: audioParameters.voicedLink,
-    //         id: 31,
-    //         token,
-    //       }),
-    //     )
-    //   })
-    // }
-    // }
-
-    if (photosFiles) {
-      for (const photo of photosFiles) {
-        const formData = new FormData()
-        formData.append('image', photo)
-        await dispatch(postImageForObject({ formData, id: 31, token }))
-      }
+    const resultAction = await dispatch(postObject({ checkedParameters, token }))
+    if (postObject.rejected.match(resultAction)) {
+      setError(false)
+      const timer = setTimeout(() => {
+        setError(true)
+      }, 4000)
+      return () => clearTimeout(timer)
     }
-    if (audioFiles) {
-      for (const audio of photosFiles) {
-        const formData = new FormData()
-        formData.append('audio', audio)
-        formData.append('voiced', audioParameters.voiced)
-        formData.append('voicedLink', audioParameters.voicedLink)
-        await dispatch(
-          postAudioForObject({
-            formData,
-            id: 31,
-            token,
-          }),
-        )
+    if (postObject.fulfilled.match(resultAction)) {
+      if (photosFiles) {
+        const timer = setTimeout(async () => {
+          for (const photo of photosFiles) {
+            const formData = new FormData()
+            formData.append('image', photo)
+            await dispatch(postImageForObject({ formData, id: id, token }))
+          }
+
+          return () => clearTimeout(timer)
+        }, 2000)
       }
+      if (audioFiles) {
+        const timer = setTimeout(async () => {
+          for (const audio of audioFiles) {
+            const formData = new FormData()
+            formData.append('audio', audio)
+            formData.append('voiced', audioParameters.voiced)
+            formData.append('voicedLink', audioParameters.voicedLink)
+            await dispatch(
+              postAudioForObject({
+                formData,
+                id: id,
+                token,
+              }),
+            )
+          }
+
+          return () => clearTimeout(timer)
+        }, 2000)
+      }
+      setCorrect(true)
+      const timer = setTimeout(() => {
+        setCorrect(false)
+      }, 2000)
+      return () => clearTimeout(timer)
     }
   }
 
@@ -317,6 +307,7 @@ const CreateObjectPage = () => {
   return (
     <div className={styles.object}>
       <div className={styles.errorBlock}>
+        {correct && <div className={styles.correctText}>Объект был успешно добавлен</div>}
         {error && (
           <div className={styles.errorText}>
             Произошла ошибка при создании объекта, попробуйте еще раз...
@@ -428,9 +419,13 @@ const CreateObjectPage = () => {
           </div>
           <div className={styles.uploadMediaContainer}>
             <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-            <UploadPhotoComponent setPhotosFiles={setPhotosFiles} />
+            {isLoadingPhoto ? (
+              <Loading />
+            ) : (
+              <UploadPhotoComponent setPhotosFiles={setPhotosFiles} />
+            )}
             <UploadVideoComponent setVideosFiles={setVideosFiles} />
-            <UploadAudioComponent setAudioFiles={setAudioFiles} />
+            {isLoadingAudio ? <Loading /> : <UploadAudioComponent setAudioFiles={setAudioFiles} />}
             <CustomNameInput
               name='Исполнитель'
               placeholder='Введите имя исполнителя'

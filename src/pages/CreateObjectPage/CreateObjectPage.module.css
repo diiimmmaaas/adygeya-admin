@@ -27,6 +27,16 @@
     margin-top: 24px;
 }
 
+.correctText {
+    color: #028959;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    margin-top: 24px;
+}
+
 .content {}
 
 .objectNameTitle {
