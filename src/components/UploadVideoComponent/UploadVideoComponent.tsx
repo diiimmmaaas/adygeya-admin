@@ -4,15 +4,17 @@ import exit from '../../assets/icons/exit.svg'
 import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
 type UploadVideoComponentPropsType = {
-  videos: FileType[]
-  setVideos: (videos: FileType[]) => void
+  setVideosFiles: (videosFiles: any) => void
 }
 
-const UploadVideoComponent: React.FC<UploadVideoComponentPropsType> = ({ videos, setVideos }) => {
+const UploadVideoComponent: React.FC<UploadVideoComponentPropsType> = ({ setVideosFiles }) => {
+  const [videos, setVideos] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+    // @ts-ignore
+    setVideosFiles([...files])
     handFiles(files)
   }
 

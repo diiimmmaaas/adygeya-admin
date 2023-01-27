@@ -11,7 +11,11 @@ import TimeTable from '../../components/TimeTable/TimeTable'
 import ContactsComponent from '../../components/ContactsComponent/ContactsComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
-import { postImageForObject, postObject } from '../../redux/actions/objectsActions'
+import {
+  postAudioForObject,
+  postImageForObject,
+  postObject,
+} from '../../redux/actions/objectsActions'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
@@ -78,6 +82,11 @@ const options = [
   { label: 'Питание', value: 'restaraunt' },
 ]
 
+export type AudioParametersType = {
+  voiced: string
+  voicedLink: string
+}
+
 export type FileType = {
   name: string
   type: string
@@ -118,9 +127,13 @@ const CreateObjectPage = () => {
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
   const [error, setError] = useState(false)
-  const [photos, setPhotos] = useState<FileType[]>([])
-  const [videos, setVideos] = useState<FileType[]>([])
-  const [audio, setAudio] = useState<FileType[]>([])
+  const [photosFiles, setPhotosFiles] = useState<any>()
+  const [audioFiles, setAudioFiles] = useState<any>()
+  const [videosFiles, setVideosFiles] = useState<any>()
+  const [audioParameters, setAudioParameters] = useState<AudioParametersType>({
+    voiced: '',
+    voicedLink: '',
+  })
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
     name: '',
@@ -225,42 +238,74 @@ const CreateObjectPage = () => {
       ),
     })
   }
+  const onChangeNameOfArtistHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAudioParameters({
+      ...audioParameters,
+      voiced: e.target.value,
+    })
+  }
+  const onChangeArtistLinkHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAudioParameters({
+      ...audioParameters,
+      voicedLink: e.target.value,
+    })
+  }
 
   const onSubmitFormHandler = async () => {
-    const resultAction = await dispatch(postObject({ checkedParameters, token }))
-    if (postObject.rejected.match(resultAction)) {
-      setError(true)
-      setTimeout(() => {
-        setError(false)
-      }, 2000)
-      console.log(String(error))
-    } else {
-      if (photos) {
-        if (photos) {
-          console.log(photos)
+    // const resultAction = await dispatch(postObject({ checkedParameters, token }))
+    // if (postObject.rejected.match(resultAction)) {
+    //   setError(true)
+    //   setTimeout(() => {
+    //     setError(false)
+    //   }, 2000)
+    //   console.log(String(error))
+    // } else {
+    // if (photosFiles) {
+    //   photosFiles.forEach(async (photo: any) => {
+    //     const formData = new FormData()
+    //     formData.append('image', photo)
+    //     await dispatch(postImageForObject({ formData, id: 31, token }))
+    //   })
+    // }
+    // if (audioFiles) {
+    //   photosFiles.forEach(async (audio: any) => {
+    //     const formData = new FormData()
+    //     formData.append('audio', audio)
+    //     formData.append('voiced', audioParameters.voiced)
+    //     formData.append('voicedLink', audioParameters.voicedLink)
+    //     await dispatch(
+    //       postAudioForObject({
+    //         formData,
+    //         voiced: audioParameters.voiced,
+    //         voicedLink: audioParameters.voicedLink,
+    //         id: 31,
+    //         token,
+    //       }),
+    //     )
+    //   })
+    // }
+    // }
 
-          photos.forEach(async (photo) => {
-            const formData = new FormData()
-            formData.append('image', photo.src)
-            await dispatch(postImageForObject({ formData, id: 31, token }))
-          })
-        }
-        if (videos) {
-          console.log(videos)
-
-          videos.forEach((video) => {
-            const formData = new FormData()
-            formData.append('video', video.src)
-          })
-        }
-        if (audio) {
-          console.log(audio)
-
-          audio.forEach((a) => {
-            const formData = new FormData()
-            formData.append('audio', a.src)
-          })
-        }
+    if (photosFiles) {
+      for (const photo of photosFiles) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        await dispatch(postImageForObject({ formData, id: 31, token }))
+      }
+    }
+    if (audioFiles) {
+      for (const audio of photosFiles) {
+        const formData = new FormData()
+        formData.append('audio', audio)
+        formData.append('voiced', audioParameters.voiced)
+        formData.append('voicedLink', audioParameters.voicedLink)
+        await dispatch(
+          postAudioForObject({
+            formData,
+            id: 31,
+            token,
+          }),
+        )
       }
     }
   }
@@ -383,24 +428,20 @@ const CreateObjectPage = () => {
           </div>
           <div className={styles.uploadMediaContainer}>
             <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-            <UploadPhotoComponent photos={photos} setPhotos={setPhotos} />
-            <UploadVideoComponent videos={videos} setVideos={setVideos} />
-            <UploadAudioComponent audio={audio} setAudio={setAudio} />
+            <UploadPhotoComponent setPhotosFiles={setPhotosFiles} />
+            <UploadVideoComponent setVideosFiles={setVideosFiles} />
+            <UploadAudioComponent setAudioFiles={setAudioFiles} />
             <CustomNameInput
               name='Исполнитель'
               placeholder='Введите имя исполнителя'
               type='text'
-              callbackHandler={() => {
-                console.log('')
-              }}
+              callbackHandler={onChangeNameOfArtistHandler}
             />
             <CustomNameInput
               name='Ссылка на аккаунт исполнителя'
               placeholder='Введите ссылку'
               type='text'
-              callbackHandler={() => {
-                console.log('')
-              }}
+              callbackHandler={onChangeArtistLinkHandler}
             />
             <UploadDescriptionComponent
               placeholder='Добавьте описание объекта'

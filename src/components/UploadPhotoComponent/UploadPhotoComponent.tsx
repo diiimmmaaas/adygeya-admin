@@ -4,15 +4,17 @@ import exit from '../../assets/icons/exit.svg'
 import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
 type UploadPhotoComponentPropsType = {
-  photos: FileType[]
-  setPhotos: (photos: FileType[]) => void
+  setPhotosFiles: (photosFiles: any) => void
 }
 
-const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({ photos, setPhotos }) => {
+const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({ setPhotosFiles }) => {
+  const [photos, setPhotos] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+    // @ts-ignore
+    setPhotosFiles([...files])
     handFiles(files)
   }
 
@@ -26,6 +28,7 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({ photos,
     for (const file of files) {
       const reader = new FileReader()
       reader.readAsDataURL(file)
+
       reader.addEventListener('load', () => {
         const fileObj = {
           name: file.name as string,

@@ -4,15 +4,17 @@ import exit from '../../assets/icons/exit.png'
 import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
 type UploadAudioComponentPropsType = {
-  audio: FileType[]
-  setAudio: (audio: FileType[]) => void
+  setAudioFiles: (audioFiles: any) => void
 }
 
-const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({ audio, setAudio }) => {
+const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({ setAudioFiles }) => {
+  const [audio, setAudio] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+    // @ts-ignore
+    setAudioFiles([...files])
     handFiles(files)
   }
 
@@ -74,7 +76,6 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({ audio, 
           type='file'
           name='audio'
           placeholder='Добавьте аудио'
-          multiple
           id='fileaudio'
           onChange={handleFileChange}
           accept='audio/*'
