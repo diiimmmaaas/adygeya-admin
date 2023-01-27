@@ -19,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
+import { AudioParametersType, CheckedParametersType } from './types';
 
 const categories = [
   {
@@ -82,46 +83,6 @@ const options = [
   { label: 'Питание', value: 'restaraunt' },
 ]
 
-export type AudioParametersType = {
-  voiced: string
-  voicedLink: string
-}
-
-export type FileType = {
-  name: string
-  type: string
-  size: string
-  src: string
-}
-
-type ScheduleType = {
-  weekday: number
-  open: string
-  close: string
-}
-
-type ContactsType = {
-  name: string
-  contact: string
-}
-
-export type CheckedParametersType = {
-  name: string
-  icon: string
-  description: string
-  location: {
-    longitude: number
-    latitude: number
-    address: string
-  }
-  schedule: ScheduleType[]
-  contacts: ContactsType[]
-  categories: number[]
-  waypoints: number[]
-  filters: number[]
-  publishAt: null
-}
-
 const CreateObjectPage = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
@@ -168,7 +129,6 @@ const CreateObjectPage = () => {
   const { isLoading, isLoadingPhoto, isLoadingAudio, id } = useAppSelector((state) => state.objects)
 
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
 
   const onChangeObjectNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({ ...checkedParameters, name: e.target.value })

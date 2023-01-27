@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
-import { CheckedParametersType } from '../../pages/CreateObjectPage/CreateObjectPage'
+import { CheckedParametersType } from '../../pages/CreateObjectPage/types';
 
 export const postObject = createAsyncThunk(
   'objects/postObject',

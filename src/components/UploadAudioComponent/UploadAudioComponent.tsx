@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadAudioComponent.module.css'
 import exit from '../../assets/icons/exit.png'
-import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
+import { FileType } from '../../pages/CreateObjectPage/types';
 
 type UploadAudioComponentPropsType = {
   setAudioFiles: (audioFiles: any) => void
