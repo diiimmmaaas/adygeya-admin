@@ -4,9 +4,7 @@ import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
 import CustomDoubleInputComponent from '../../components/CustomDoubleInputComponent/CustomDoubleInputComponent'
 import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
-import UploadVideoComponent, {
-  FileType,
-} from '../../components/UploadVideoComponent/UploadVideoComponent'
+import UploadVideoComponent from '../../components/UploadVideoComponent/UploadVideoComponent'
 import UploadAudioComponent from '../../components/UploadAudioComponent/UploadAudioComponent'
 import UploadDescriptionComponent from '../../components/UploadDescriptionComponent/UploadDescriptionComponent'
 import TimeTable from '../../components/TimeTable/TimeTable'
@@ -16,7 +14,6 @@ import SubmitButton from '../../components/SubmitButton/SubmitButton'
 import { postImageForObject, postObject } from '../../redux/actions/objectsActions'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { useNavigate } from 'react-router-dom'
-import { PATH } from '../../navigation/path'
 import Loading from '../../components/Loading/Loading'
 
 const categories = [
@@ -81,6 +78,13 @@ const options = [
   { label: 'Питание', value: 'restaraunt' },
 ]
 
+export type FileType = {
+  name: string
+  type: string
+  size: string
+  src: string
+}
+
 type ScheduleType = {
   weekday: number
   open: string
@@ -115,6 +119,8 @@ const CreateObjectPage = () => {
   const [activeCategory, setActiveCategory] = useState(0)
   const [error, setError] = useState(false)
   const [photos, setPhotos] = useState<FileType[]>([])
+  const [videos, setVideos] = useState<FileType[]>([])
+  const [audio, setAudio] = useState<FileType[]>([])
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
     name: '',
@@ -221,26 +227,41 @@ const CreateObjectPage = () => {
   }
 
   const onSubmitFormHandler = async () => {
-    // const resultAction = await dispatch(postObject({ checkedParameters, token }))
-    // if (postObject.rejected.match(resultAction)) {
-    //   setError(true)
-    //   setTimeout(() => {
-    //     setError(false)
-    //   }, 2000)
-    //   console.log(String(error))
-    // } else {
-    //   if (photos) {
-    //     console.log(photos)
-    //   }
-    // }
-    if (photos) {
-      console.log(photos)
+    const resultAction = await dispatch(postObject({ checkedParameters, token }))
+    if (postObject.rejected.match(resultAction)) {
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 2000)
+      console.log(String(error))
+    } else {
+      if (photos) {
+        if (photos) {
+          console.log(photos)
 
-      photos.forEach(async (photo) => {
-        const formData = new FormData()
-        formData.append('image', photo.src)
-        await dispatch(postImageForObject({ formData, id: 31, token }))
-      })
+          photos.forEach(async (photo) => {
+            const formData = new FormData()
+            formData.append('image', photo.src)
+            await dispatch(postImageForObject({ formData, id: 31, token }))
+          })
+        }
+        if (videos) {
+          console.log(videos)
+
+          videos.forEach((video) => {
+            const formData = new FormData()
+            formData.append('video', video.src)
+          })
+        }
+        if (audio) {
+          console.log(audio)
+
+          audio.forEach((a) => {
+            const formData = new FormData()
+            formData.append('audio', a.src)
+          })
+        }
+      }
     }
   }
 
@@ -363,8 +384,8 @@ const CreateObjectPage = () => {
           <div className={styles.uploadMediaContainer}>
             <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
             <UploadPhotoComponent photos={photos} setPhotos={setPhotos} />
-            <UploadVideoComponent />
-            <UploadAudioComponent />
+            <UploadVideoComponent videos={videos} setVideos={setVideos} />
+            <UploadAudioComponent audio={audio} setAudio={setAudio} />
             <CustomNameInput
               name='Исполнитель'
               placeholder='Введите имя исполнителя'

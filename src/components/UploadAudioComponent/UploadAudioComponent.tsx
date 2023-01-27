@@ -1,10 +1,14 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadAudioComponent.module.css'
 import exit from '../../assets/icons/exit.png'
-import { FileType } from '../UploadVideoComponent/UploadVideoComponent'
+import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
-const UploadAudioComponent = () => {
-  const [audio, setAudio] = useState<FileType[]>([])
+type UploadAudioComponentPropsType = {
+  audio: FileType[]
+  setAudio: (audio: FileType[]) => void
+}
+
+const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({ audio, setAudio }) => {
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {

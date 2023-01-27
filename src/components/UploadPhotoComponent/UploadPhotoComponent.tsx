@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadPhotoComponent.module.css'
 import exit from '../../assets/icons/exit.svg'
-import { FileType } from '../UploadVideoComponent/UploadVideoComponent'
+import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
 type UploadPhotoComponentPropsType = {
   photos: FileType[]

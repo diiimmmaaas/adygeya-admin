@@ -1,17 +1,14 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadVideoComponent.module.css'
-import CustomButton from '../CustomButton/CustomButton'
 import exit from '../../assets/icons/exit.svg'
+import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
-export type FileType = {
-  name: string
-  type: string
-  size: string
-  src: string
+type UploadVideoComponentPropsType = {
+  videos: FileType[]
+  setVideos: (videos: FileType[]) => void
 }
 
-const UploadVideoComponent = () => {
-  const [videos, setVideos] = useState<FileType[]>([])
+const UploadVideoComponent: React.FC<UploadVideoComponentPropsType> = ({ videos, setVideos }) => {
   const [highlight, setHighlight] = useState(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
