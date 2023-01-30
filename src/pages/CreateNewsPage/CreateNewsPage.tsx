@@ -117,7 +117,7 @@ const CreateNewsPage = () => {
         const timer = setTimeout(async () => {
           const formData = new FormData()
           formData.append('image', photoHighlightFiles)
-          await dispatch(postHighlightForNews({ formData, id: 4, token }))
+          await dispatch(postHighlightForNews({ formData, id: id, token }))
 
           return () => clearTimeout(timer)
         }, 2000)

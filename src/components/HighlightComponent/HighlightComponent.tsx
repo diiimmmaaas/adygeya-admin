@@ -4,7 +4,6 @@ import CustomInput from '../CustomInput/CustomInput'
 import UploadDescriptionComponent from '../UploadDescriptionComponent/UploadDescriptionComponent'
 import CustomButton from '../CustomButton/CustomButton'
 import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
-import { FileType } from '../../pages/CreateObjectPage/CreateObjectPage'
 
 type HighlightComponentPropsType = {
   setPhotoHighlightFiles: (photoHighlightFiles: any) => void

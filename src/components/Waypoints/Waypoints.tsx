@@ -1,53 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './Waypoints.module.css'
-import SearchFunctionalityComponent from '../SearchFunctionalityComponent/SearchFunctionalityComponent'
 import CustomInput from '../CustomInput/CustomInput'
-import SubmitButton from '../SubmitButton/SubmitButton'
 
 const Waypoints = () => {
+  const [waypoints, setWaypoints] = useState([
+    { id: 1, name: '', latitude: '', longitude: '', description: '', audio: '' },
+  ])
+
+  const addWaypointHandler = (id: number) => {
+    const newWaypoint = {
+      id: id + 1,
+      name: '',
+      latitude: '',
+      longitude: '',
+      description: '',
+      audio: '',
+    }
+    setWaypoints([...waypoints, newWaypoint])
+  }
+
   return (
     <div className={styles.waypoints}>
       <h4 className={styles.waypointsTitle}>Маршрут</h4>
-      <div className={styles.waypointMarginSearch}>
-        <SearchFunctionalityComponent />
-      </div>
       <div className={styles.waypointContainer}>
-        <div className={styles.waypointBlock}>
-          <div className={styles.waypointText}>Точка 1</div>
-          <div className={styles.waypointInputName}>
-            <CustomInput placeholder='Введите название' type='text' />
-          </div>
-          <div className={styles.waypointInput}>
-            <CustomInput placeholder='Введите широту' type='text' />
-          </div>
-          <div className={styles.waypointInput}>
-            <CustomInput placeholder='Введите долготу' type='text' />
-          </div>
-        </div>
-        <div className={styles.waypointBlock}>
-          <div className={styles.waypointText}>Точка 2</div>
-          <div className={styles.waypointInputName}>
-            <CustomInput placeholder='Введите название' type='text' />
-          </div>
-          <div className={styles.waypointInput}>
-            <CustomInput placeholder='Введите широту' type='text' />
-          </div>
-          <div className={styles.waypointInput}>
-            <CustomInput placeholder='Введите долготу' type='text' />
-          </div>
-        </div>
-        <div className={styles.waypointBlock}>
-          <div className={styles.waypointText}>Точка 3</div>
-          <div className={styles.waypointInputName}>
-            <CustomInput placeholder='Введите название' type='text' />
-          </div>
-          <div className={styles.waypointInput}>
-            <CustomInput placeholder='Введите широту' type='text' />
-          </div>
-          <div className={styles.waypointInput}>
-            <CustomInput placeholder='Введите долготу' type='text' />
-          </div>
-        </div>
+        {waypoints.map((point, index) => {
+          return (
+            <>
+              <div key={index} className={styles.waypointBlock}>
+                <div className={styles.waypointText}>Точка {point.id}</div>
+                <div className={styles.waypointInputName}>
+                  <CustomInput placeholder='Введите название' type='text' />
+                </div>
+                <div className={styles.waypointInput}>
+                  <CustomInput placeholder='Введите широту' type='text' />
+                </div>
+                <div className={styles.waypointInput}>
+                  <CustomInput placeholder='Введите долготу' type='text' />
+                </div>
+              </div>
+              <button onClick={() => addWaypointHandler(point.id)}>Добавить</button>
+            </>
+          )
+        })}
       </div>
     </div>
   )
