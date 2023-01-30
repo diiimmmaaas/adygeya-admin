@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from './AuthPage.module.css'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
@@ -9,7 +9,6 @@ import { loginUser } from '../../redux/actions/authActions'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import Loading from '../../components/Loading/Loading'
-import { PATH } from '../../navigation/path'
 
 interface FormValues {
   username: string

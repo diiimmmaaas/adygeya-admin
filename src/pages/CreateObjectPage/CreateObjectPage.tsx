@@ -72,7 +72,7 @@ const categories = [
   },
 ]
 
-const options = [
+export const options = [
   { label: 'Достопримечательности (музеи, объекты архитектуры и т.д.)', value: 'museum' },
   { label: 'Достопримечательности (горы)', value: 'mountain' },
   { label: 'Активный отдых', value: 'skiing' },
@@ -130,7 +130,6 @@ const CreateObjectPage = () => {
   const [correct, setCorrect] = useState(false)
   const [photosFiles, setPhotosFiles] = useState<any>()
   const [audioFiles, setAudioFiles] = useState<any>()
-  const [videosFiles, setVideosFiles] = useState<any>()
   const [audioParameters, setAudioParameters] = useState<AudioParametersType>({
     voiced: '',
     voicedLink: '',
@@ -424,7 +423,6 @@ const CreateObjectPage = () => {
             ) : (
               <UploadPhotoComponent setPhotosFiles={setPhotosFiles} />
             )}
-            <UploadVideoComponent setVideosFiles={setVideosFiles} />
             {isLoadingAudio ? <Loading /> : <UploadAudioComponent setAudioFiles={setAudioFiles} />}
             <CustomNameInput
               name='Исполнитель'
