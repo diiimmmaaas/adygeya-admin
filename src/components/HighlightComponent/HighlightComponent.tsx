@@ -69,7 +69,7 @@ const HighlightComponent: React.FC<HighlightComponentPropsType> = ({
               accept='image/*'
             />
             <div className={styles.imageBlock}>
-              <img className={styles.image} src={photo} alt='highlight' />
+              {photo && <img className={styles.image} src={photo} alt='highlight' />}
             </div>
             <div onClick={handlePick}>
               <CustomButton name='Загрузить фото' />

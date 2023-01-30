@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './CreateNewsPage.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -8,21 +8,16 @@ import HighlightComponent from '../../components/HighlightComponent/HighlightCom
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
 import InputMask from 'react-input-mask'
 import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
-import UploadVideoComponent from '../../components/UploadVideoComponent/UploadVideoComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { options } from '../CreateObjectPage/CreateObjectPage'
-import Loading from '../../components/Loading/Loading'
-import {
-  postAudioForObject,
-  postImageForObject,
-  postObject,
-} from '../../redux/actions/objectsActions'
+import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
+import { postNews } from '../../redux/actions/newsActions'
 
 export type CheckedNewsParametersType = {
   title: string
   description: string
   date: string
-  publishAt: null
+  publishAt: string
   icon: string
   location: {
     longitude: number
@@ -45,7 +40,7 @@ const CreateNewsPage = () => {
     title: '',
     description: '',
     date: '',
-    publishAt: null,
+    publishAt: '',
     icon: '',
     location: {
       longitude: 0,
@@ -58,6 +53,10 @@ const CreateNewsPage = () => {
     },
   })
 
+  const { token } = useAppSelector((state) => state.auth)
+
+  const dispatch = useAppDispatch()
+
   const onChangeNewsNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({ ...checkedNewsParameters, title: e.target.value })
   }
@@ -69,6 +68,9 @@ const CreateNewsPage = () => {
   }
   const onChangeNewsDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({ ...checkedNewsParameters, date: e.target.value })
+  }
+  const onChangeNewsDateSendHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedNewsParameters({ ...checkedNewsParameters, publishAt: e.target.value })
   }
   const onChangeNewsLatitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({
@@ -87,7 +89,7 @@ const CreateNewsPage = () => {
   }
 
   const onSubmitFormHandler = async () => {
-    // const resultAction = await dispatch(postObject({ checkedParameters, token }))
+    const resultAction = await dispatch(postNews({ checkedNewsParameters, token }))
     // if (postObject.rejected.match(resultAction)) {
     //   setError(false)
     //   const timer = setTimeout(() => {
@@ -166,13 +168,23 @@ const CreateNewsPage = () => {
             callbackHandler={onChangeNewsAddressHandler}
           />
           <div className={styles.dateBlock}>
-            <h4 className={styles.dateText}>Дата</h4>
+            <h4 className={styles.dateText}>Дата добавления</h4>
             <InputMask
-              mask='99/99/9999'
-              placeholder='Введите дату отправки уведомления'
+              mask='99-99-9999'
+              placeholder='Введите дату добавления уведомления'
               type='text'
               className={styles.input}
               onChange={onChangeNewsDateHandler}
+            />
+          </div>
+          <div className={styles.dateBlock}>
+            <h4 className={styles.dateText}>Дата отправки</h4>
+            <InputMask
+              mask='99-99-9999'
+              placeholder='Введите дату отправки уведомления'
+              type='text'
+              className={styles.input}
+              onChange={onChangeNewsDateSendHandler}
             />
           </div>
           <CustomDoubleInputComponent
@@ -192,7 +204,10 @@ const CreateNewsPage = () => {
               defaultValue='admin'
               options={options}
               callbackHandler={(newValue) => {
-                setCheckedNewsParameters({ ...checkedNewsParameters, icon: newValue.value })
+                setCheckedNewsParameters({
+                  ...checkedNewsParameters,
+                  icon: newValue.value,
+                })
               }}
             />
           </div>
