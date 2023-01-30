@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 import styles from './RoutePage.module.css'
@@ -7,6 +7,7 @@ import CustomButton from '../../components/CustomButton/CustomButton'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 
 const RoutePage = () => {
+  const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const onRedirectToCreateRoute = () => {
     navigate(PATH.createRouteCardPage)
@@ -16,7 +17,7 @@ const RoutePage = () => {
       <div className={main.container}>
         <h1 className={main.title}>Список маршрутов</h1>
         <div className={styles.createRouteBtnContainer} onClick={onRedirectToCreateRoute}>
-          <SearchFunctionalityComponent />
+          <SearchFunctionalityComponent search={search} setSearch={setSearch} />
           <CustomButton name='Создать маршрут' />
         </div>
         <div className={styles.content}></div>

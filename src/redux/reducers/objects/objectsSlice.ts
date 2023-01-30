@@ -1,7 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { postAudioForObject, postImageForObject, postObject } from '../../actions/objectsActions'
+import {
+  getObjects,
+  postAudioForObject,
+  postImageForObject,
+  postObject,
+} from '../../actions/objectsActions'
+import { ObjectResponseDataType, ObjectResponseMetaType } from '../../types/types'
 
 export interface IObjects {
+  objects: ObjectResponseDataType[]
+  meta: ObjectResponseMetaType
   id: number | null
   isLoading: boolean
   isLoadingAudio: boolean
@@ -10,6 +18,15 @@ export interface IObjects {
 }
 
 const initialState: IObjects = {
+  objects: [],
+  meta: {
+    hasNextPage: true,
+    hasPreviousPage: false,
+    itemCount: 0,
+    page: 0,
+    pageCount: 5,
+    take: 5,
+  },
   id: null,
   isLoading: false,
   isLoadingAudio: false,
@@ -22,6 +39,24 @@ export const objectsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getObjects.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getObjects.fulfilled, (state, action) => {
+      state.objects = action.payload.data
+      state.meta.page = action.payload.meta.page
+      state.meta.pageCount = action.payload.meta.pageCount
+      state.meta.hasNextPage = action.payload.meta.hasNextPage
+      state.meta.hasPreviousPage = action.payload.meta.hasPreviousPage
+      state.meta.itemCount = action.payload.meta.itemCount
+      state.meta.take = action.payload.meta.take
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(getObjects.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
     builder.addCase(postObject.pending, (state) => {
       state.isLoading = true
     })

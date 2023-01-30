@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './NotificationPage.module.css'
 import main from '../../style/common.module.css'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
@@ -7,6 +7,7 @@ import { PATH } from '../../navigation/path'
 import CustomButton from '../../components/CustomButton/CustomButton'
 
 const NotificationPage = () => {
+  const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const onRedirectToCreateNotification = () => {
     navigate(PATH.createNotificationsPage)
@@ -19,7 +20,7 @@ const NotificationPage = () => {
           className={styles.createNotificationBtnContainer}
           onClick={onRedirectToCreateNotification}
         >
-          <SearchFunctionalityComponent />
+          <SearchFunctionalityComponent search={search} setSearch={setSearch} />
           <CustomButton name='Создать уведомление' />
         </div>
         <div className={styles.content}></div>

@@ -53,7 +53,7 @@ const MainPage = () => {
             <h3 className={styles.searchTitle}>
               Поиск по уже существующим объектам, событиям, маршрутам
             </h3>
-            <SearchFunctionalityComponent />
+            <SearchFunctionalityComponent search={''} setSearch={() => console.log('')} />
           </div>
         </div>
       </div>
