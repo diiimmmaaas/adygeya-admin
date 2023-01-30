@@ -11,7 +11,8 @@ import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPh
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { options } from '../CreateObjectPage/CreateObjectPage'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { postNews } from '../../redux/actions/newsActions'
+import { postHighlightForNews, postImageForNews, postNews } from '../../redux/actions/newsActions'
+import Loading from '../../components/Loading/Loading'
 
 export type CheckedNewsParametersType = {
   title: string
@@ -54,6 +55,9 @@ const CreateNewsPage = () => {
   })
 
   const { token } = useAppSelector((state) => state.auth)
+  const { isLoading, isLoadingPhoto, isLoadingHighlight, id } = useAppSelector(
+    (state) => state.news,
+  )
 
   const dispatch = useAppDispatch()
 
@@ -90,57 +94,47 @@ const CreateNewsPage = () => {
 
   const onSubmitFormHandler = async () => {
     const resultAction = await dispatch(postNews({ checkedNewsParameters, token }))
-    // if (postObject.rejected.match(resultAction)) {
-    //   setError(false)
-    //   const timer = setTimeout(() => {
-    //     setError(true)
-    //   }, 4000)
-    //   return () => clearTimeout(timer)
-    // }
-    // if (postObject.fulfilled.match(resultAction)) {
-    //   if (photosFiles) {
-    //     const timer = setTimeout(async () => {
-    //       for (const photo of photosFiles) {
-    //         const formData = new FormData()
-    //         formData.append('image', photo)
-    //         await dispatch(postImageForObject({ formData, id: id, token }))
-    //       }
-    //
-    //       return () => clearTimeout(timer)
-    //     }, 2000)
-    //   }
-    //   if (audioFiles) {
-    //     const timer = setTimeout(async () => {
-    //       for (const audio of audioFiles) {
-    //         const formData = new FormData()
-    //         formData.append('audio', audio)
-    //         formData.append('voiced', audioParameters.voiced)
-    //         formData.append('voicedLink', audioParameters.voicedLink)
-    //         await dispatch(
-    //           postAudioForObject({
-    //             formData,
-    //             id: id,
-    //             token,
-    //           }),
-    //         )
-    //       }
-    //
-    //       return () => clearTimeout(timer)
-    //     }, 2000)
-    //   }
-    //   setCorrect(true)
-    //   const timer = setTimeout(() => {
-    //     setCorrect(false)
-    //   }, 2000)
-    //   return () => clearTimeout(timer)
-    // }
+    if (postNews.rejected.match(resultAction)) {
+      setError(false)
+      const timer = setTimeout(() => {
+        setError(true)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+    if (postNews.fulfilled.match(resultAction)) {
+      if (photosNewsFiles) {
+        const timer = setTimeout(async () => {
+          for (const photo of photosNewsFiles) {
+            const formData = new FormData()
+            formData.append('image', photo)
+            await dispatch(postImageForNews({ formData, id: id, token }))
+          }
+
+          return () => clearTimeout(timer)
+        }, 2000)
+      }
+      if (photoHighlightFiles) {
+        const timer = setTimeout(async () => {
+          const formData = new FormData()
+          formData.append('image', photoHighlightFiles)
+          await dispatch(postHighlightForNews({ formData, id: 4, token }))
+
+          return () => clearTimeout(timer)
+        }, 2000)
+      }
+      setCorrect(true)
+      const timer = setTimeout(() => {
+        setCorrect(false)
+      }, 2000)
+      return () => clearTimeout(timer)
+    }
   }
 
   console.log(checkedNewsParameters)
 
-  // if (isLoading) {
-  //   return <Loading />
-  // }
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <div className={styles.news}>
@@ -213,18 +207,26 @@ const CreateNewsPage = () => {
           </div>
           <div className={styles.uploadMediaContainer}>
             <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-            <UploadPhotoComponent setPhotosFiles={setPhotosNewsFiles} />
+            {isLoadingPhoto ? (
+              <Loading />
+            ) : (
+              <UploadPhotoComponent setPhotosFiles={setPhotosNewsFiles} />
+            )}
             <UploadDescriptionComponent
               placeholder='Добавьте описание события'
               title='Описание'
               callbackHandler={onChangeNewsDescriptionHandler}
             />
           </div>
-          <HighlightComponent
-            checkedNewsParameters={checkedNewsParameters}
-            setPhotoHighlightFiles={setPhotoHighlightFiles}
-            setCheckedNewsParameters={setCheckedNewsParameters}
-          />
+          {isLoadingHighlight ? (
+            <Loading />
+          ) : (
+            <HighlightComponent
+              checkedNewsParameters={checkedNewsParameters}
+              setPhotoHighlightFiles={setPhotoHighlightFiles}
+              setCheckedNewsParameters={setCheckedNewsParameters}
+            />
+          )}
         </div>
         <SubmitButton name='Сохранить' onClickHandler={onSubmitFormHandler} />
       </div>

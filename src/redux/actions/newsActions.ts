@@ -31,47 +31,51 @@ export const postNews = createAsyncThunk(
 
       console.log(response.data)
 
-      // return response.data
+      return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },
 )
 
-// export const postImageForObject = createAsyncThunk(
-//   'objects/postImageForObject',
-//   async (
-//     { formData, id, token }: { formData: any; id: number | null; token: string },
-//     thunkAPI,
-//   ) => {
-//     try {
-//       const response = await instance.post(`landmarks/${id}/image`, formData, {
-//         headers: { authorization: `Bearer ${token}` },
-//       })
-//
-//       return response.data
-//     } catch (error) {
-//       console.log('error', error)
-//       return thunkAPI.rejectWithValue(handleAppRequestError(error))
-//     }
-//   },
-// )
-//
-// export const postAudioForObject = createAsyncThunk(
-//   'objects/postAudioForObject',
-//   async (
-//     { formData, id, token }: { formData: any; id: number | null; token: string },
-//     thunkAPI,
-//   ) => {
-//     try {
-//       const response = await instance.post(`landmarks/${id}/audio`, formData, {
-//         headers: { authorization: `Bearer ${token}` },
-//       })
-//
-//       return response.data
-//     } catch (error) {
-//       console.log('error', error)
-//       return thunkAPI.rejectWithValue(handleAppRequestError(error))
-//     }
-//   },
-// )
+export const postImageForNews = createAsyncThunk(
+  'news/postImageForNews',
+  async (
+    { formData, id, token }: { formData: any; id: number | null; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const response = await instance.post(`news/${id}/image`, formData, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      console.log(response.data)
+
+      return response.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const postHighlightForNews = createAsyncThunk(
+  'news/postHighlightForNews',
+  async (
+    { formData, id, token }: { formData: any; id: number | null; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const response = await instance.post(`news/${id}/stories/image`, formData, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      console.log(response.data)
+
+      return response.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
