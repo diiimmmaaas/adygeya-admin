@@ -54,12 +54,6 @@ const CreateNotificationPage = () => {
               onChange={onChangeDateHandler}
             />
           </div>
-          {/* <CustomNameInput */}
-          {/*   name='Дата' */}
-          {/*   placeholder='Введите дату отправки уведомления' */}
-          {/*   type='text' */}
-          {/*   callbackHandler={onChangeDateHandler} */}
-          {/* /> */}
           <div className={styles.dateBlock}>
             <div className={styles.dateText}>Время</div>
             <InputMask
@@ -70,12 +64,6 @@ const CreateNotificationPage = () => {
               onChange={onChangeTimeHandler}
             />
           </div>
-          {/* <CustomNameInput */}
-          {/*   name='Время' */}
-          {/*   placeholder='Введите время отправки уведомления' */}
-          {/*   type='text' */}
-          {/*   callbackHandler={onChangeTimeHandler} */}
-          {/* /> */}
         </div>
         <SubmitButton name='Сохранить' onClickHandler={onSubmit} />
       </div>

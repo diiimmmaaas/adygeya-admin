@@ -46,12 +46,23 @@
     margin-bottom: 8px;
 }
 
+.inputFile {
+    display: none;
+}
+
+.imageBlock {
+    width: 272px;
+    height: 432px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    background-color: #FFFFFF;
+}
+
 .image {
     width: 272px;
     height: 432px;
-    background: #E8E8E8;
     border-radius: 20px;
-    margin-bottom: 16px;
+    object-fit: cover;
 }
 
 .highlightDescription {
