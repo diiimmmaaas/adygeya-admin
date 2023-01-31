@@ -8,7 +8,7 @@ import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNews
 type HighlightComponentPropsType = {
   setPhotoHighlightFiles: (photoHighlightFiles: any) => void
   setCheckedNewsParameters: (checkedNewsParameters: CheckedNewsParametersType) => void
-  checkedNewsParameters: any
+  checkedNewsParameters: CheckedNewsParametersType
 }
 
 const HighlightComponent: React.FC<HighlightComponentPropsType> = ({
@@ -49,6 +49,8 @@ const HighlightComponent: React.FC<HighlightComponentPropsType> = ({
     }
   }
 
+  console.log(checkedNewsParameters)
+
   return (
     <div className={styles.highlight}>
       <h2 className={styles.highlightTitle}>Хайлайт события</h2>
@@ -78,6 +80,7 @@ const HighlightComponent: React.FC<HighlightComponentPropsType> = ({
             <div className={styles.highlightBlock}>
               <h5 className={styles.h5}>Заголовок</h5>
               <CustomInput
+                value={checkedNewsParameters.stories.title}
                 placeholder='Введите название хайлайта'
                 type='text'
                 onChange={onChangeTitleHighlightHandler}
@@ -86,6 +89,7 @@ const HighlightComponent: React.FC<HighlightComponentPropsType> = ({
             <div>
               <h5 className={styles.h5}>Текст хайлайта</h5>
               <UploadDescriptionComponent
+                value={checkedNewsParameters.stories.content}
                 placeholder='Введите описание хайлайта'
                 title='Описание'
                 callbackHandler={onChangeDescriptionHighlightHandler}

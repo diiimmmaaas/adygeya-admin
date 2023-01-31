@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { postHighlightForNews, postImageForNews, postNews } from '../../redux/actions/newsActions'
 import Loading from '../../components/Loading/Loading'
 import NewsPageMainContainer from '../../components/NewsPageMainContainer/NewsPageMainContainer'
+import main from '../../style/common.module.css'
 
 export type CheckedNewsParametersType = {
   title: string
@@ -32,58 +33,6 @@ const CreateNewsPage = () => {
 
   const dispatch = useAppDispatch()
   const { token } = useAppSelector((state) => state.auth)
-
-  // const [checkedNewsParameters, setCheckedNewsParameters] = useState<CheckedNewsParametersType>({
-  //   title: '',
-  //   description: '',
-  //   date: '',
-  //   publishAt: '',
-  //   icon: '',
-  //   location: {
-  //     longitude: 0,
-  //     latitude: 0,
-  //     address: '',
-  //   },
-  //   stories: {
-  //     title: '',
-  //     content: '',
-  //   },
-  // })
-  //
-  // const { token } = useAppSelector((state) => state.auth)
-  //
-  // const dispatch = useAppDispatch()
-  //
-  // const onChangeNewsNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckedNewsParameters({ ...checkedNewsParameters, title: e.target.value })
-  // }
-  // const onChangeNewsAddressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckedNewsParameters({
-  //     ...checkedNewsParameters,
-  //     location: { ...checkedNewsParameters.location, address: e.target.value },
-  //   })
-  // }
-  // const onChangeNewsDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckedNewsParameters({ ...checkedNewsParameters, date: e.target.value })
-  // }
-  // const onChangeNewsDateSendHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckedNewsParameters({ ...checkedNewsParameters, publishAt: e.target.value })
-  // }
-  // const onChangeNewsLatitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckedNewsParameters({
-  //     ...checkedNewsParameters,
-  //     location: { ...checkedNewsParameters.location, latitude: +e.target.value },
-  //   })
-  // }
-  // const onChangeNewsLongitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckedNewsParameters({
-  //     ...checkedNewsParameters,
-  //     location: { ...checkedNewsParameters.location, longitude: +e.target.value },
-  //   })
-  // }
-  // const onChangeNewsDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   setCheckedNewsParameters({ ...checkedNewsParameters, description: e.target.value })
-  // }
 
   const onSubmitForm = async (
     checkedNewsParameters: CheckedNewsParametersType,
@@ -141,10 +90,12 @@ const CreateNewsPage = () => {
           </div>
         )}
       </div>
+      <h1 className={main.title}>Создать событие</h1>
       <NewsPageMainContainer
         isLoadingPhoto={isLoadingPhoto}
         isLoadingHighlight={isLoadingHighlight}
         onSubmitForm={onSubmitForm}
+        handleDeleteUploadedPhoto={() => console.log('переделать')}
       />
     </div>
   )

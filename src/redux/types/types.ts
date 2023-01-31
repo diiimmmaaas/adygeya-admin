@@ -69,7 +69,7 @@ export type GetCurrentNewsType = {
   published: boolean
   icon: string
   location: LocationNewsType
-  images: string[]
+  images: ImagesType[]
   stories: StoriesNewsType
 }
 
@@ -79,8 +79,13 @@ export type LocationNewsType = {
   address: string
 }
 
+export type ImagesType = {
+  id: number
+  link: string
+}
+
 export type StoriesNewsType = {
   title: string
   content: string
-  images: string[]
+  images: ImagesType[]
 }

@@ -1,15 +1,24 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import styles from './UploadPhotoComponent.module.css'
 import exit from '../../assets/icons/exit.svg'
-import { FileType } from '../../pages/CreateObjectPage/types';
+import { FileType } from '../../pages/CreateObjectPage/types'
+import { GetCurrentNewsType } from '../../redux/types/types'
 
 type UploadPhotoComponentPropsType = {
+  currentObject?: GetCurrentNewsType
   setPhotosFiles: (photosFiles: any) => void
+  handleDeleteUploadedPhoto: (imageId: number) => void
 }
 
-const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({ setPhotosFiles }) => {
+const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
+  currentObject,
+  setPhotosFiles,
+  handleDeleteUploadedPhoto,
+}) => {
   const [photos, setPhotos] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
+
+  console.log(photos)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -70,7 +79,27 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({ setPhot
 
   return (
     <div className={styles.uploadPhotoContainer}>
-      <h4 className={styles.uploadPhotoText}>Фото</h4>
+      {currentObject?.images && (
+        <div>
+          <h4 className={styles.uploadPhotoText}>Уже имеющиеся фото к данному события</h4>
+          <div className={styles.uploadedPhotoBlock}>
+            {currentObject.images.map((image, index) => {
+              return (
+                <div className={styles.imagesContainer} key={image.id}>
+                  <img
+                    className={styles.imageExit}
+                    src={exit}
+                    alt='exit'
+                    onClick={() => handleDeleteUploadedPhoto(image.id)}
+                  />
+                  <img className={styles.image} src={image.link} alt={image.id.toString()} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+      <h4 className={styles.uploadPhotoText}>Фото, которые можно добавить</h4>
       <div className={styles.uploadPhotoBoard}>
         <input
           className={styles.inputFile}

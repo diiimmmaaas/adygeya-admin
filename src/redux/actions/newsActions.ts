@@ -59,6 +59,40 @@ export const postNews = createAsyncThunk(
   },
 )
 
+export const changeNews = createAsyncThunk(
+  'news/changeNews',
+  async (
+    {
+      newsId,
+      checkedNewsParameters,
+      token,
+    }: { newsId: number; checkedNewsParameters: CheckedNewsParametersType; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const date = checkedNewsParameters.date.split('-').reverse().join('-')
+      const publish = checkedNewsParameters.publishAt.split('-').reverse().join('-')
+      const dateObj = new Date(date)
+      const publishObj = new Date(publish)
+      const isoDate = dateObj.toISOString().slice(0, 10)
+      const isoPublish = publishObj.toISOString()
+      const refactoringParameters = {
+        ...checkedNewsParameters,
+        date: isoDate,
+        publishAt: isoPublish,
+      }
+
+      const response = await instance.put(`news/${newsId}`, refactoringParameters, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
 export const postImageForNews = createAsyncThunk(
   'news/postImageForNews',
   async (

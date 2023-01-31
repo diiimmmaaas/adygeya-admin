@@ -3,6 +3,8 @@ import styles from './CustomDoubleInputComponent.module.css'
 import CustomInput from '../CustomInput/CustomInput'
 
 type CustomNameInputType = {
+  firstValue: string
+  secondValue: string
   name: string
   firstPlaceholder: string
   secondPlaceholder: string
@@ -14,6 +16,8 @@ type CustomNameInputType = {
 }
 
 const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
+  firstValue,
+  secondValue,
   name,
   firstSubTitle,
   secondSubTitle,
@@ -30,6 +34,7 @@ const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
         <div className={styles.coordinatesBlock}>
           <p className={styles.coordinatesTitle}>{firstSubTitle}</p>
           <CustomInput
+            value={firstValue}
             placeholder={firstPlaceholder}
             type={type}
             callbackHandler={callbackFirstHandler}
@@ -38,6 +43,7 @@ const CustomDoubleInputComponent: React.FC<CustomNameInputType> = ({
         <div className={styles.coordinatesBlock}>
           <p className={styles.coordinatesTitle}>{secondSubTitle}</p>
           <CustomInput
+            value={secondValue}
             placeholder={secondPlaceholder}
             type={type}
             callbackHandler={callbackSecondHandler}

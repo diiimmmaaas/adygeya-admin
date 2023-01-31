@@ -8,6 +8,7 @@ export const PATH = {
   createRouteCardPage: '/create-route-card-page',
   createUsersPage: '/create-users-page',
   createNotificationsPage: '/create-notifications-page',
+  editNewsCardPage: '/edit-news-card-page',
   usersPage: '/users-page',
   settingsPage: '/settings-page',
   auth: '/auth',

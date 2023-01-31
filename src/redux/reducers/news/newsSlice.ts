@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  changeNews,
   deleteNews,
   getCurrentNews,
   getNews,
@@ -7,13 +8,7 @@ import {
   postImageForNews,
   postNews,
 } from '../../actions/newsActions'
-import {
-  GetCurrentNewsType,
-  LocationNewsType,
-  NewsResponseDataType,
-  ObjectResponseMetaType,
-  StoriesNewsType,
-} from '../../types/types'
+import { GetCurrentNewsType, NewsResponseDataType, ObjectResponseMetaType } from '../../types/types'
 
 export interface INews {
   news: NewsResponseDataType[]
@@ -120,6 +115,17 @@ export const newsSlice = createSlice({
       state.error = ''
     })
     builder.addCase(postNews.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(changeNews.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(changeNews.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(changeNews.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

@@ -19,7 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
-import { AudioParametersType, CheckedParametersType } from './types';
+import { AudioParametersType, CheckedParametersType } from './types'
 
 const categories = [
   {
@@ -289,6 +289,8 @@ const CreateObjectPage = () => {
             callbackHandler={onChangeObjectAddressHandler}
           />
           <CustomDoubleInputComponent
+            firstValue={'zhopa'}
+            secondValue={'zhopa'}
             name='Координаты объекта'
             firstPlaceholder='Введите широту'
             secondPlaceholder='Введите долготу'
@@ -381,7 +383,10 @@ const CreateObjectPage = () => {
             {isLoadingPhoto ? (
               <Loading />
             ) : (
-              <UploadPhotoComponent setPhotosFiles={setPhotosFiles} />
+              <UploadPhotoComponent
+                setPhotosFiles={setPhotosFiles}
+                handleDeleteUploadedPhoto={() => console.log('поменять')}
+              />
             )}
             {isLoadingAudio ? <Loading /> : <UploadAudioComponent setAudioFiles={setAudioFiles} />}
             <CustomNameInput
@@ -397,6 +402,7 @@ const CreateObjectPage = () => {
               callbackHandler={onChangeArtistLinkHandler}
             />
             <UploadDescriptionComponent
+              value={''}
               placeholder='Добавьте описание объекта'
               title='Описание'
               callbackHandler={onChangeDescriptionHandler}

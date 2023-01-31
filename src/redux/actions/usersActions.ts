@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { CreateUserType } from '../../pages/CreateUsersPage/CreateUsersPage'
 import { handleAppRequestError } from '../utils/error-utils'
-import { RoutesResponseType, UsersResponseType } from '../types/types'
+import { UsersResponseType } from '../types/types'
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',

@@ -12,8 +12,10 @@ import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import Loading from '../../components/Loading/Loading'
 import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
 import { options } from '../../pages/CreateObjectPage/CreateObjectPage'
+import { GetCurrentNewsType } from '../../redux/types/types'
 
 export type NewsPageMainContainerPropsType = {
+  currentNews?: GetCurrentNewsType
   isLoadingPhoto: boolean
   isLoadingHighlight: boolean
   onSubmitForm: (
@@ -21,30 +23,33 @@ export type NewsPageMainContainerPropsType = {
     photosNewsFiles: any,
     photoHighlightFiles: any,
   ) => void
+  handleDeleteUploadedPhoto: (imageId: number) => void
 }
 
 const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
+  currentNews,
   isLoadingPhoto,
   isLoadingHighlight,
   onSubmitForm,
+  handleDeleteUploadedPhoto,
 }) => {
   const [photosNewsFiles, setPhotosNewsFiles] = useState<any>()
   const [photoHighlightFiles, setPhotoHighlightFiles] = useState<any>()
 
   const [checkedNewsParameters, setCheckedNewsParameters] = useState<CheckedNewsParametersType>({
-    title: '',
-    description: '',
-    date: '',
-    publishAt: '',
-    icon: '',
+    title: currentNews ? currentNews.title : '',
+    description: currentNews ? currentNews.description : '',
+    date: currentNews ? currentNews.date.split('-').reverse().join('-') : '',
+    publishAt: currentNews ? currentNews.date.slice(0, 10).split('-').reverse().join('-') : '',
+    icon: currentNews ? currentNews.icon : '',
     location: {
-      longitude: 0,
-      latitude: 0,
-      address: '',
+      longitude: currentNews ? currentNews.location.longitude : 0,
+      latitude: currentNews ? currentNews.location.latitude : 0,
+      address: currentNews ? currentNews.location.address : '',
     },
     stories: {
-      title: '',
-      content: '',
+      title: currentNews ? currentNews.stories.title : '',
+      content: currentNews ? currentNews.stories.content : '',
     },
   })
 
@@ -85,15 +90,16 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
 
   return (
     <div className={main.container}>
-      <h1 className={main.title}>Создать событие</h1>
       <div className={styles.content}>
         <CustomNameInput
+          value={checkedNewsParameters.title}
           name='Название события'
           placeholder='Введите название события'
           type='text'
           callbackHandler={onChangeNewsNameHandler}
         />
         <CustomNameInput
+          value={checkedNewsParameters.location.address}
           name='Адрес объекта'
           placeholder='Введите адрес объекта'
           type='text'
@@ -102,6 +108,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
         <div className={styles.dateBlock}>
           <h4 className={styles.dateText}>Дата добавления</h4>
           <InputMask
+            value={checkedNewsParameters.date}
             mask='99-99-9999'
             placeholder='Введите дату добавления новости'
             type='text'
@@ -112,6 +119,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
         <div className={styles.dateBlock}>
           <h4 className={styles.dateText}>Дата публикации</h4>
           <InputMask
+            value={checkedNewsParameters.publishAt}
             mask='99-99-9999'
             placeholder='Введите дату публикации новости'
             type='text'
@@ -120,6 +128,8 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
           />
         </div>
         <CustomDoubleInputComponent
+          firstValue={checkedNewsParameters.location.latitude.toString()}
+          secondValue={checkedNewsParameters.location.longitude.toString()}
           name='Координаты события'
           firstPlaceholder='Введите широту'
           secondPlaceholder='Введите долготу'
@@ -132,7 +142,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
         <div className={styles.selectBlock}>
           <h4 className={styles.objectNameTitle}>Выберите тип иконки</h4>
           <CustomSelect
-            value={options[0].label}
+            value={checkedNewsParameters.icon}
             defaultValue='admin'
             options={options}
             callbackHandler={(newValue) => {
@@ -148,9 +158,14 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
           {isLoadingPhoto ? (
             <Loading />
           ) : (
-            <UploadPhotoComponent setPhotosFiles={setPhotosNewsFiles} />
+            <UploadPhotoComponent
+              setPhotosFiles={setPhotosNewsFiles}
+              currentObject={currentNews}
+              handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+            />
           )}
           <UploadDescriptionComponent
+            value={checkedNewsParameters.description}
             placeholder='Добавьте описание события'
             title='Описание'
             callbackHandler={onChangeNewsDescriptionHandler}
