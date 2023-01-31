@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './EditNewsPage.module.css'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import {
-  changeNews,
-  getCurrentNews,
-  postHighlightForNews,
-  postImageForNews,
-  postNews,
-} from '../../redux/actions/newsActions'
+import { changeNews, getCurrentNews } from '../../redux/actions/newsActions'
 import Loading from '../../components/Loading/Loading'
 import NewsPageMainContainer from '../../components/NewsPageMainContainer/NewsPageMainContainer'
 import main from '../../style/common.module.css'
@@ -55,41 +49,6 @@ const EditNewsPage = () => {
     const resultAction = await dispatch(
       changeNews({ newsId: currentNews.id, checkedNewsParameters, token }),
     )
-
-    // if (postNews.rejected.match(resultAction)) {
-    //   setError(false)
-    //   const timer = setTimeout(() => {
-    //     setError(true)
-    //   }, 4000)
-    //   return () => clearTimeout(timer)
-    // }
-    // if (postNews.fulfilled.match(resultAction)) {
-    //   if (photosNewsFiles) {
-    //     const timer = setTimeout(async () => {
-    //       for (const photo of photosNewsFiles) {
-    //         const formData = new FormData()
-    //         formData.append('image', photo)
-    //         await dispatch(postImageForNews({ formData, id: id, token }))
-    //       }
-    //
-    //       return () => clearTimeout(timer)
-    //     }, 2000)
-    //   }
-    //   if (photoHighlightFiles) {
-    //     const timer = setTimeout(async () => {
-    //       const formData = new FormData()
-    //       formData.append('image', photoHighlightFiles)
-    //       await dispatch(postHighlightForNews({ formData, id: id, token }))
-    //
-    //       return () => clearTimeout(timer)
-    //     }, 2000)
-    //   }
-    //   setCorrect(true)
-    //   const timer = setTimeout(() => {
-    //     setCorrect(false)
-    //   }, 4000)
-    //   return () => clearTimeout(timer)
-    // }
   }
 
   useEffect(() => {
