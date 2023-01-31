@@ -77,6 +77,7 @@ type TableComponentPropsType = {
   currentSize: number
   headCells: string[]
   onDeleteObject: (objectId: number) => void
+  onChangeObject: (objectId: number) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -91,6 +92,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
   currentSize,
   headCells,
   onDeleteObject,
+  onChangeObject,
   handleChangeRowsPerPage,
   handleChangePage,
 }) => {
@@ -151,6 +153,9 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(n.id)
                   }
+                  const onChangeObjectHandler = () => {
+                    onChangeObject(n.id)
+                  }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
@@ -174,6 +179,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                             className={styles.functionalBtn}
                             src={changeObjIcon}
                             alt='changeObjIcon'
+                            onClick={onChangeObjectHandler}
                           />
                           <img
                             className={styles.functionalBtn}

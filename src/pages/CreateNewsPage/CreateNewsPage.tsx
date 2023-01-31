@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './CreateNewsPage.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -11,8 +11,14 @@ import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPh
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { options } from '../CreateObjectPage/CreateObjectPage'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { postHighlightForNews, postImageForNews, postNews } from '../../redux/actions/newsActions'
+import {
+  getCurrentNews,
+  postHighlightForNews,
+  postImageForNews,
+  postNews,
+} from '../../redux/actions/newsActions'
 import Loading from '../../components/Loading/Loading'
+import { useLocation } from 'react-router-dom'
 
 export type CheckedNewsParametersType = {
   title: string
@@ -31,7 +37,11 @@ export type CheckedNewsParametersType = {
   }
 }
 
-const CreateNewsPage = () => {
+type CreateNewsPagePropsType = {
+  // newsId?: number
+}
+
+const CreateNewsPage: React.FC<CreateNewsPagePropsType> = () => {
   const [error, setError] = useState(false)
   const [correct, setCorrect] = useState(false)
   const [photosNewsFiles, setPhotosNewsFiles] = useState<any>()
@@ -60,6 +70,7 @@ const CreateNewsPage = () => {
   )
 
   const dispatch = useAppDispatch()
+  const { state } = useLocation()
 
   const onChangeNewsNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({ ...checkedNewsParameters, title: e.target.value })
@@ -131,6 +142,10 @@ const CreateNewsPage = () => {
   }
 
   console.log(checkedNewsParameters)
+
+  useEffect(() => {
+    dispatch(getCurrentNews({ id: state, token }))
+  }, [])
 
   if (isLoading) {
     return <Loading />

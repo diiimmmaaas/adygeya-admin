@@ -65,6 +65,9 @@ const ObjectPage = () => {
           <TableComponent
             objects={objects}
             onDeleteObject={onDeleteObject}
+            onChangeObject={() => {
+              console.log('')
+            }}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}

@@ -45,6 +45,10 @@ const NewsPage = () => {
     await dispatch(getNews({ page: currentPage, size: currentSize, search, token }))
   }
 
+  const onChangeObject = (objectId: number) => {
+    navigate(PATH.createNewsCardPage, { replace: true, state: objectId })
+  }
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setCurrentPage(newPage)
   }
@@ -76,6 +80,7 @@ const NewsPage = () => {
             headCells={headCellsNews}
             news={news}
             onDeleteObject={onDeleteNews}
+            onChangeObject={onChangeObject}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}

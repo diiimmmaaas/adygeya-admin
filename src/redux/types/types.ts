@@ -59,3 +59,28 @@ export type UsersResponseDataType = {
   login: string
   roles: string[]
 }
+
+export type GetCurrentNewsType = {
+  id: number
+  title: string
+  description: string
+  date: string
+  publishAt: string
+  published: boolean
+  icon: string
+  location: LocationNewsType
+  images: string[]
+  stories: StoriesNewsType
+}
+
+export type LocationNewsType = {
+  longitude: number
+  latitude: number
+  address: string
+}
+
+export type StoriesNewsType = {
+  title: string
+  content: string
+  images: string[]
+}

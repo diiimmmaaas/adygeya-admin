@@ -66,6 +66,9 @@ const RoutePage = () => {
           <TableComponent
             routes={routes}
             onDeleteObject={onDeleteRoute}
+            onChangeObject={() => {
+              console.log('')
+            }}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}

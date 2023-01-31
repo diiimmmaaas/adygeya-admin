@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
 import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
-import { NewsResponseType } from '../types/types'
+import { GetCurrentNewsType, NewsResponseType } from '../types/types'
 
 export const getNews = createAsyncThunk(
   'news/getNews',
@@ -102,6 +102,22 @@ export const deleteNews = createAsyncThunk(
   async ({ id, token }: { id: number; token: string }, thunkAPI) => {
     try {
       const res = await instance.delete(`news/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const getCurrentNews = createAsyncThunk(
+  'news/getCurrentNews',
+  async ({ id, token }: { id: number | undefined; token: string }, thunkAPI) => {
+    try {
+      const res = await instance.get<GetCurrentNewsType>(`news/${id}`, {
         headers: { authorization: `Bearer ${token}` },
       })
 

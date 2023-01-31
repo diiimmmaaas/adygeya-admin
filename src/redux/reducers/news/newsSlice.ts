@@ -1,16 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   deleteNews,
+  getCurrentNews,
   getNews,
   postHighlightForNews,
   postImageForNews,
   postNews,
 } from '../../actions/newsActions'
-import { NewsResponseDataType, ObjectResponseMetaType } from '../../types/types'
+import {
+  GetCurrentNewsType,
+  LocationNewsType,
+  NewsResponseDataType,
+  ObjectResponseMetaType,
+  StoriesNewsType,
+} from '../../types/types'
 
 export interface INews {
   news: NewsResponseDataType[]
   meta: ObjectResponseMetaType
+  currentNews: GetCurrentNewsType
   id: number | null
   isLoading: boolean
   isLoadingPhoto: boolean
@@ -27,6 +35,26 @@ const initialState: INews = {
     page: 0,
     pageCount: 5,
     take: 5,
+  },
+  currentNews: {
+    id: 0,
+    title: '',
+    description: '',
+    date: '',
+    publishAt: '',
+    published: false,
+    icon: '',
+    location: {
+      longitude: 0,
+      latitude: 0,
+      address: '',
+    },
+    images: [],
+    stories: {
+      title: '',
+      content: '',
+      images: [],
+    },
   },
   id: null,
   isLoading: false,
@@ -55,6 +83,31 @@ export const newsSlice = createSlice({
       state.error = ''
     })
     builder.addCase(getNews.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(getCurrentNews.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getCurrentNews.fulfilled, (state, action) => {
+      state.currentNews.id = action.payload.id
+      state.currentNews.title = action.payload.title
+      state.currentNews.description = action.payload.description
+      state.currentNews.date = action.payload.date
+      state.currentNews.publishAt = action.payload.publishAt
+      state.currentNews.published = action.payload.published
+      state.currentNews.icon = action.payload.icon
+      state.currentNews.location.longitude = action.payload.location.longitude
+      state.currentNews.location.latitude = action.payload.location.latitude
+      state.currentNews.location.address = action.payload.location.address
+      state.currentNews.images = action.payload.images
+      state.currentNews.stories.title = action.payload.stories.title
+      state.currentNews.stories.content = action.payload.stories.content
+      state.currentNews.stories.images = action.payload.stories.images
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(getCurrentNews.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })
