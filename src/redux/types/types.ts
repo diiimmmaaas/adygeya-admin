@@ -37,3 +37,14 @@ export type NewsResponseDataType = {
   published: boolean
   date: string
 }
+
+export type RoutesResponseType = {
+  data: RoutesResponseDataType[]
+  meta: ObjectResponseMetaType
+}
+
+export type RoutesResponseDataType = {
+  id: number
+  name: string
+  published: boolean
+}

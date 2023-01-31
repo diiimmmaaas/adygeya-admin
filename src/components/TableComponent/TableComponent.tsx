@@ -14,7 +14,11 @@ import {
 import changeObjIcon from '../../assets/icons/change.svg'
 import deleteObjIcon from '../../assets/icons/delete.svg'
 import { visuallyHidden } from '@mui/utils'
-import { NewsResponseDataType, ObjectResponseDataType } from '../../redux/types/types'
+import {
+  NewsResponseDataType,
+  ObjectResponseDataType,
+  RoutesResponseDataType,
+} from '../../redux/types/types'
 import styles from './TableComponent.module.css'
 
 type Order = 'asc' | 'desc'
@@ -65,6 +69,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 type TableComponentPropsType = {
   objects?: ObjectResponseDataType[]
   news?: NewsResponseDataType[]
+  routes?: RoutesResponseDataType[]
   itemCount: number
   currentPage: number
   currentSize: number
@@ -77,6 +82,7 @@ type TableComponentPropsType = {
 const TableComponent: React.FC<TableComponentPropsType> = ({
   objects,
   news,
+  routes,
   itemCount,
   currentPage,
   currentSize,
@@ -158,6 +164,43 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                       </TableCell>
                       <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
                         <div>{n.date}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div className={styles.functionalBtnBlock}>
+                          <img
+                            className={styles.functionalBtn}
+                            src={changeObjIcon}
+                            alt='changeObjIcon'
+                          />
+                          <img
+                            className={styles.functionalBtn}
+                            src={deleteObjIcon}
+                            alt='deleteObjIcon'
+                            onClick={onDeleteObjectHandler}
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              {routes &&
+                routes.map((route, index) => {
+                  const onDeleteObjectHandler = () => {
+                    onDeleteObject(route.id)
+                  }
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{index + 1}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{route.name}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{route.id}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{route.published ? 'Да' : 'Нет'}</div>
                       </TableCell>
                       <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
                         <div className={styles.functionalBtnBlock}>
