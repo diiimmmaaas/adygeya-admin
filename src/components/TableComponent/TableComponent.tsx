@@ -18,6 +18,7 @@ import {
   NewsResponseDataType,
   ObjectResponseDataType,
   RoutesResponseDataType,
+  UsersResponseDataType,
 } from '../../redux/types/types'
 import styles from './TableComponent.module.css'
 
@@ -70,6 +71,7 @@ type TableComponentPropsType = {
   objects?: ObjectResponseDataType[]
   news?: NewsResponseDataType[]
   routes?: RoutesResponseDataType[]
+  users?: UsersResponseDataType[]
   itemCount: number
   currentPage: number
   currentSize: number
@@ -83,6 +85,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
   objects,
   news,
   routes,
+  users,
   itemCount,
   currentPage,
   currentSize,
@@ -201,6 +204,45 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                       </TableCell>
                       <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
                         <div>{route.published ? 'Да' : 'Нет'}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div className={styles.functionalBtnBlock}>
+                          <img
+                            className={styles.functionalBtn}
+                            src={changeObjIcon}
+                            alt='changeObjIcon'
+                          />
+                          <img
+                            className={styles.functionalBtn}
+                            src={deleteObjIcon}
+                            alt='deleteObjIcon'
+                            onClick={onDeleteObjectHandler}
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              {users &&
+                users.map((user, index) => {
+                  const onDeleteObjectHandler = () => {
+                    onDeleteObject(user.id)
+                  }
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{index + 1}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{user.login}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{user.id}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        {user.roles.map((u, index) => {
+                          return <div key={index}>{u}</div>
+                        })}
                       </TableCell>
                       <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
                         <div className={styles.functionalBtnBlock}>

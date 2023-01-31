@@ -48,3 +48,14 @@ export type RoutesResponseDataType = {
   name: string
   published: boolean
 }
+
+export type UsersResponseType = {
+  data: UsersResponseDataType[]
+  meta: ObjectResponseMetaType
+}
+
+export type UsersResponseDataType = {
+  id: number
+  login: string
+  roles: string[]
+}
