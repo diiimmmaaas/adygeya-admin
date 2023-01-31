@@ -24,3 +24,16 @@ export type ObjectResponseMetaType = {
   pageCount: number
   take: number
 }
+
+export type NewsResponseType = {
+  data: NewsResponseDataType[]
+  meta: ObjectResponseMetaType
+}
+
+export type NewsResponseDataType = {
+  id: number
+  title: string
+  icon: string
+  published: boolean
+  date: string
+}

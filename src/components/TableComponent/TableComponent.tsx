@@ -14,17 +14,17 @@ import {
 import changeObjIcon from '../../assets/icons/change.svg'
 import deleteObjIcon from '../../assets/icons/delete.svg'
 import { visuallyHidden } from '@mui/utils'
-import { ObjectResponseDataType } from '../../redux/types/types'
+import { NewsResponseDataType, ObjectResponseDataType } from '../../redux/types/types'
 import styles from './TableComponent.module.css'
 
 type Order = 'asc' | 'desc'
-const headCells = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 
 interface EnhancedTableProps {
   onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void
   order: Order
   orderBy: string
   headCells: Array<string>
+  isNews: boolean
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -63,10 +63,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 type TableComponentPropsType = {
-  objects: ObjectResponseDataType[]
+  objects?: ObjectResponseDataType[]
+  news?: NewsResponseDataType[]
   itemCount: number
   currentPage: number
   currentSize: number
+  headCells: string[]
   onDeleteObject: (objectId: number) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -74,9 +76,11 @@ type TableComponentPropsType = {
 
 const TableComponent: React.FC<TableComponentPropsType> = ({
   objects,
+  news,
   itemCount,
   currentPage,
   currentSize,
+  headCells,
   onDeleteObject,
   handleChangeRowsPerPage,
   handleChangePage,
@@ -87,6 +91,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
         <TableContainer>
           <Table sx={{ minWidth: 600 }} aria-labelledby='tableTitle'>
             <EnhancedTableHead
+              isNews
               headCells={headCells}
               order={'asc'}
               orderBy={''}
@@ -95,44 +100,83 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
               }}
             />
             <TableBody>
-              {objects.map((object, index) => {
-                const onDeleteObjectHandler = () => {
-                  onDeleteObject(object.id)
-                }
-                return (
-                  <TableRow hover tabIndex={-1} key={index}>
-                    <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
-                      <div>{index + 1}</div>
-                    </TableCell>
-                    <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                      <div>{object.name}</div>
-                    </TableCell>
-                    <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                      <div>{object.id}</div>
-                    </TableCell>
-                    <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                      <div>{object.published ? 'Да' : 'Нет'}</div>
-                    </TableCell>
-                    <TableCell
-                      className={styles.functionalBtnBlock}
-                      align='left'
-                      sx={{ overflowWrap: 'anywhere' }}
-                    >
-                      <img
-                        className={styles.functionalBtn}
-                        src={changeObjIcon}
-                        alt='changeObjIcon'
-                      />
-                      <img
-                        className={styles.functionalBtn}
-                        src={deleteObjIcon}
-                        alt='deleteObjIcon'
-                        onClick={onDeleteObjectHandler}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
+              {objects &&
+                objects.map((object, index) => {
+                  const onDeleteObjectHandler = () => {
+                    onDeleteObject(object.id)
+                  }
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{index + 1}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{object.name}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{object.id}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{object.published ? 'Да' : 'Нет'}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div className={styles.functionalBtnBlock}>
+                          <img
+                            className={styles.functionalBtn}
+                            src={changeObjIcon}
+                            alt='changeObjIcon'
+                          />
+                          <img
+                            className={styles.functionalBtn}
+                            src={deleteObjIcon}
+                            alt='deleteObjIcon'
+                            onClick={onDeleteObjectHandler}
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              {news &&
+                news.map((n, index) => {
+                  const onDeleteObjectHandler = () => {
+                    onDeleteObject(n.id)
+                  }
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{index + 1}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{n.title}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{n.id}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{n.published ? 'Да' : 'Нет'}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div>{n.date}</div>
+                      </TableCell>
+                      <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
+                        <div className={styles.functionalBtnBlock}>
+                          <img
+                            className={styles.functionalBtn}
+                            src={changeObjIcon}
+                            alt='changeObjIcon'
+                          />
+                          <img
+                            className={styles.functionalBtn}
+                            src={deleteObjIcon}
+                            alt='deleteObjIcon'
+                            onClick={onDeleteObjectHandler}
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
             </TableBody>
           </Table>
         </TableContainer>

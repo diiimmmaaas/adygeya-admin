@@ -10,6 +10,8 @@ import { getObjects } from '../../redux/actions/objectsActions'
 import Loading from '../../components/Loading/Loading'
 import TableComponent from '../../components/TableComponent/TableComponent'
 
+export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
+
 const ObjectPage = () => {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState<number>(0)
@@ -68,6 +70,7 @@ const ObjectPage = () => {
             itemCount={itemCount}
             currentPage={currentPage}
             currentSize={currentSize}
+            headCells={headCellsObj}
           />
         )}
       </div>
