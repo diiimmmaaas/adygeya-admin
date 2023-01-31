@@ -1,0 +1,10 @@
+.functionalBtnBlock {
+    display: flex;
+    gap: 24px;
+}
+
+.functionalBtn {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

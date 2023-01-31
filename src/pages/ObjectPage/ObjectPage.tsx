@@ -7,65 +7,8 @@ import { PATH } from '../../navigation/path'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { getObjects } from '../../redux/actions/objectsActions'
-import { visuallyHidden } from '@mui/utils'
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-  Paper,
-  TablePagination,
-} from '@mui/material'
 import Loading from '../../components/Loading/Loading'
-
-type Order = 'asc' | 'desc'
-const headCells = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
-
-interface EnhancedTableProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void
-  order: Order
-  orderBy: string
-  headCells: Array<string>
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort, headCells } = props
-  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell}
-            align={'left'}
-            padding='normal'
-            sortDirection={orderBy === headCell ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell}
-              direction={orderBy === headCell ? order : 'asc'}
-              onClick={createSortHandler(headCell)}
-            >
-              {headCell}
-              {orderBy === headCell ? (
-                <Box component='span' sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
+import TableComponent from '../../components/TableComponent/TableComponent'
 
 const ObjectPage = () => {
   const [search, setSearch] = useState('')
@@ -84,6 +27,10 @@ const ObjectPage = () => {
   const dispatch = useAppDispatch()
   const onRedirectToCreateObject = () => {
     navigate(PATH.createObjectCardPage)
+  }
+
+  const onDeleteObject = (objectId: number) => {
+    console.log(objectId)
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -113,53 +60,15 @@ const ObjectPage = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Box sx={{ width: '100%', marginBottom: 32 }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-              <TableContainer>
-                <Table sx={{ minWidth: 600 }} aria-labelledby='tableTitle'>
-                  <EnhancedTableHead
-                    headCells={headCells}
-                    order={'asc'}
-                    orderBy={''}
-                    onRequestSort={() => {
-                      console.log('')
-                    }}
-                  />
-                  <TableBody>
-                    {objects.map((object, index) => {
-                      return (
-                        <TableRow hover tabIndex={-1} key={index}>
-                          <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
-                            <div>{index + 1}</div>
-                          </TableCell>
-                          <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                            <div>{object.name}</div>
-                          </TableCell>
-                          <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                            <div>{object.id}</div>
-                          </TableCell>
-                          <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                            <div>{object.published ? 'Да' : 'Нет'}</div>
-                          </TableCell>
-                          <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}></TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component='div'
-                count={itemCount}
-                rowsPerPage={currentSize}
-                page={currentPage}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage={'Объектов на странице'}
-              />
-            </Paper>
-          </Box>
+          <TableComponent
+            objects={objects}
+            onDeleteObject={onDeleteObject}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            itemCount={itemCount}
+            currentPage={currentPage}
+            currentSize={currentSize}
+          />
         )}
       </div>
     </div>
