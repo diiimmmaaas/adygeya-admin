@@ -46,7 +46,7 @@ const NewsPage = () => {
   }
 
   const onChangeObject = (objectId: number) => {
-    navigate(PATH.createNewsCardPage, { replace: true, state: objectId })
+    // navigate(PATH.createNewsCardPage, { replace: true, state: objectId })
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
