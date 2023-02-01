@@ -39,7 +39,7 @@ const ObjectPage = () => {
   }
 
   const onChangeObject = (objectId: number) => {
-    navigate(PATH.editObjectCardPage, { replace: true, state: objectId })
+    navigate(PATH.editObjectCardPage, { replace: false, state: objectId })
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {

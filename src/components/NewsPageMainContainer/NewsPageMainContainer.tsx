@@ -37,19 +37,21 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
   const [photoHighlightFiles, setPhotoHighlightFiles] = useState<any>()
 
   const [checkedNewsParameters, setCheckedNewsParameters] = useState<CheckedNewsParametersType>({
-    title: currentNews ? currentNews.title : '',
-    description: currentNews ? currentNews.description : '',
-    date: currentNews ? currentNews.date.split('-').reverse().join('-') : '',
-    publishAt: currentNews ? currentNews.publishAt.slice(0, 10).split('-').reverse().join('-') : '',
-    icon: currentNews ? currentNews.icon : 'museum',
+    title: currentNews?.title ? currentNews?.title : '',
+    description: currentNews?.description ? currentNews?.description : '',
+    date: currentNews?.date ? currentNews?.date.split('-').reverse().join('-') : '',
+    publishAt: currentNews?.publishAt
+      ? currentNews?.publishAt.slice(0, 10).split('-').reverse().join('-')
+      : '',
+    icon: currentNews?.icon ? currentNews?.icon : 'museum',
     location: {
-      longitude: currentNews ? currentNews.location.longitude : 0,
-      latitude: currentNews ? currentNews.location.latitude : 0,
-      address: currentNews ? currentNews.location.address : '',
+      longitude: currentNews?.location?.longitude ? currentNews?.location?.longitude : 0,
+      latitude: currentNews?.location?.latitude ? currentNews?.location?.latitude : 0,
+      address: currentNews?.location?.address ? currentNews?.location?.address : '',
     },
     stories: {
-      title: currentNews ? currentNews.stories.title : '',
-      content: currentNews ? currentNews.stories.content : '',
+      title: currentNews?.stories?.title ? currentNews?.stories?.title : '',
+      content: currentNews?.stories?.content ? currentNews?.stories?.content : '',
     },
   })
 
