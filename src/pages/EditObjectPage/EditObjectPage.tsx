@@ -14,6 +14,7 @@ import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons
 import { CheckedNewsParametersType } from '../CreateNewsPage/CreateNewsPage'
 import ObjectPageMainContainer from '../../components/ObjectPageMainContainer/ObjectPageMainContainer'
 import { AudioParametersType, CheckedParametersType } from '../CreateObjectPage/types'
+import { getCurrentObject } from '../../redux/actions/objectsActions'
 
 const EditObjectPage = () => {
   const [error, setError] = useState(false)
@@ -21,7 +22,9 @@ const EditObjectPage = () => {
   const [activeModal, setActiveModal] = useState(false)
   const [deletedImageId, setDeletedImageId] = useState<number | null>(null)
 
-  const { isLoading, isLoadingPhoto, isLoadingAudio } = useAppSelector((state) => state.objects)
+  const { isLoading, isLoadingPhoto, isLoadingAudio, currentObject } = useAppSelector(
+    (state) => state.objects,
+  )
 
   const dispatch = useAppDispatch()
   const { state } = useLocation()
@@ -63,9 +66,9 @@ const EditObjectPage = () => {
     // await dispatch(getCurrentNews({ id: state, token }))
   }
 
-  // useEffect(() => {
-  //   dispatch(getCurrentNews({ id: state, token }))
-  // }, [])
+  useEffect(() => {
+    dispatch(getCurrentObject({ id: state, token }))
+  }, [])
 
   if (isLoading) {
     return <Loading />
@@ -83,18 +86,12 @@ const EditObjectPage = () => {
       </div>
       <h1 className={main.title}>Изменить обьект</h1>
       <ObjectPageMainContainer
+        currentObject={currentObject}
         isLoadingPhoto={isLoadingPhoto}
         isLoadingAudio={isLoadingAudio}
         onSubmitForm={onSubmitForm}
         handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
       />
-      {/* <ObjectPageMainContainer */}
-      {/*   currentNews={currentNews} */}
-      {/*   isLoadingPhoto={isLoadingPhoto} */}
-      {/*   isLoadingHighlight={isLoadingHighlight} */}
-      {/*   onSubmitForm={onSubmitForm} */}
-      {/*   handleDeleteUploadedPhoto={handleDeleteUploadedPhoto} */}
-      {/* /> */}
       <PopupWithButtons
         popupTitle='Данная картинка находится на удаленном сервере. Вы точно хотите её удалить?'
         isPopupActive={activeModal}

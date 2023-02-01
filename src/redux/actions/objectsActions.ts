@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
 import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
-import { ObjectResponseType } from '../types/types'
+import { GetCurrentNewsType, GetCurrentObjectType, ObjectResponseType } from '../types/types'
 
 export const getObjects = createAsyncThunk(
   'objects/getObjects',
@@ -17,6 +17,22 @@ export const getObjects = createAsyncThunk(
           headers: { authorization: `Bearer ${token}` },
         },
       )
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const getCurrentObject = createAsyncThunk(
+  'object/getCurrentObject',
+  async ({ id, token }: { id: number | undefined; token: string }, thunkAPI) => {
+    try {
+      const res = await instance.get<GetCurrentObjectType>(`landmarks/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
 
       return res.data
     } catch (error) {

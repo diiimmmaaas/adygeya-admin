@@ -68,12 +68,12 @@ export type GetCurrentNewsType = {
   publishAt: string
   published: boolean
   icon: string
-  location: LocationNewsType
+  location: LocationType
   images: ImagesType[]
   stories: StoriesNewsType
 }
 
-export type LocationNewsType = {
+export type LocationType = {
   longitude: number
   latitude: number
   address: string
@@ -88,4 +88,43 @@ export type StoriesNewsType = {
   title: string
   content: string
   images: ImagesType[]
+}
+
+export type GetCurrentObjectType = {
+  id: number
+  name: string
+  icon: string
+  published: boolean
+  publishAt: string
+  audio: AudioType
+  images: ImagesType[]
+  description: string
+  location: LocationType
+  schedule: ScheduleType[]
+  contacts: ContactType[]
+  categories: CategoryType[]
+  filters: FilterType[]
+}
+
+export type AudioType = {
+  audio: string
+  length: number
+  voiced: string
+  voicedLink: string
+}
+
+export type ScheduleType = {
+  weekday: number
+  open: string
+  close: string
+}
+
+export type ContactType = {
+  name: string
+  contact: string
+}
+
+export type FilterType = {
+  id: number
+  value: string
 }

@@ -12,6 +12,8 @@ import { AudioParametersType, CheckedParametersType } from '../../pages/CreateOb
 import UploadAudioComponent from '../UploadAudioComponent/UploadAudioComponent'
 import TimeTable from '../TimeTable/TimeTable'
 import ContactsComponent from '../ContactsComponent/ContactsComponent'
+import { getCurrentObject } from '../../redux/actions/objectsActions'
+import { GetCurrentObjectType } from '../../redux/types/types'
 
 const categories = [
   {
@@ -76,6 +78,7 @@ export const options = [
 ]
 
 export type ObjectPageMainContainerPropsType = {
+  currentObject?: GetCurrentObjectType
   isLoadingPhoto: boolean
   isLoadingAudio: boolean
   onSubmitForm: (
@@ -88,6 +91,7 @@ export type ObjectPageMainContainerPropsType = {
 }
 
 const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
+  currentObject,
   isLoadingPhoto,
   isLoadingAudio,
   onSubmitForm,
@@ -99,28 +103,30 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   const [photosFiles, setPhotosFiles] = useState<any>()
   const [audioFiles, setAudioFiles] = useState<any>()
   const [audioParameters, setAudioParameters] = useState<AudioParametersType>({
-    voiced: '',
-    voicedLink: '',
+    voiced: currentObject?.audio?.voiced ? currentObject.audio.voiced : '',
+    voicedLink: currentObject?.audio?.voicedLink ? currentObject.audio.voicedLink : '',
   })
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
-    name: '',
-    icon: '',
-    description: '',
+    name: currentObject ? currentObject.name : '',
+    icon: currentObject ? currentObject.icon : '',
+    description: currentObject ? currentObject.description : '',
     location: {
-      longitude: 0,
-      latitude: 0,
-      address: '',
+      longitude: currentObject?.location ? currentObject.location.longitude : 0,
+      latitude: currentObject?.location ? currentObject.location.latitude : 0,
+      address: currentObject?.location ? currentObject.location.address : '',
     },
-    schedule: [
-      { weekday: 0, open: '', close: '' },
-      { weekday: 1, open: '', close: '' },
-      { weekday: 2, open: '', close: '' },
-      { weekday: 3, open: '', close: '' },
-      { weekday: 4, open: '', close: '' },
-      { weekday: 5, open: '', close: '' },
-      { weekday: 6, open: '', close: '' },
-    ],
+    schedule: currentObject?.schedule
+      ? currentObject.schedule
+      : [
+          { weekday: 1, open: '', close: '' },
+          { weekday: 2, open: '', close: '' },
+          { weekday: 3, open: '', close: '' },
+          { weekday: 4, open: '', close: '' },
+          { weekday: 5, open: '', close: '' },
+          { weekday: 6, open: '', close: '' },
+          { weekday: 7, open: '', close: '' },
+        ],
     contacts: [
       { name: 'Мобильный телефон', contact: '' },
       { name: 'Сайт', contact: '' },
@@ -357,6 +363,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
             callbackHandler={onChangeDescriptionHandler}
           />
           <TimeTable
+            schedule={checkedParameters.schedule}
             onOpenChangeHandler={onOpenChangeHandler}
             onCloseChangeHandler={onCloseChangeHandler}
           />

@@ -1,16 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   deleteObject,
+  getCurrentObject,
   getObjects,
   postAudioForObject,
   postImageForObject,
   postObject,
 } from '../../actions/objectsActions'
-import { ObjectResponseDataType, ObjectResponseMetaType } from '../../types/types'
+import {
+  AudioType,
+  CategoryType,
+  ContactType,
+  FilterType,
+  GetCurrentNewsType,
+  GetCurrentObjectType,
+  ImagesType,
+  LocationType,
+  ObjectResponseDataType,
+  ObjectResponseMetaType,
+  ScheduleType,
+} from '../../types/types'
 
 export interface IObjects {
   objects: ObjectResponseDataType[]
   meta: ObjectResponseMetaType
+  currentObject: GetCurrentObjectType
   id: number | null
   isLoading: boolean
   isLoadingAudio: boolean
@@ -27,6 +41,30 @@ const initialState: IObjects = {
     page: 0,
     pageCount: 5,
     take: 5,
+  },
+  currentObject: {
+    id: 0,
+    name: '',
+    icon: '',
+    published: false,
+    publishAt: '',
+    audio: {
+      audio: '',
+      length: 0,
+      voiced: '',
+      voicedLink: '',
+    },
+    images: [],
+    description: '',
+    location: {
+      longitude: 0,
+      latitude: 0,
+      address: '',
+    },
+    schedule: [],
+    contacts: [],
+    categories: [],
+    filters: [],
   },
   id: null,
   isLoading: false,
@@ -55,6 +93,36 @@ export const objectsSlice = createSlice({
       state.error = ''
     })
     builder.addCase(getObjects.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(getCurrentObject.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getCurrentObject.fulfilled, (state, action) => {
+      state.currentObject.id = action.payload.id
+      state.currentObject.name = action.payload.name
+      state.currentObject.icon = action.payload.icon
+      state.currentObject.published = action.payload.published
+      state.currentObject.publishAt = action.payload.publishAt
+      state.currentObject.audio.audio = action.payload.audio.audio
+      state.currentObject.audio.length = action.payload.audio.length
+      state.currentObject.audio.voiced = action.payload.audio.voiced
+      state.currentObject.audio.voicedLink = action.payload.audio.voicedLink
+      state.currentObject.images = action.payload.images
+      state.currentObject.description = action.payload.description
+      state.currentObject.location.longitude = action.payload.location.longitude
+      state.currentObject.location.latitude = action.payload.location.latitude
+      state.currentObject.location.address = action.payload.location.address
+      state.currentObject.schedule = action.payload.schedule
+      state.currentObject.contacts = action.payload.contacts
+      state.currentObject.categories = action.payload.categories
+      state.currentObject.filters = action.payload.filters
+
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(getCurrentObject.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

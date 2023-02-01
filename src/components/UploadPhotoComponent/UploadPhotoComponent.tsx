@@ -18,8 +18,6 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
   const [photos, setPhotos] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
 
-  console.log(photos)
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     // @ts-ignore

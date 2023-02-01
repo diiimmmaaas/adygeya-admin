@@ -28,9 +28,9 @@ const CreateObjectPage = () => {
   ) => {
     const resultAction = await dispatch(postObject({ checkedParameters, token }))
     if (postObject.rejected.match(resultAction)) {
-      setError(false)
+      setError(true)
       const timer = setTimeout(() => {
-        setError(true)
+        setError(false)
       }, 4000)
       return () => clearTimeout(timer)
     }
