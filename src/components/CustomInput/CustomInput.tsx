@@ -7,7 +7,7 @@ type DefaultInputPropsType = DetailedHTMLProps<
 >
 
 type CustomInputType = DefaultInputPropsType & {
-  value?: string
+  value?: string | number
   placeholder?: string
   type?: string
   callbackHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void

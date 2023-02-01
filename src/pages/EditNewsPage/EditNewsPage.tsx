@@ -12,23 +12,7 @@ import NewsPageMainContainer from '../../components/NewsPageMainContainer/NewsPa
 import main from '../../style/common.module.css'
 import { useLocation } from 'react-router-dom'
 import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
-
-export type CheckedNewsParametersType = {
-  title: string
-  description: string
-  date: string
-  publishAt: string
-  icon: string
-  location: {
-    longitude: number
-    latitude: number
-    address: string
-  }
-  stories: {
-    title: string
-    content: string
-  }
-}
+import { CheckedNewsParametersType } from '../CreateNewsPage/CreateNewsPage'
 
 const EditNewsPage = () => {
   const [error, setError] = useState(false)

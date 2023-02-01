@@ -289,8 +289,8 @@ const CreateObjectPage = () => {
             callbackHandler={onChangeObjectAddressHandler}
           />
           <CustomDoubleInputComponent
-            firstValue={'zhopa'}
-            secondValue={'zhopa'}
+            firstValue={'0'}
+            secondValue={'0'}
             name='Координаты объекта'
             firstPlaceholder='Введите широту'
             secondPlaceholder='Введите долготу'

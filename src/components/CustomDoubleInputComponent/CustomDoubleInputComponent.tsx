@@ -3,8 +3,8 @@ import styles from './CustomDoubleInputComponent.module.css'
 import CustomInput from '../CustomInput/CustomInput'
 
 type CustomNameInputType = {
-  firstValue: string
-  secondValue: string
+  firstValue: string | number
+  secondValue: string | number
   name: string
   firstPlaceholder: string
   secondPlaceholder: string

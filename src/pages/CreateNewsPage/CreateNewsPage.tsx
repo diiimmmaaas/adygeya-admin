@@ -13,8 +13,8 @@ export type CheckedNewsParametersType = {
   publishAt: string
   icon: string
   location: {
-    longitude: number
-    latitude: number
+    longitude: number | string
+    latitude: number | string
     address: string
   }
   stories: {
@@ -41,9 +41,9 @@ const CreateNewsPage = () => {
   ) => {
     const resultAction = await dispatch(postNews({ checkedNewsParameters, token }))
     if (postNews.rejected.match(resultAction)) {
-      setError(false)
+      setError(true)
       const timer = setTimeout(() => {
-        setError(true)
+        setError(false)
       }, 4000)
       return () => clearTimeout(timer)
     }

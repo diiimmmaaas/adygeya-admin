@@ -41,7 +41,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
     description: currentNews ? currentNews.description : '',
     date: currentNews ? currentNews.date.split('-').reverse().join('-') : '',
     publishAt: currentNews ? currentNews.date.slice(0, 10).split('-').reverse().join('-') : '',
-    icon: currentNews ? currentNews.icon : '',
+    icon: currentNews ? currentNews.icon : 'museum',
     location: {
       longitude: currentNews ? currentNews.location.longitude : 0,
       latitude: currentNews ? currentNews.location.latitude : 0,
@@ -71,13 +71,13 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
   const onChangeNewsLatitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({
       ...checkedNewsParameters,
-      location: { ...checkedNewsParameters.location, latitude: +e.target.value },
+      location: { ...checkedNewsParameters.location, latitude: e.target.value },
     })
   }
   const onChangeNewsLongitudeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({
       ...checkedNewsParameters,
-      location: { ...checkedNewsParameters.location, longitude: +e.target.value },
+      location: { ...checkedNewsParameters.location, longitude: e.target.value },
     })
   }
   const onChangeNewsDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -128,8 +128,8 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
           />
         </div>
         <CustomDoubleInputComponent
-          firstValue={checkedNewsParameters.location.latitude.toString()}
-          secondValue={checkedNewsParameters.location.longitude.toString()}
+          firstValue={checkedNewsParameters.location.latitude}
+          secondValue={String(checkedNewsParameters.location.longitude)}
           name='Координаты события'
           firstPlaceholder='Введите широту'
           secondPlaceholder='Введите долготу'
