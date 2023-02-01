@@ -82,3 +82,19 @@ export const postAudioForObject = createAsyncThunk(
     }
   },
 )
+
+export const deleteObject = createAsyncThunk(
+  'object/deleteObject',
+  async ({ id, token }: { id: number; token: string }, thunkAPI) => {
+    try {
+      const res = await instance.delete(`landmarks/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)

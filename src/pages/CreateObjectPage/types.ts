@@ -26,8 +26,8 @@ export type CheckedParametersType = {
   icon: string
   description: string
   location: {
-    longitude: number
-    latitude: number
+    longitude: number | string
+    latitude: number | string
     address: string
   }
   schedule: ScheduleType[]

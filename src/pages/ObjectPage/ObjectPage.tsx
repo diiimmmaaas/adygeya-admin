@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { getObjects } from '../../redux/actions/objectsActions'
+import { deleteObject, getObjects } from '../../redux/actions/objectsActions'
 import Loading from '../../components/Loading/Loading'
 import TableComponent from '../../components/TableComponent/TableComponent'
+import { deleteNews, getNews } from '../../redux/actions/newsActions'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 
@@ -27,12 +28,18 @@ const ObjectPage = () => {
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
   const onRedirectToCreateObject = () => {
     navigate(PATH.createObjectCardPage)
   }
 
-  const onDeleteObject = (objectId: number) => {
-    console.log(objectId)
+  const onDeleteObject = async (objectId: number) => {
+    await dispatch(deleteObject({ id: objectId, token }))
+    await dispatch(getObjects({ page: currentPage, size: currentSize, search, token }))
+  }
+
+  const onChangeObject = (objectId: number) => {
+    navigate(PATH.editObjectCardPage, { replace: true, state: objectId })
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -65,9 +72,7 @@ const ObjectPage = () => {
           <TableComponent
             objects={objects}
             onDeleteObject={onDeleteObject}
-            onChangeObject={() => {
-              console.log('')
-            }}
+            onChangeObject={onChangeObject}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}

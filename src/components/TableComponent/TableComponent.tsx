@@ -116,6 +116,9 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(object.id)
                   }
+                  const onChangeObjectHandler = () => {
+                    onChangeObject(object.id)
+                  }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
@@ -136,6 +139,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                             className={styles.functionalBtn}
                             src={changeObjIcon}
                             alt='changeObjIcon'
+                            onClick={onChangeObjectHandler}
                           />
                           <img
                             className={styles.functionalBtn}

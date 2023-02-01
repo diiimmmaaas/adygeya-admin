@@ -95,7 +95,7 @@ const CreateNewsPage = () => {
         isLoadingPhoto={isLoadingPhoto}
         isLoadingHighlight={isLoadingHighlight}
         onSubmitForm={onSubmitForm}
-        handleDeleteUploadedPhoto={() => console.log('переделать')}
+        handleDeleteUploadedPhoto={() => console.log('')}
       />
     </div>
   )

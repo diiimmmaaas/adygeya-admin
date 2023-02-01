@@ -1,0 +1,160 @@
+.input {
+    padding-left: 18.75px;
+    width: 100%;
+    height: 64px;
+    background: #E8E8E8;
+    border-radius: 20px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 133%;
+    color: #7B7B7B;
+}
+
+.input::placeholder {
+    color: #7B7B7B;
+}
+
+.dateBlock {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.dateText {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.objectNameTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.selectBlock {
+    margin-bottom: 32px;
+}
+
+.uploadMediaContainer {
+
+}
+
+.uploadMediaTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 16px;
+}
+
+.content {}
+
+.objectNameTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.selectBlock {
+    margin-bottom: 32px;
+}
+
+
+.categoriesBlock {
+
+}
+
+.categoriesTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 16px;
+}
+
+.categoriesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.categoryBlock {
+    cursor: pointer;
+    width: auto;
+    padding: 21px 15px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.1);
+    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.1)) drop-shadow(-1px -1px 1px rgba(255, 255, 255, 0.2));
+}
+
+.activeCategoryBlock {
+    background: #028959;
+}
+
+.categoryName {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 135%;
+    color: #414141;
+}
+
+.activeCategoryName {
+    color: #FFFFFF;
+}
+
+.uploadMediaContainer {
+
+}
+
+.uploadMediaTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 16px;
+}
+.submitContainer {
+    margin-top: 64px;
+}
+
+.subTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+}
+
+
+

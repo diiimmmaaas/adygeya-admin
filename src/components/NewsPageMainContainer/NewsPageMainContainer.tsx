@@ -11,8 +11,8 @@ import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPh
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import Loading from '../../components/Loading/Loading'
 import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
-import { options } from '../../pages/CreateObjectPage/CreateObjectPage'
 import { GetCurrentNewsType } from '../../redux/types/types'
+import { options } from '../ObjectPageMainContainer/ObjectPageMainContainer'
 
 export type NewsPageMainContainerPropsType = {
   currentNews?: GetCurrentNewsType
@@ -143,7 +143,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
           <h4 className={styles.objectNameTitle}>Выберите тип иконки</h4>
           <CustomSelect
             value={checkedNewsParameters.icon}
-            defaultValue='admin'
+            defaultValue='Select...'
             options={options}
             callbackHandler={(newValue) => {
               setCheckedNewsParameters({

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  deleteObject,
   getObjects,
   postAudioForObject,
   postImageForObject,
@@ -88,6 +89,17 @@ export const objectsSlice = createSlice({
       state.error = ''
     })
     builder.addCase(postAudioForObject.rejected, (state, action) => {
+      state.isLoadingAudio = false
+      state.error = action.payload
+    })
+    builder.addCase(deleteObject.pending, (state) => {
+      state.isLoadingAudio = true
+    })
+    builder.addCase(deleteObject.fulfilled, (state) => {
+      state.isLoadingAudio = false
+      state.error = ''
+    })
+    builder.addCase(deleteObject.rejected, (state, action) => {
       state.isLoadingAudio = false
       state.error = action.payload
     })

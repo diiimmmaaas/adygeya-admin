@@ -17,6 +17,7 @@ import AuthPage from '../pages/AuthPage/AuthPage'
 import CreateUsersPage from '../pages/CreateUsersPage/CreateUsersPage'
 import NotificationPage from '../pages/NotificationPage/NotificationPage'
 import EditNewsPage from '../pages/EditNewsPage/EditNewsPage'
+import EditObjectPage from '../pages/EditObjectPage/EditObjectPage'
 
 const RouteList = () => {
   return (
@@ -32,6 +33,7 @@ const RouteList = () => {
       <Route path={PATH.createRouteCardPage} element={<CreateRoutePage />} />
       <Route path={PATH.createUsersPage} element={<CreateUsersPage />} />
       <Route path={PATH.editNewsCardPage} element={<EditNewsPage />} />
+      <Route path={PATH.editObjectCardPage} element={<EditObjectPage />} />
       <Route path={PATH.usersPage} element={<UsersPage />} />
       <Route path={PATH.createNotificationsPage} element={<CreateNotificationPage />} />
       <Route path={PATH.settingsPage} element={<SettingsPage />} />

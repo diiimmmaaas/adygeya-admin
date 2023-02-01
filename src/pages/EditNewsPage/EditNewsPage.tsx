@@ -34,7 +34,7 @@ const EditNewsPage = () => {
     console.log(imageId)
   }
 
-  const onSubmitPopupHandle = async () => {
+  const onSubmitPopupHandler = async () => {
     setActiveModal(false)
     await dispatch(
       deleteImageNews({
@@ -93,7 +93,7 @@ const EditNewsPage = () => {
         popupTitle='Данная картинка находится на удаленном сервере. Вы точно хотите её удалить?'
         isPopupActive={activeModal}
         onCloseHandler={() => setActiveModal(false)}
-        onSubmitHandler={onSubmitPopupHandle}
+        onSubmitHandler={onSubmitPopupHandler}
       />
     </div>
   )
