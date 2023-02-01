@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { ObjectResponseMetaType, RoutesResponseDataType } from '../../types/types'
-import { getRoutes } from '../../actions/routesActions'
+import { getRoutes, postRoutes } from '../../actions/routesActions'
 
 export interface IRoutes {
   routes: RoutesResponseDataType[]
@@ -49,6 +49,17 @@ export const routesSlice = createSlice({
       state.error = ''
     })
     builder.addCase(getRoutes.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(postRoutes.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(postRoutes.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.id = action.payload.id
+    })
+    builder.addCase(postRoutes.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

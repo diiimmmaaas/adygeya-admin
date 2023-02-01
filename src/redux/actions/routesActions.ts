@@ -24,3 +24,42 @@ export const getRoutes = createAsyncThunk(
     }
   },
 )
+
+export const postRoutes = createAsyncThunk(
+  'routes/postRoutes',
+  async (
+    {
+      name,
+      description,
+      waypoints,
+      publishAt,
+      token,
+    }: {
+      name: string
+      description: string
+      waypoints: any[]
+      publishAt: Date
+      token: string
+    },
+    thunkAPI,
+  ) => {
+    try {
+      const res = await instance.post(
+        'routes',
+        {
+          name: name,
+          description: description,
+          waypoints: waypoints,
+          publishAt: publishAt,
+        },
+        { headers: { authorization: `Bearer ${token}` } },
+      )
+
+      console.log('POST ROUTE DATA', res)
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
