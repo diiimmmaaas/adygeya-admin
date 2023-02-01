@@ -162,3 +162,22 @@ export const getCurrentNews = createAsyncThunk(
     }
   },
 )
+
+export const deleteImageNews = createAsyncThunk(
+  'news/deleteImageNews',
+  async (
+    { id, imageId, token }: { id: number; imageId: number | null; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const res = await instance.delete(`news/${id}/image/${imageId}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)

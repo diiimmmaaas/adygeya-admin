@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   changeNews,
+  deleteImageNews,
   deleteNews,
   getCurrentNews,
   getNews,
@@ -121,7 +122,7 @@ export const newsSlice = createSlice({
     builder.addCase(changeNews.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(changeNews.fulfilled, (state, action) => {
+    builder.addCase(changeNews.fulfilled, (state) => {
       state.isLoading = false
       state.error = ''
     })
@@ -159,6 +160,17 @@ export const newsSlice = createSlice({
       state.error = ''
     })
     builder.addCase(deleteNews.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(deleteImageNews.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteImageNews.fulfilled, (state) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(deleteImageNews.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

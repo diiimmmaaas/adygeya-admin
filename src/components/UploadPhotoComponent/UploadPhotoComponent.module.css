@@ -13,6 +13,8 @@
 }
 
 .uploadedPhotoBlock {
+    display: flex;
+    gap: 16px;
     width: 100%;
     height: 232px;
     background-color: #FFFFFF;
@@ -35,6 +37,8 @@
 }
 
 .imageExit {
+    width: 25px;
+    height: 25px;
     position: absolute;
     right: 10px;
     top: 10px;
