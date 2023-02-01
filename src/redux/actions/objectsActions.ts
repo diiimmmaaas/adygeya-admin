@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
 import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
-import { GetCurrentNewsType, GetCurrentObjectType, ObjectResponseType } from '../types/types'
+import { GetCurrentObjectType, ObjectResponseType } from '../types/types'
 
 export const getObjects = createAsyncThunk(
   'objects/getObjects',
@@ -21,6 +21,47 @@ export const getObjects = createAsyncThunk(
       return res.data
     } catch (error) {
       console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const changeObject = createAsyncThunk(
+  'object/changeObject',
+  async (
+    {
+      objectId,
+      checkedParameters,
+      token,
+    }: { objectId: number; checkedParameters: CheckedParametersType; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      let isoPublish = null
+
+      if (checkedParameters?.publishAt) {
+        const publish = checkedParameters?.publishAt.split('-').reverse().join('-')
+        const publishObj = new Date(publish)
+        isoPublish = publishObj.toISOString()
+      } else {
+        isoPublish = null
+      }
+      const refactoringParameters = {
+        ...checkedParameters,
+        publishAt: isoPublish,
+        location: {
+          ...checkedParameters.location,
+          latitude: +checkedParameters.location.latitude,
+          longitude: +checkedParameters.location.longitude,
+        },
+      }
+
+      const response = await instance.put(`landmarks/${objectId}`, refactoringParameters, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return response.data
+    } catch (error) {
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },
@@ -49,7 +90,26 @@ export const postObject = createAsyncThunk(
     thunkAPI,
   ) => {
     try {
-      const response = await instance.post('landmarks', checkedParameters, {
+      let isoPublish = null
+
+      if (checkedParameters?.publishAt) {
+        const publish = checkedParameters?.publishAt.split('-').reverse().join('-')
+        const publishObj = new Date(publish)
+        isoPublish = publishObj.toISOString()
+      } else {
+        isoPublish = null
+      }
+      const refactoringParameters = {
+        ...checkedParameters,
+        publishAt: isoPublish,
+        location: {
+          ...checkedParameters.location,
+          latitude: +checkedParameters.location.latitude,
+          longitude: +checkedParameters.location.longitude,
+        },
+      }
+
+      const response = await instance.post('landmarks', refactoringParameters, {
         headers: { authorization: `Bearer ${token}` },
       })
 
@@ -104,6 +164,24 @@ export const deleteObject = createAsyncThunk(
   async ({ id, token }: { id: number; token: string }, thunkAPI) => {
     try {
       const res = await instance.delete(`landmarks/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const deleteImageObject = createAsyncThunk(
+  'object/deleteImageObject',
+  async (
+    { id, imageId, token }: { id: number; imageId: number | null; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const res = await instance.delete(`landmarks/${id}/image/${imageId}`, {
         headers: { authorization: `Bearer ${token}` },
       })
 

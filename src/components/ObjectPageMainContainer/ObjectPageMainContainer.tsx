@@ -14,8 +14,9 @@ import TimeTable from '../TimeTable/TimeTable'
 import ContactsComponent from '../ContactsComponent/ContactsComponent'
 import { getCurrentObject } from '../../redux/actions/objectsActions'
 import { GetCurrentObjectType } from '../../redux/types/types'
+import InputMask from 'react-input-mask'
 
-const categories = [
+const categoriesArray = [
   {
     id: 1,
     name: 'Достопримечательности',
@@ -98,13 +99,17 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   handleDeleteUploadedPhoto,
 }) => {
   const [activeCategoryId, setActiveCategoryId] = useState(1)
-  const [activeSubCategoryId, setActiveSubCategoryId] = useState(0)
-  const [activeCategory, setActiveCategory] = useState(0)
+  const [activeCategory, setActiveCategory] = useState(
+    currentObject?.categories[0] !== undefined ? currentObject?.categories[0]?.id : 0,
+  )
+  const [activeSubCategoryId, setActiveSubCategoryId] = useState(
+    currentObject?.categories[1] !== undefined ? currentObject?.categories[1]?.id : 0,
+  )
   const [photosFiles, setPhotosFiles] = useState<any>()
   const [audioFiles, setAudioFiles] = useState<any>()
   const [audioParameters, setAudioParameters] = useState<AudioParametersType>({
-    voiced: currentObject?.audio?.voiced ? currentObject.audio.voiced : '',
-    voicedLink: currentObject?.audio?.voicedLink ? currentObject.audio.voicedLink : '',
+    voiced: currentObject?.audio?.voiced ? currentObject?.audio?.voiced : '',
+    voicedLink: currentObject?.audio?.voicedLink ? currentObject?.audio?.voicedLink : '',
   })
 
   const [checkedParameters, setCheckedParameters] = useState<CheckedParametersType>({
@@ -116,26 +121,70 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
       latitude: currentObject?.location ? currentObject.location.latitude : 0,
       address: currentObject?.location ? currentObject.location.address : '',
     },
-    schedule: currentObject?.schedule
-      ? currentObject.schedule
-      : [
-          { weekday: 1, open: '', close: '' },
-          { weekday: 2, open: '', close: '' },
-          { weekday: 3, open: '', close: '' },
-          { weekday: 4, open: '', close: '' },
-          { weekday: 5, open: '', close: '' },
-          { weekday: 6, open: '', close: '' },
-          { weekday: 7, open: '', close: '' },
-        ],
-    contacts: [
-      { name: 'Мобильный телефон', contact: '' },
-      { name: 'Сайт', contact: '' },
-      { name: 'Почта', contact: '' },
+    schedule: [
+      {
+        weekday: 1,
+        open:
+          currentObject?.schedule[0]?.open !== undefined ? currentObject?.schedule[0]?.open : '',
+        close:
+          currentObject?.schedule[0]?.close !== undefined ? currentObject?.schedule[0]?.close : '',
+      },
+      {
+        weekday: 2,
+        open:
+          currentObject?.schedule[1]?.open !== undefined ? currentObject?.schedule[1]?.open : '',
+        close:
+          currentObject?.schedule[1]?.close !== undefined ? currentObject?.schedule[1]?.close : '',
+      },
+      {
+        weekday: 3,
+        open:
+          currentObject?.schedule[2]?.open !== undefined ? currentObject?.schedule[2]?.open : '',
+        close:
+          currentObject?.schedule[2]?.close !== undefined ? currentObject?.schedule[2]?.close : '',
+      },
+      {
+        weekday: 4,
+        open:
+          currentObject?.schedule[3]?.open !== undefined ? currentObject?.schedule[3]?.open : '',
+        close:
+          currentObject?.schedule[3]?.close !== undefined ? currentObject?.schedule[3]?.close : '',
+      },
+      {
+        weekday: 5,
+        open:
+          currentObject?.schedule[4]?.open !== undefined ? currentObject?.schedule[4]?.open : '',
+        close:
+          currentObject?.schedule[4]?.close !== undefined ? currentObject?.schedule[4]?.close : '',
+      },
+      {
+        weekday: 6,
+        open:
+          currentObject?.schedule[5]?.open !== undefined ? currentObject?.schedule[5]?.open : '',
+        close:
+          currentObject?.schedule[5]?.close !== undefined ? currentObject?.schedule[5]?.close : '',
+      },
+      {
+        weekday: 7,
+        open:
+          currentObject?.schedule[6]?.open !== undefined ? currentObject?.schedule[6]?.open : '',
+        close:
+          currentObject?.schedule[6]?.close !== undefined ? currentObject?.schedule[6]?.close : '',
+      },
     ],
+    contacts: currentObject?.contacts
+      ? [...currentObject.contacts]
+      : [
+          { name: 'Мобильный телефон', contact: '' },
+          { name: 'Сайт', contact: '' },
+          { name: 'Почта', contact: '' },
+        ],
     categories: [],
     waypoints: [],
     filters: [],
-    publishAt: null,
+    publishAt: currentObject?.publishAt
+      ? currentObject?.publishAt.slice(0, 10).split('-').reverse().join('-')
+      : '',
   })
 
   const onChangeObjectNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -219,6 +268,9 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
       voicedLink: e.target.value,
     })
   }
+  const onChangeObjectDateSendHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedParameters({ ...checkedParameters, publishAt: e.target.value })
+  }
 
   const onSubmitFormHandler = () => {
     onSubmitForm(checkedParameters, photosFiles, audioFiles, audioParameters)
@@ -241,6 +293,17 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
           type='text'
           callbackHandler={onChangeObjectAddressHandler}
         />
+        <div className={styles.dateBlock}>
+          <h4 className={styles.dateText}>Дата публикации</h4>
+          <InputMask
+            value={checkedParameters.publishAt}
+            mask='99-99-9999'
+            placeholder='Введите дату публикации новости'
+            type='text'
+            className={styles.input}
+            onChange={onChangeObjectDateSendHandler}
+          />
+        </div>
         <CustomDoubleInputComponent
           firstValue={checkedParameters.location.latitude}
           secondValue={checkedParameters.location.longitude}
@@ -267,10 +330,10 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
         <div className={styles.categoriesBlock}>
           <h4 className={styles.categoriesTitle}>Выбрать категорию объекта</h4>
           <div className={styles.categoriesContainer}>
-            {categories.map((category) => {
+            {categoriesArray.map((category) => {
               const onActiveCategory = () => {
                 setActiveCategoryId(category.id)
-                setActiveCategory(categories.indexOf(category))
+                setActiveCategory(categoriesArray.indexOf(category))
               }
               return (
                 <div
@@ -299,7 +362,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
         <div className={styles.subCategoriesBlock}>
           <h4 className={styles.categoriesTitle}>Выбрать подкатегорию объекта</h4>
           <div className={styles.categoriesContainer}>
-            {categories[activeCategory].subCategories.map((subcategory) => {
+            {categoriesArray[activeCategory]?.subCategories.map((subcategory) => {
               const onActiveSubCategory = () => {
                 setActiveSubCategoryId(subcategory.id)
                 setCheckedParameters({
@@ -337,6 +400,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
             <Loading />
           ) : (
             <UploadPhotoComponent
+              images={currentObject?.images}
               setPhotosFiles={setPhotosFiles}
               handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
             />
@@ -368,6 +432,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
             onCloseChangeHandler={onCloseChangeHandler}
           />
           <ContactsComponent
+            contacts={checkedParameters.contacts}
             onChangePhoneNumberHandler={onChangePhoneNumberHandler}
             onChangeSiteNameHandler={onChangeSiteNameHandler}
             onChangeEmailHandler={onChangeEmailHandler}

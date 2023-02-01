@@ -46,6 +46,11 @@ export const postNews = createAsyncThunk(
         ...checkedNewsParameters,
         date: isoDate,
         publishAt: isoPublish,
+        location: {
+          ...checkedNewsParameters.location,
+          latitude: +checkedNewsParameters.location.latitude,
+          longitude: +checkedNewsParameters.location.longitude,
+        },
       }
 
       const response = await instance.post('news', refactoringParameters, {
@@ -70,12 +75,21 @@ export const changeNews = createAsyncThunk(
     thunkAPI,
   ) => {
     try {
-      const date = checkedNewsParameters.date.split('-').reverse().join('-')
-      const publish = checkedNewsParameters.publishAt.split('-').reverse().join('-')
-      const dateObj = new Date(date)
-      const publishObj = new Date(publish)
-      const isoDate = dateObj.toISOString().slice(0, 10)
-      const isoPublish = publishObj.toISOString()
+      let isoDate = null
+      let isoPublish = null
+
+      if (checkedNewsParameters?.date) {
+        const date = checkedNewsParameters.date.split('-').reverse().join('-')
+        const dateObj = new Date(date)
+        isoDate = dateObj.toISOString().slice(0, 10)
+      }
+
+      if (checkedNewsParameters?.publishAt) {
+        const publish = checkedNewsParameters.publishAt.split('-').reverse().join('-')
+        const publishObj = new Date(publish)
+        isoPublish = publishObj.toISOString()
+      }
+
       const refactoringParameters = {
         ...checkedNewsParameters,
         date: isoDate,

@@ -31,7 +31,6 @@ const EditNewsPage = () => {
   const handleDeleteUploadedPhoto = (imageId: number) => {
     setActiveModal(true)
     setDeletedImageId(imageId)
-    console.log(imageId)
   }
 
   const onSubmitPopupHandler = async () => {

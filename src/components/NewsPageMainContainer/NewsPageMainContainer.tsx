@@ -40,7 +40,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
     title: currentNews ? currentNews.title : '',
     description: currentNews ? currentNews.description : '',
     date: currentNews ? currentNews.date.split('-').reverse().join('-') : '',
-    publishAt: currentNews ? currentNews.date.slice(0, 10).split('-').reverse().join('-') : '',
+    publishAt: currentNews ? currentNews.publishAt.slice(0, 10).split('-').reverse().join('-') : '',
     icon: currentNews ? currentNews.icon : 'museum',
     location: {
       longitude: currentNews ? currentNews.location.longitude : 0,
@@ -160,7 +160,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
           ) : (
             <UploadPhotoComponent
               setPhotosFiles={setPhotosNewsFiles}
-              currentObject={currentNews}
+              images={currentNews?.images}
               handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
             />
           )}

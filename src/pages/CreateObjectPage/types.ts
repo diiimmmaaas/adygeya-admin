@@ -16,7 +16,7 @@ type ScheduleType = {
   close: string
 }
 
-type ContactsType = {
+export type ContactsType = {
   name: string
   contact: string
 }
@@ -35,5 +35,5 @@ export type CheckedParametersType = {
   categories: number[]
   waypoints: number[]
   filters: number[]
-  publishAt: null
+  publishAt: string
 }

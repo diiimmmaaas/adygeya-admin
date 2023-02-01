@@ -2,16 +2,16 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import styles from './UploadPhotoComponent.module.css'
 import exit from '../../assets/icons/exit.svg'
 import { FileType } from '../../pages/CreateObjectPage/types'
-import { GetCurrentNewsType } from '../../redux/types/types'
+import { GetCurrentNewsType, ImagesType } from '../../redux/types/types'
 
 type UploadPhotoComponentPropsType = {
-  currentObject?: GetCurrentNewsType
+  images?: ImagesType[]
   setPhotosFiles: (photosFiles: any) => void
   handleDeleteUploadedPhoto: (imageId: number) => void
 }
 
 const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
-  currentObject,
+  images,
   setPhotosFiles,
   handleDeleteUploadedPhoto,
 }) => {
@@ -77,11 +77,11 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
 
   return (
     <div className={styles.uploadPhotoContainer}>
-      {currentObject?.images && (
+      {images && (
         <div>
           <h4 className={styles.uploadPhotoText}>Уже имеющиеся фото к данному события</h4>
           <div className={styles.uploadedPhotoBlock}>
-            {currentObject.images.map((image, index) => {
+            {images.map((image, index) => {
               return (
                 <div className={styles.imagesContainer} key={image.id}>
                   <img

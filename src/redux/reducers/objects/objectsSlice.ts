@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  changeObject,
+  deleteImageObject,
   deleteObject,
   getCurrentObject,
   getObjects,
@@ -105,15 +107,10 @@ export const objectsSlice = createSlice({
       state.currentObject.icon = action.payload.icon
       state.currentObject.published = action.payload.published
       state.currentObject.publishAt = action.payload.publishAt
-      state.currentObject.audio.audio = action.payload.audio.audio
-      state.currentObject.audio.length = action.payload.audio.length
-      state.currentObject.audio.voiced = action.payload.audio.voiced
-      state.currentObject.audio.voicedLink = action.payload.audio.voicedLink
+      state.currentObject.audio = action.payload.audio
       state.currentObject.images = action.payload.images
       state.currentObject.description = action.payload.description
-      state.currentObject.location.longitude = action.payload.location.longitude
-      state.currentObject.location.latitude = action.payload.location.latitude
-      state.currentObject.location.address = action.payload.location.address
+      state.currentObject.location = action.payload.location
       state.currentObject.schedule = action.payload.schedule
       state.currentObject.contacts = action.payload.contacts
       state.currentObject.categories = action.payload.categories
@@ -168,6 +165,28 @@ export const objectsSlice = createSlice({
       state.error = ''
     })
     builder.addCase(deleteObject.rejected, (state, action) => {
+      state.isLoadingAudio = false
+      state.error = action.payload
+    })
+    builder.addCase(changeObject.pending, (state) => {
+      state.isLoadingAudio = true
+    })
+    builder.addCase(changeObject.fulfilled, (state) => {
+      state.isLoadingAudio = false
+      state.error = ''
+    })
+    builder.addCase(changeObject.rejected, (state, action) => {
+      state.isLoadingAudio = false
+      state.error = action.payload
+    })
+    builder.addCase(deleteImageObject.pending, (state) => {
+      state.isLoadingAudio = true
+    })
+    builder.addCase(deleteImageObject.fulfilled, (state) => {
+      state.isLoadingAudio = false
+      state.error = ''
+    })
+    builder.addCase(deleteImageObject.rejected, (state, action) => {
       state.isLoadingAudio = false
       state.error = action.payload
     })

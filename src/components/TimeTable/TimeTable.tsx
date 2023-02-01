@@ -1,19 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './TimeTable.module.css'
 import InputMask from 'react-input-mask'
-import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
 import { ScheduleType } from '../../redux/types/types'
 import { createDayOfWeek } from '../../utils/createDayOfWeek'
-
-const days = [
-  { weekday: 0, name: 'Понедельник' },
-  { weekday: 1, name: 'Вторник' },
-  { weekday: 2, name: 'Среда' },
-  { weekday: 3, name: 'Четверг' },
-  { weekday: 4, name: 'Пятница' },
-  { weekday: 5, name: 'Суббота' },
-  { weekday: 6, name: 'Воскресение' },
-]
 
 type TimeTablePropsType = {
   schedule: ScheduleType[]
@@ -45,8 +34,8 @@ const TimeTable: React.FC<TimeTablePropsType> = ({
                 <div className={styles.timeContainer}>
                   <InputMask
                     value={day.open}
-                    mask='99 : 99'
-                    placeholder='00 : 00'
+                    mask='99:99'
+                    placeholder='00:00'
                     className={styles.input}
                     type='text'
                     onChange={(e) => onOpenChangeHandler(e, day.weekday)}
@@ -54,8 +43,8 @@ const TimeTable: React.FC<TimeTablePropsType> = ({
                   <p className={styles.dash}>-</p>
                   <InputMask
                     value={day.close}
-                    mask='99 : 99'
-                    placeholder='00 : 00'
+                    mask='99:99'
+                    placeholder='00:00'
                     className={styles.input}
                     type='text'
                     onChange={(e) => onCloseChangeHandler(e, day.weekday)}
