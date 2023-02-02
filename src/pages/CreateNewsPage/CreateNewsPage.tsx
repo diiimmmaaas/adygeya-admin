@@ -26,19 +26,14 @@ export type CheckedNewsParametersType = {
 const CreateNewsPage = () => {
   const [error, setError] = useState(false)
   const [correct, setCorrect] = useState(false)
+  const [activeModal, setActiveModal] = useState(false)
 
-  const { isLoading, isLoadingPhoto, isLoadingHighlight, id } = useAppSelector(
-    (state) => state.news,
-  )
+  const { isLoading, id } = useAppSelector((state) => state.news)
 
   const dispatch = useAppDispatch()
   const { token } = useAppSelector((state) => state.auth)
 
-  const onSubmitForm = async (
-    checkedNewsParameters: CheckedNewsParametersType,
-    photosNewsFiles: any,
-    photoHighlightFiles: any,
-  ) => {
+  const onSubmitForm = async (checkedNewsParameters: CheckedNewsParametersType) => {
     const resultAction = await dispatch(postNews({ checkedNewsParameters, token }))
     if (postNews.rejected.match(resultAction)) {
       setError(true)
@@ -48,32 +43,31 @@ const CreateNewsPage = () => {
       return () => clearTimeout(timer)
     }
     if (postNews.fulfilled.match(resultAction)) {
-      if (photosNewsFiles) {
-        const timer = setTimeout(async () => {
-          for (const photo of photosNewsFiles) {
-            const formData = new FormData()
-            formData.append('image', photo)
-            await dispatch(postImageForNews({ formData, id: id, token }))
-          }
-
-          return () => clearTimeout(timer)
-        }, 2000)
-      }
-      if (photoHighlightFiles) {
-        const timer = setTimeout(async () => {
-          const formData = new FormData()
-          formData.append('image', photoHighlightFiles)
-          await dispatch(postHighlightForNews({ formData, id: id, token }))
-
-          return () => clearTimeout(timer)
-        }, 2000)
-      }
-      setCorrect(true)
-      const timer = setTimeout(() => {
-        setCorrect(false)
-      }, 4000)
-      return () => clearTimeout(timer)
+      setActiveModal(true)
     }
+  }
+
+  const onSubmitPopup = async (photosNewsFiles: any, photoHighlightFiles: any) => {
+    if (photosNewsFiles) {
+      for (const photo of photosNewsFiles) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        await dispatch(postImageForNews({ formData, id: id, token }))
+      }
+    }
+    if (photoHighlightFiles) {
+      for (const photo of photoHighlightFiles) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        await dispatch(postHighlightForNews({ formData, id: id, token }))
+      }
+    }
+    setActiveModal(false)
+    setCorrect(true)
+    const timer = setTimeout(() => {
+      setCorrect(false)
+    }, 4000)
+    return () => clearTimeout(timer)
   }
 
   if (isLoading) {
@@ -92,10 +86,13 @@ const CreateNewsPage = () => {
       </div>
       <h1 className={main.title}>Создать событие</h1>
       <NewsPageMainContainer
-        isLoadingPhoto={isLoadingPhoto}
-        isLoadingHighlight={isLoadingHighlight}
+        isEditMode={false}
+        activeModal={activeModal}
+        setActiveModal={setActiveModal}
+        onSubmitPopup={onSubmitPopup}
         onSubmitForm={onSubmitForm}
         handleDeleteUploadedPhoto={() => console.log('')}
+        handleDeleteUploadedHighlight={() => console.log('')}
       />
     </div>
   )

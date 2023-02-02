@@ -5,6 +5,7 @@ import {
   changeNews,
   deleteImageNews,
   getCurrentNews,
+  postHighlightForNews,
   postImageForNews,
 } from '../../redux/actions/newsActions'
 import Loading from '../../components/Loading/Loading'
@@ -29,6 +30,11 @@ const EditNewsPage = () => {
   const { token } = useAppSelector((state) => state.auth)
 
   const handleDeleteUploadedPhoto = (imageId: number) => {
+    setActiveModal(true)
+    setDeletedImageId(imageId)
+  }
+
+  const handleDeleteUploadedHighlight = (imageId: number) => {
     setActiveModal(true)
     setDeletedImageId(imageId)
   }
@@ -59,6 +65,13 @@ const EditNewsPage = () => {
         await dispatch(postImageForNews({ formData, id: currentNews.id, token }))
       }
     }
+    if (photoHighlightFiles) {
+      for (const photo of photoHighlightFiles) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        await dispatch(postHighlightForNews({ formData, id: currentNews.id, token }))
+      }
+    }
     await dispatch(getCurrentNews({ id: state, token }))
   }
 
@@ -82,11 +95,11 @@ const EditNewsPage = () => {
       </div>
       <h1 className={main.title}>Изменить событие</h1>
       <NewsPageMainContainer
+        isEditMode={true}
         currentNews={currentNews}
-        isLoadingPhoto={isLoadingPhoto}
-        isLoadingHighlight={isLoadingHighlight}
         onSubmitForm={onSubmitForm}
         handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+        handleDeleteUploadedHighlight={handleDeleteUploadedHighlight}
       />
       <PopupWithButtons
         popupTitle='Данная картинка находится на удаленном сервере. Вы точно хотите её удалить?'

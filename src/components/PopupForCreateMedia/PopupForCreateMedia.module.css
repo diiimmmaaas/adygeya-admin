@@ -65,13 +65,15 @@
 }
 
 .modal__title {
-  margin: 0 0 24px;
-
-  font-weight: 600;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
   font-size: 32px;
-  line-height: 48px;
+  line-height: 135%;
   text-align: center;
-  letter-spacing: -0.02em;
+  color: #414141;
+  margin-top: 32px;
+  margin-bottom: 62px;
 }
 
 .modal__btnGroup {

@@ -9,29 +9,36 @@ import SubmitButton from '../../components/SubmitButton/SubmitButton'
 import InputMask from 'react-input-mask'
 import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
-import Loading from '../../components/Loading/Loading'
 import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
 import { GetCurrentNewsType } from '../../redux/types/types'
 import { options } from '../ObjectPageMainContainer/ObjectPageMainContainer'
+import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
+import UploadHighlightComponent from '../UploadHighlightComponent/UploadHighlightComponent'
 
 export type NewsPageMainContainerPropsType = {
+  isEditMode?: boolean
+  activeModal?: boolean
+  setActiveModal?: (activeModal: boolean) => void
+  onSubmitPopup?: (photosNewsFiles: any, photoHighlightFiles: any) => void
   currentNews?: GetCurrentNewsType
-  isLoadingPhoto: boolean
-  isLoadingHighlight: boolean
   onSubmitForm: (
     checkedNewsParameters: CheckedNewsParametersType,
     photosNewsFiles: any,
     photoHighlightFiles: any,
   ) => void
   handleDeleteUploadedPhoto: (imageId: number) => void
+  handleDeleteUploadedHighlight: (imageId: number) => void
 }
 
 const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
+  isEditMode,
+  activeModal,
+  setActiveModal,
+  onSubmitPopup,
   currentNews,
-  isLoadingPhoto,
-  isLoadingHighlight,
   onSubmitForm,
   handleDeleteUploadedPhoto,
+  handleDeleteUploadedHighlight,
 }) => {
   const [photosNewsFiles, setPhotosNewsFiles] = useState<any>()
   const [photoHighlightFiles, setPhotoHighlightFiles] = useState<any>()
@@ -85,14 +92,51 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
   const onChangeNewsDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCheckedNewsParameters({ ...checkedNewsParameters, description: e.target.value })
   }
+  const onChangeTitleHighlightHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedNewsParameters({
+      ...checkedNewsParameters,
+      stories: { ...checkedNewsParameters.stories, title: e.target.value },
+    })
+  }
+  const onChangeDescriptionHighlightHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedNewsParameters({
+      ...checkedNewsParameters,
+      stories: { ...checkedNewsParameters.stories, content: e.target.value },
+    })
+  }
 
   const onSubmitFormHandler = () => {
     onSubmitForm(checkedNewsParameters, photosNewsFiles, photoHighlightFiles)
+  }
+  const onSubmitPopupHandler = () => {
+    onSubmitPopup && onSubmitPopup(photosNewsFiles, photoHighlightFiles)
   }
 
   return (
     <div className={main.container}>
       <div className={styles.content}>
+        {!isEditMode && (
+          <PopupForCreateMedia
+            popupTitle='Добавить медиа файлы'
+            isPopupActive={activeModal}
+            onCloseHandler={() => setActiveModal && setActiveModal(false)}
+            onSubmitHandler={onSubmitPopupHandler}
+          >
+            <div className={styles.uploadMediaContainer}>
+              <UploadPhotoComponent
+                setPhotosFiles={setPhotosNewsFiles}
+                images={currentNews?.images}
+                handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+              />
+              <h1 className={main.title}>Добавить медиа для хайлайт событий</h1>
+              <UploadHighlightComponent
+                setPhotosFiles={setPhotoHighlightFiles}
+                images={currentNews?.stories?.images}
+                handleDeleteUploadedPhoto={handleDeleteUploadedHighlight}
+              />
+            </div>
+          </PopupForCreateMedia>
+        )}
         <CustomNameInput
           value={checkedNewsParameters.title}
           name='Название события'
@@ -155,32 +199,40 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
             }}
           />
         </div>
-        <div className={styles.uploadMediaContainer}>
-          <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-          {isLoadingPhoto ? (
-            <Loading />
-          ) : (
+        <UploadDescriptionComponent
+          value={checkedNewsParameters?.description}
+          placeholder='Добавьте описание события'
+          title='Описание'
+          callbackHandler={onChangeNewsDescriptionHandler}
+        />
+        <CustomNameInput
+          value={currentNews?.stories?.title}
+          name='Заголовок хайлайта'
+          placeholder='Введите заголовок хайлайта'
+          type='text'
+          callbackHandler={onChangeTitleHighlightHandler}
+        />
+        <CustomNameInput
+          value={currentNews?.stories?.content}
+          name='Текст хайлайта'
+          placeholder='Введите описание хайлайта'
+          type='text'
+          callbackHandler={onChangeDescriptionHighlightHandler}
+        />
+        {isEditMode && (
+          <div className={styles.uploadMediaContainer}>
             <UploadPhotoComponent
               setPhotosFiles={setPhotosNewsFiles}
               images={currentNews?.images}
               handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
             />
-          )}
-          <UploadDescriptionComponent
-            value={checkedNewsParameters.description}
-            placeholder='Добавьте описание события'
-            title='Описание'
-            callbackHandler={onChangeNewsDescriptionHandler}
-          />
-        </div>
-        {isLoadingHighlight ? (
-          <Loading />
-        ) : (
-          <HighlightComponent
-            checkedNewsParameters={checkedNewsParameters}
-            setPhotoHighlightFiles={setPhotoHighlightFiles}
-            setCheckedNewsParameters={setCheckedNewsParameters}
-          />
+            <h1 className={main.title}>Добавить медиа для хайлайт событий</h1>
+            <UploadHighlightComponent
+              setPhotosFiles={setPhotoHighlightFiles}
+              images={currentNews?.stories?.images}
+              handleDeleteUploadedPhoto={handleDeleteUploadedHighlight}
+            />
+          </div>
         )}
       </div>
       <SubmitButton name='Сохранить' onClickHandler={onSubmitFormHandler} />

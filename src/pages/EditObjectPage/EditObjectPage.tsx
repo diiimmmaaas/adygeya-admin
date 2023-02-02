@@ -75,7 +75,6 @@ const EditObjectPage = () => {
     audioParameters: AudioParametersType,
   ) => {
     await dispatch(changeObject({ objectId: currentObject.id, checkedParameters, token }))
-    console.log(audioFiles)
     if (photosFiles) {
       for (const photo of photosFiles) {
         const formData = new FormData()

@@ -16,6 +16,10 @@
     color: #7B7B7B;
 }
 
+.content {
+    position: relative;
+}
+
 .dateBlock {
     width: 100%;
     display: flex;
@@ -48,7 +52,7 @@
 }
 
 .uploadMediaContainer {
-
+    width: 100%;
 }
 
 .uploadMediaTitle {

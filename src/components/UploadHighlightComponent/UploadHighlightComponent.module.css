@@ -1,0 +1,84 @@
+.uploadHighlightContainer {
+ margin-bottom: 32px;
+}
+
+.uploadHighlightText {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.uploadedHighlightBlock {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    height: 232px;
+    background-color: #FFFFFF;
+    margin-bottom: 24px;
+    padding: 16px;
+}
+
+.imagesContainer {
+    display: flex;
+    width: 150px;
+    height: 200px;
+    position: relative;
+}
+
+.image {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+
+}
+
+.imageExit {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.uploadHighlightBoard {
+    padding: 16px;
+    width: 100%;
+    min-height: 400px;
+    background: #FFFFFF;
+    margin-bottom: 16px;
+    color: #303030;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.label {
+    width: 150px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #c7c2c2;
+    cursor: pointer;
+}
+
+.activeLabel {
+    border: 2px dashed #0004ff;
+}
+
+.inputFile {
+    display: none;
+}
+
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

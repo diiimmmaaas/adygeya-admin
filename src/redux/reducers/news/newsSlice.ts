@@ -131,25 +131,25 @@ export const newsSlice = createSlice({
       state.error = action.payload
     })
     builder.addCase(postImageForNews.pending, (state) => {
-      state.isLoadingPhoto = true
+      state.isLoading = true
     })
     builder.addCase(postImageForNews.fulfilled, (state) => {
-      state.isLoadingPhoto = false
+      state.isLoading = false
       state.error = ''
     })
     builder.addCase(postImageForNews.rejected, (state, action) => {
-      state.isLoadingPhoto = false
+      state.isLoading = false
       state.error = action.payload
     })
     builder.addCase(postHighlightForNews.pending, (state) => {
-      state.isLoadingHighlight = true
+      state.isLoading = true
     })
     builder.addCase(postHighlightForNews.fulfilled, (state) => {
-      state.isLoadingHighlight = false
+      state.isLoading = false
       state.error = ''
     })
     builder.addCase(postHighlightForNews.rejected, (state, action) => {
-      state.isLoadingHighlight = false
+      state.isLoading = false
       state.error = action.payload
     })
     builder.addCase(deleteNews.pending, (state) => {
