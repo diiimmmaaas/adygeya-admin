@@ -102,6 +102,9 @@ const TableComponentWithoutPagination: React.FC<TableComponentPropsType> = ({
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(object.id)
                   }
+                  const onChangeObjectHandler = () => {
+                    onChangeObject(object.id)
+                  }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
@@ -122,6 +125,7 @@ const TableComponentWithoutPagination: React.FC<TableComponentPropsType> = ({
                             className={styles.functionalBtn}
                             src={changeObjIcon}
                             alt='changeObjIcon'
+                            onClick={onChangeObjectHandler}
                           />
                           <img
                             className={styles.functionalBtn}
@@ -183,6 +187,9 @@ const TableComponentWithoutPagination: React.FC<TableComponentPropsType> = ({
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(route.id)
                   }
+                  const onChangeObjectHandler = () => {
+                    onChangeObject(route.id)
+                  }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
@@ -203,6 +210,7 @@ const TableComponentWithoutPagination: React.FC<TableComponentPropsType> = ({
                             className={styles.functionalBtn}
                             src={changeObjIcon}
                             alt='changeObjIcon'
+                            onClick={onChangeObjectHandler}
                           />
                           <img
                             className={styles.functionalBtn}

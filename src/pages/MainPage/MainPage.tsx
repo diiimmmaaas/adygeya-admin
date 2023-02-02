@@ -50,11 +50,11 @@ const MainPage = () => {
   }
 
   const onDeleteElement = (elementId: number) => {
-    console.log(elementId)
+    console.log('del', elementId)
   }
 
   const onChangeElement = (elementId: number) => {
-    console.log(elementId)
+    console.log('change', elementId)
   }
 
   return (
@@ -128,6 +128,7 @@ const MainPage = () => {
                   Маршруты ({searchData.routes.length})
                 </button>
               </div>
+              {/* для каждой из колонок надо создать свое удаление и редактирование */}
               {isRoute && (
                 <div className={styles.tableStyle}>
                   <TableComponentWithoutPagination
@@ -158,18 +159,6 @@ const MainPage = () => {
                   />
                 </div>
               )}
-              {/* для каждой из колонок надо создать свое удаление и редактирование */}
-
-              {/* <div className={styles.tableStyle}> */}
-              {/*   <TableComponentWithoutPagination */}
-              {/*     objects={searchData.landmarks} */}
-              {/*     news={searchData.news} */}
-              {/*     routes={searchData.routes} */}
-              {/*     headCells={headCellsObj} */}
-              {/*     onDeleteObject={onDeleteElement} */}
-              {/*     onChangeObject={onChangeElement} */}
-              {/*   /> */}
-              {/* </div> */}
             </div>
           )}
         </div>
