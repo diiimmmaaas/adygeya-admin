@@ -1,10 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './MainPage.module.css'
 import main from '../../style/common.module.css'
 import { PATH } from '../../navigation/path'
 import { useNavigate } from 'react-router-dom'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
-import { useAppSelector } from '../../redux/utils/redux-utils'
+import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
+import { postSearch } from '../../redux/actions/searchAction'
+import TableComponentWithoutPagination from '../../components/TableComponentWithoutPagination/TableComponentWithoutPagination'
+import Loading from '../../components/Loading/Loading'
+import { deleteNews } from '../../redux/actions/newsActions'
+
+export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
+export const headCellsNews = [
+  '№',
+  'Название',
+  'Идентификатор',
+  'Опубликовано',
+  'Дата',
+  'Управление',
+]
 
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
@@ -16,15 +30,42 @@ const blocks = [
 ]
 
 const MainPage = () => {
+  const [search, setSearch] = useState<string>('')
+  const [isNews, setIsNews] = useState<boolean>(false)
+  const [isObject, setIsObject] = useState<boolean>(false)
+  const [isRoute, setIsRoute] = useState<boolean>(false)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const { isAuth } = useAppSelector((state) => state.auth)
+  const { isAuth, token } = useAppSelector((state) => state.auth)
+  const { searchData, isLoading } = useAppSelector((state) => state.search)
 
   useEffect(() => {
     if (!isAuth) {
       navigate(PATH.auth)
     }
   }, [])
+
+  const handleSearch = async () => {
+    await dispatch(postSearch({ query: search, token: token }))
+  }
+
+  const onDeleteElement = (elementId: number) => {
+    console.log('del', elementId)
+  }
+
+  const onChangeElement = (elementId: number) => {
+    console.log('change', elementId)
+  }
+
+  const onDeleteNews = async (newsId: number) => {
+    await dispatch(deleteNews({ id: newsId, token }))
+    await dispatch(postSearch({ query: search, token: token }))
+  }
+
+  const onChangeNews = (newsId: number) => {
+    navigate(PATH.editNewsCardPage, { replace: true, state: newsId })
+  }
 
   return (
     <div className={styles.main}>
@@ -53,8 +94,83 @@ const MainPage = () => {
             <h3 className={styles.searchTitle}>
               Поиск по уже существующим объектам, событиям, маршрутам
             </h3>
-            <SearchFunctionalityComponent search={''} setSearch={() => console.log('')} />
+            <SearchFunctionalityComponent
+              search={search}
+              setSearch={setSearch}
+              onChangeHandler={handleSearch}
+            />
           </div>
+          {isLoading ? (
+            <div className={styles.loadingMargin}>
+              <Loading />
+            </div>
+          ) : (
+            <div>
+              <div className={styles.footerButtonContainer}>
+                <button
+                  className={styles.footerButton}
+                  onClick={() => {
+                    setIsNews(false)
+                    setIsRoute(false)
+                    setIsObject(!isObject)
+                  }}
+                >
+                  Объекты ({searchData.landmarks.length})
+                </button>
+                <button
+                  className={styles.footerButton}
+                  onClick={() => {
+                    setIsNews(!isNews)
+                    setIsRoute(false)
+                    setIsObject(false)
+                  }}
+                >
+                  Новости ({searchData.news.length})
+                </button>
+                <button
+                  className={styles.footerButton}
+                  onClick={() => {
+                    setIsNews(false)
+                    setIsRoute(!isRoute)
+                    setIsObject(false)
+                  }}
+                >
+                  Маршруты ({searchData.routes.length})
+                </button>
+              </div>
+              {/* для каждой из колонок надо создать свое удаление и редактирование */}
+              {isRoute && (
+                <div className={styles.tableStyle}>
+                  <TableComponentWithoutPagination
+                    routes={searchData.routes}
+                    headCells={headCellsObj}
+                    onDeleteObject={onDeleteElement}
+                    onChangeObject={onChangeElement}
+                  />
+                </div>
+              )}
+              {isNews && (
+                <div className={styles.tableStyle}>
+                  <TableComponentWithoutPagination
+                    news={searchData.news}
+                    headCells={headCellsNews}
+                    onDeleteObject={onDeleteNews}
+                    onChangeObject={onChangeNews}
+                  />
+                </div>
+              )}
+              {isObject && (
+                <div className={styles.tableStyle}>
+                  <TableComponentWithoutPagination
+                    objects={searchData.landmarks}
+                    headCells={headCellsObj}
+                    onDeleteObject={onDeleteElement}
+                    onChangeObject={onChangeElement}
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

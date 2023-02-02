@@ -5,14 +5,17 @@ import searchIcon from '../../assets/icons/search.svg'
 type SearchFunctionalityComponentPropsType = {
   search: string
   setSearch: (search: string) => void
+  onChangeHandler?: () => void
 }
 
 const SearchFunctionalityComponent: React.FC<SearchFunctionalityComponentPropsType> = ({
   search,
   setSearch,
+  onChangeHandler,
 }) => {
   const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
+    onChangeHandler && onChangeHandler()
   }
 
   return (
