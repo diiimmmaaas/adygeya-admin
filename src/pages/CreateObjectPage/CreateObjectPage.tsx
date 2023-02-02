@@ -21,12 +21,7 @@ const CreateObjectPage = () => {
 
   const dispatch = useAppDispatch()
 
-  const onSubmitFormHandler = async (
-    checkedParameters: CheckedParametersType,
-    photosFiles: any,
-    audioFiles: any,
-    audioParameters: AudioParametersType,
-  ) => {
+  const onSubmitFormHandler = async (checkedParameters: CheckedParametersType) => {
     const resultAction = await dispatch(postObject({ checkedParameters, token }))
     if (postObject.rejected.match(resultAction)) {
       setError(true)
@@ -91,6 +86,7 @@ const CreateObjectPage = () => {
       </div>
       <h1 className={main.title}>Создать объект</h1>
       <ObjectPageMainContainer
+        isEditMode={false}
         activeModal={activeModal}
         setActiveModal={setActiveModal}
         onSubmitPopup={onSubmitPopup}

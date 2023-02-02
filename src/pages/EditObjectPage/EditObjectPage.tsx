@@ -58,12 +58,12 @@ const EditObjectPage = () => {
   const onSubmitAudioPopupHandler = async () => {
     setActiveAudioModal(false)
     console.log('удалено')
-    // await dispatch(
-    //   deleteAudioObject({
-    //     id: currentObject.id,
-    //     token,
-    //   }),
-    // )
+    await dispatch(
+      deleteAudioObject({
+        id: currentObject.id,
+        token,
+      }),
+    )
     setDeletedAudioId(null)
     await dispatch(getCurrentObject({ id: state, token }))
   }

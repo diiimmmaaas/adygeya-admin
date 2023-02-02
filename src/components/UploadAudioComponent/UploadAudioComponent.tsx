@@ -23,15 +23,11 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    console.log(files)
-    // @ts-ignore
-    setAudioFiles([...files])
     handFiles(files)
   }
 
   const handFiles = (files: any) => {
-    // eslint-disable-next-line no-debugger
-    debugger
+    setAudioFiles([...files])
     const audioArr: {
       name: string
       type: string
@@ -82,7 +78,7 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
 
   return (
     <div className={styles.uploadAudioContainer}>
-      {audios?.audio ? (
+      {currentObject?.audio?.audio ? (
         <div>
           <h4 className={styles.uploadAudioText}>Аудио</h4>
           <div className={styles.uploadAudioBoard}>
@@ -148,4 +144,4 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
   )
 }
 
-export default React.memo(UploadAudioComponent)
+export default UploadAudioComponent

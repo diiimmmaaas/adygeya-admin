@@ -20,12 +20,11 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    // @ts-ignore
-    setPhotosFiles([...files])
     handFiles(files)
   }
 
   const handFiles = (files: any) => {
+    setPhotosFiles([...files])
     const photosArr: {
       name: string
       type: string
@@ -139,4 +138,4 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
   )
 }
 
-export default React.memo(UploadPhotoComponent)
+export default UploadPhotoComponent

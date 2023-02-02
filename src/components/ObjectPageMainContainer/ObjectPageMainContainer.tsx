@@ -279,8 +279,6 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
     setCheckedParameters({ ...checkedParameters, publishAt: e.target.value })
   }
 
-  console.log(audioFiles, audioParameters)
-
   const onSubmitFormHandler = () => {
     onSubmitForm(checkedParameters, photosFiles, audioFiles, audioParameters)
   }
@@ -291,39 +289,41 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   return (
     <div className={main.container}>
       <div className={styles.content}>
-        <PopupForCreateMedia
-          popupTitle='Добавить медиа файлы'
-          isPopupActive={activeModal}
-          onCloseHandler={() => setActiveModal && setActiveModal(false)}
-          onSubmitHandler={onSubmitPopupHandler}
-        >
-          <div className={styles.uploadMediaContainer}>
-            <UploadPhotoComponent
-              images={currentObject?.images}
-              setPhotosFiles={setPhotosFiles}
-              handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
-            />
-            <UploadAudioComponent
-              setAudioFiles={setAudioFiles}
-              audios={currentObject?.audio}
-              handleDeleteUploadedAudio={handleDeleteUploadedAudio}
-            />
-            <CustomNameInput
-              value={audioParameters.voiced}
-              name='Исполнитель'
-              placeholder='Введите имя исполнителя'
-              type='text'
-              callbackHandler={onChangeNameOfArtistHandler}
-            />
-            <CustomNameInput
-              value={audioParameters.voicedLink}
-              name='Ссылка на аккаунт исполнителя'
-              placeholder='Введите ссылку'
-              type='text'
-              callbackHandler={onChangeArtistLinkHandler}
-            />
-          </div>
-        </PopupForCreateMedia>
+        {!isEditMode && (
+          <PopupForCreateMedia
+            popupTitle='Добавить медиа файлы'
+            isPopupActive={activeModal}
+            onCloseHandler={() => setActiveModal && setActiveModal(false)}
+            onSubmitHandler={onSubmitPopupHandler}
+          >
+            <div className={styles.uploadMediaContainer}>
+              <UploadPhotoComponent
+                images={currentObject?.images}
+                setPhotosFiles={setPhotosFiles}
+                handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+              />
+              <UploadAudioComponent
+                setAudioFiles={setAudioFiles}
+                audios={currentObject?.audio}
+                handleDeleteUploadedAudio={handleDeleteUploadedAudio}
+              />
+              <CustomNameInput
+                value={audioParameters.voiced}
+                name='Исполнитель'
+                placeholder='Введите имя исполнителя'
+                type='text'
+                callbackHandler={onChangeNameOfArtistHandler}
+              />
+              <CustomNameInput
+                value={audioParameters.voicedLink}
+                name='Ссылка на аккаунт исполнителя'
+                placeholder='Введите ссылку'
+                type='text'
+                callbackHandler={onChangeArtistLinkHandler}
+              />
+            </div>
+          </PopupForCreateMedia>
+        )}
         <CustomNameInput
           value={checkedParameters.name}
           name='Название объекта'
