@@ -23,12 +23,15 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+    console.log(files)
     // @ts-ignore
     setAudioFiles([...files])
     handFiles(files)
   }
 
   const handFiles = (files: any) => {
+    // eslint-disable-next-line no-debugger
+    debugger
     const audioArr: {
       name: string
       type: string
@@ -100,6 +103,7 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
         </div>
       ) : (
         <div className={styles.uploadAudioBoard}>
+          <h4 className={styles.uploadAudioText}>Аудио</h4>
           <input
             className={styles.inputFile}
             type='file'

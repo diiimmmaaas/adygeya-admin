@@ -137,53 +137,47 @@ export const objectsSlice = createSlice({
       state.error = action.payload
     })
     builder.addCase(postImageForObject.pending, (state) => {
-      state.isLoadingPhoto = true
       state.isLoading = true
     })
     builder.addCase(postImageForObject.fulfilled, (state) => {
-      state.isLoadingPhoto = false
       state.isLoading = false
       state.error = ''
     })
     builder.addCase(postImageForObject.rejected, (state, action) => {
-      state.isLoadingPhoto = false
       state.isLoading = false
       state.error = action.payload
     })
     builder.addCase(postAudioForObject.pending, (state) => {
-      state.isLoadingAudio = true
       state.isLoading = true
     })
     builder.addCase(postAudioForObject.fulfilled, (state) => {
-      state.isLoadingAudio = false
       state.isLoading = false
       state.error = ''
     })
     builder.addCase(postAudioForObject.rejected, (state, action) => {
-      state.isLoadingAudio = false
       state.isLoading = false
       state.error = action.payload
     })
     builder.addCase(deleteObject.pending, (state) => {
-      state.isLoadingAudio = true
+      state.isLoading = true
     })
     builder.addCase(deleteObject.fulfilled, (state) => {
-      state.isLoadingAudio = false
+      state.isLoading = false
       state.error = ''
     })
     builder.addCase(deleteObject.rejected, (state, action) => {
-      state.isLoadingAudio = false
+      state.isLoading = false
       state.error = action.payload
     })
     builder.addCase(changeObject.pending, (state) => {
-      state.isLoadingAudio = true
+      state.isLoading = true
     })
     builder.addCase(changeObject.fulfilled, (state) => {
-      state.isLoadingAudio = false
+      state.isLoading = false
       state.error = ''
     })
     builder.addCase(changeObject.rejected, (state, action) => {
-      state.isLoadingAudio = false
+      state.isLoading = false
       state.error = action.payload
     })
     builder.addCase(deleteImageObject.pending, (state) => {

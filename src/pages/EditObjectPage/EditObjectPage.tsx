@@ -57,12 +57,13 @@ const EditObjectPage = () => {
 
   const onSubmitAudioPopupHandler = async () => {
     setActiveAudioModal(false)
-    await dispatch(
-      deleteAudioObject({
-        id: currentObject.id,
-        token,
-      }),
-    )
+    console.log('удалено')
+    // await dispatch(
+    //   deleteAudioObject({
+    //     id: currentObject.id,
+    //     token,
+    //   }),
+    // )
     setDeletedAudioId(null)
     await dispatch(getCurrentObject({ id: state, token }))
   }
@@ -74,7 +75,7 @@ const EditObjectPage = () => {
     audioParameters: AudioParametersType,
   ) => {
     await dispatch(changeObject({ objectId: currentObject.id, checkedParameters, token }))
-
+    console.log(audioFiles)
     if (photosFiles) {
       for (const photo of photosFiles) {
         const formData = new FormData()
@@ -103,7 +104,6 @@ const EditObjectPage = () => {
   useEffect(() => {
     dispatch(getCurrentObject({ id: state, token }))
   }, [])
-
   if (isLoading) {
     return <Loading />
   }
@@ -120,9 +120,8 @@ const EditObjectPage = () => {
       </div>
       <h1 className={main.title}>Изменить обьект</h1>
       <ObjectPageMainContainer
+        isEditMode={true}
         currentObject={currentObject}
-        isLoadingPhoto={isLoadingPhoto}
-        isLoadingAudio={isLoadingAudio}
         onSubmitForm={onSubmitForm}
         handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
         handleDeleteUploadedAudio={handleDeleteUploadedAudio}

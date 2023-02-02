@@ -15,6 +15,7 @@ import ContactsComponent from '../ContactsComponent/ContactsComponent'
 import { getCurrentObject } from '../../redux/actions/objectsActions'
 import { GetCurrentObjectType } from '../../redux/types/types'
 import InputMask from 'react-input-mask'
+import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
 
 const categoriesArray = [
   {
@@ -79,9 +80,11 @@ export const options = [
 ]
 
 export type ObjectPageMainContainerPropsType = {
+  isEditMode?: boolean
+  activeModal?: boolean
+  setActiveModal?: (activeModal: boolean) => void
+  onSubmitPopup?: (photosFiles: any, audioFiles: any, audioParameters: AudioParametersType) => void
   currentObject?: GetCurrentObjectType
-  isLoadingPhoto: boolean
-  isLoadingAudio: boolean
   onSubmitForm: (
     checkedParameters: CheckedParametersType,
     photosFiles: any,
@@ -93,9 +96,11 @@ export type ObjectPageMainContainerPropsType = {
 }
 
 const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
+  isEditMode,
+  activeModal,
+  setActiveModal,
+  onSubmitPopup,
   currentObject,
-  isLoadingPhoto,
-  isLoadingAudio,
   onSubmitForm,
   handleDeleteUploadedPhoto,
   handleDeleteUploadedAudio,
@@ -274,13 +279,51 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
     setCheckedParameters({ ...checkedParameters, publishAt: e.target.value })
   }
 
+  console.log(audioFiles, audioParameters)
+
   const onSubmitFormHandler = () => {
     onSubmitForm(checkedParameters, photosFiles, audioFiles, audioParameters)
+  }
+  const onSubmitPopupHandler = () => {
+    onSubmitPopup && onSubmitPopup(photosFiles, audioFiles, audioParameters)
   }
 
   return (
     <div className={main.container}>
       <div className={styles.content}>
+        <PopupForCreateMedia
+          popupTitle='Добавить медиа файлы'
+          isPopupActive={activeModal}
+          onCloseHandler={() => setActiveModal && setActiveModal(false)}
+          onSubmitHandler={onSubmitPopupHandler}
+        >
+          <div className={styles.uploadMediaContainer}>
+            <UploadPhotoComponent
+              images={currentObject?.images}
+              setPhotosFiles={setPhotosFiles}
+              handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+            />
+            <UploadAudioComponent
+              setAudioFiles={setAudioFiles}
+              audios={currentObject?.audio}
+              handleDeleteUploadedAudio={handleDeleteUploadedAudio}
+            />
+            <CustomNameInput
+              value={audioParameters.voiced}
+              name='Исполнитель'
+              placeholder='Введите имя исполнителя'
+              type='text'
+              callbackHandler={onChangeNameOfArtistHandler}
+            />
+            <CustomNameInput
+              value={audioParameters.voicedLink}
+              name='Ссылка на аккаунт исполнителя'
+              placeholder='Введите ссылку'
+              type='text'
+              callbackHandler={onChangeArtistLinkHandler}
+            />
+          </div>
+        </PopupForCreateMedia>
         <CustomNameInput
           value={checkedParameters.name}
           name='Название объекта'
@@ -396,60 +439,53 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
             })}
           </div>
         </div>
-        <div className={styles.uploadMediaContainer}>
-          <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-          {isLoadingPhoto ? (
-            <Loading />
-          ) : (
+        {isEditMode && (
+          <div className={styles.uploadMediaContainer}>
             <UploadPhotoComponent
               images={currentObject?.images}
               setPhotosFiles={setPhotosFiles}
               handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
             />
-          )}
-          {isLoadingAudio ? (
-            <Loading />
-          ) : (
             <UploadAudioComponent
               setAudioFiles={setAudioFiles}
               audios={currentObject?.audio}
               handleDeleteUploadedAudio={handleDeleteUploadedAudio}
             />
-          )}
-          <CustomNameInput
-            value={audioParameters.voiced}
-            name='Исполнитель'
-            placeholder='Введите имя исполнителя'
-            type='text'
-            callbackHandler={onChangeNameOfArtistHandler}
-          />
-          <CustomNameInput
-            value={audioParameters.voicedLink}
-            name='Ссылка на аккаунт исполнителя'
-            placeholder='Введите ссылку'
-            type='text'
-            callbackHandler={onChangeArtistLinkHandler}
-          />
-          <UploadDescriptionComponent
-            value={checkedParameters.description}
-            placeholder='Добавьте описание объекта'
-            title='Описание'
-            callbackHandler={onChangeDescriptionHandler}
-          />
-          <TimeTable
-            schedule={checkedParameters.schedule}
-            onOpenChangeHandler={onOpenChangeHandler}
-            onCloseChangeHandler={onCloseChangeHandler}
-          />
-          <ContactsComponent
-            contacts={checkedParameters.contacts}
-            onChangePhoneNumberHandler={onChangePhoneNumberHandler}
-            onChangeSiteNameHandler={onChangeSiteNameHandler}
-            onChangeEmailHandler={onChangeEmailHandler}
-          />
-          <div className={styles.submitContainer}>
-            <SubmitButton name='Сохранить' onClickHandler={onSubmitFormHandler} />
+            <CustomNameInput
+              value={audioParameters.voiced}
+              name='Исполнитель'
+              placeholder='Введите имя исполнителя'
+              type='text'
+              callbackHandler={onChangeNameOfArtistHandler}
+            />
+            <CustomNameInput
+              value={audioParameters.voicedLink}
+              name='Ссылка на аккаунт исполнителя'
+              placeholder='Введите ссылку'
+              type='text'
+              callbackHandler={onChangeArtistLinkHandler}
+            />
           </div>
+        )}
+        <UploadDescriptionComponent
+          value={checkedParameters.description}
+          placeholder='Добавьте описание объекта'
+          title='Описание'
+          callbackHandler={onChangeDescriptionHandler}
+        />
+        <TimeTable
+          schedule={checkedParameters.schedule}
+          onOpenChangeHandler={onOpenChangeHandler}
+          onCloseChangeHandler={onCloseChangeHandler}
+        />
+        <ContactsComponent
+          contacts={checkedParameters.contacts}
+          onChangePhoneNumberHandler={onChangePhoneNumberHandler}
+          onChangeSiteNameHandler={onChangeSiteNameHandler}
+          onChangeEmailHandler={onChangeEmailHandler}
+        />
+        <div className={styles.submitContainer}>
+          <SubmitButton name='Сохранить' onClickHandler={onSubmitFormHandler} />
         </div>
       </div>
     </div>
