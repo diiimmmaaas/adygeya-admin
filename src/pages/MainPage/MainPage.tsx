@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './MainPage.module.css'
 import main from '../../style/common.module.css'
 import { PATH } from '../../navigation/path'
 import { useNavigate } from 'react-router-dom'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
-import { useAppSelector } from '../../redux/utils/redux-utils'
+import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
+import { postSearch } from '../../redux/actions/searchAction'
 
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
@@ -16,15 +17,22 @@ const blocks = [
 ]
 
 const MainPage = () => {
+  const [search, setSearch] = useState<string>('')
+  console.log(search)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const { isAuth } = useAppSelector((state) => state.auth)
+  const { isAuth, token } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
     if (!isAuth) {
       navigate(PATH.auth)
     }
   }, [])
+
+  const handleSearch = async () => {
+    await dispatch(postSearch({ query: search, token: token }))
+  }
 
   return (
     <div className={styles.main}>
@@ -53,7 +61,11 @@ const MainPage = () => {
             <h3 className={styles.searchTitle}>
               Поиск по уже существующим объектам, событиям, маршрутам
             </h3>
-            <SearchFunctionalityComponent search={''} setSearch={() => console.log('')} />
+            <SearchFunctionalityComponent
+              search={search}
+              setSearch={setSearch}
+              onChangeHandler={handleSearch}
+            />
           </div>
         </div>
       </div>
