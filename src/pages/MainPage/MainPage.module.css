@@ -66,3 +66,36 @@
     color: #414141;
     margin-bottom: 16px;
 }
+
+.tableStyle {
+    margin-top: 2%;
+}
+
+.footerButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.footerButton {
+    height: 100px;
+    width: 400px;
+    border-radius: 20px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 125%;
+    color: white;
+    margin-bottom: 24px;
+    background-color: #028959;
+    cursor: pointer;
+    outline: inherit;
+    border: none;
+    transition: 0.15s linear;
+}
+
+.footerButton:hover {
+    transform: scale(1.1);
+}

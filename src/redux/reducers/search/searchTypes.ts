@@ -11,10 +11,12 @@ export type landmarksSearch = {
   name: string
   icon: string
   published: boolean
-  categories: {
-    id: number
-    name: string
-  }
+  categories: CategorySearchType[]
+}
+
+export type CategorySearchType = {
+  id: number
+  name: string
 }
 
 export type routesSearch = {

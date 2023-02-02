@@ -6,6 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { postSearch } from '../../redux/actions/searchAction'
+import TableComponentWithoutPagination from '../../components/TableComponentWithoutPagination/TableComponentWithoutPagination'
+import Loading from '../../components/Loading/Loading'
+
+export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
@@ -18,11 +22,11 @@ const blocks = [
 
 const MainPage = () => {
   const [search, setSearch] = useState<string>('')
-  console.log(search)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const { isAuth, token } = useAppSelector((state) => state.auth)
+  const { searchData, isLoading } = useAppSelector((state) => state.search)
 
   useEffect(() => {
     if (!isAuth) {
@@ -32,6 +36,14 @@ const MainPage = () => {
 
   const handleSearch = async () => {
     await dispatch(postSearch({ query: search, token: token }))
+  }
+
+  const onDeleteElement = (elementId: number) => {
+    console.log(elementId)
+  }
+
+  const onChangeElement = (elementId: number) => {
+    console.log(elementId)
   }
 
   return (
@@ -67,6 +79,33 @@ const MainPage = () => {
               onChangeHandler={handleSearch}
             />
           </div>
+          {isLoading ? (
+            <div className={styles.loadingMargin}>
+              <Loading />
+            </div>
+          ) : (
+            <div>
+              <div className={styles.footerButtonContainer}>
+                <button className={styles.footerButton}>
+                  Объекты ({searchData.landmarks.length})
+                </button>
+                <button className={styles.footerButton}>Новости ({searchData.news.length})</button>
+                <button className={styles.footerButton}>
+                  Маршруты ({searchData.routes.length})
+                </button>
+              </div>
+              <div className={styles.tableStyle}>
+                <TableComponentWithoutPagination
+                  objects={searchData.landmarks}
+                  news={searchData.news}
+                  routes={searchData.routes}
+                  headCells={headCellsObj}
+                  onDeleteObject={onDeleteElement}
+                  onChangeObject={onChangeElement}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
