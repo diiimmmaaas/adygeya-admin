@@ -4,6 +4,7 @@ import { usersReducer } from './reducers/users/usersSlice'
 import { objectsReducer } from './reducers/objects/objectsSlice'
 import { newsReducer } from './reducers/news/newsSlice'
 import { routesReducer } from './reducers/routes/routesSlice'
+import { searchReducer } from './reducers/search/searchSlice'
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
   objects: objectsReducer,
   news: newsReducer,
   routes: routesReducer,
+  search: searchReducer,
 })
 
 export const store = configureStore({
