@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { postSearch } from '../../redux/actions/searchAction'
 import TableComponentWithoutPagination from '../../components/TableComponentWithoutPagination/TableComponentWithoutPagination'
 import Loading from '../../components/Loading/Loading'
+import { deleteNews } from '../../redux/actions/newsActions'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 export const headCellsNews = [
@@ -55,6 +56,15 @@ const MainPage = () => {
 
   const onChangeElement = (elementId: number) => {
     console.log('change', elementId)
+  }
+
+  const onDeleteNews = async (newsId: number) => {
+    await dispatch(deleteNews({ id: newsId, token }))
+    await dispatch(postSearch({ query: search, token: token }))
+  }
+
+  const onChangeNews = (newsId: number) => {
+    navigate(PATH.editNewsCardPage, { replace: true, state: newsId })
   }
 
   return (
@@ -144,8 +154,8 @@ const MainPage = () => {
                   <TableComponentWithoutPagination
                     news={searchData.news}
                     headCells={headCellsNews}
-                    onDeleteObject={onDeleteElement}
-                    onChangeObject={onChangeElement}
+                    onDeleteObject={onDeleteNews}
+                    onChangeObject={onChangeNews}
                   />
                 </div>
               )}
