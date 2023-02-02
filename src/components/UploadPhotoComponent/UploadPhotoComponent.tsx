@@ -79,7 +79,7 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
     <div className={styles.uploadPhotoContainer}>
       {images && (
         <div>
-          <h4 className={styles.uploadPhotoText}>Уже имеющиеся фото к данному события</h4>
+          <h4 className={styles.uploadPhotoText}>Уже имеющиеся фото к данному объекту</h4>
           <div className={styles.uploadedPhotoBlock}>
             {images.map((image, index) => {
               return (

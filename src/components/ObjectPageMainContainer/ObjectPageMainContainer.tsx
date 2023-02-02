@@ -89,6 +89,7 @@ export type ObjectPageMainContainerPropsType = {
     audioParameters: AudioParametersType,
   ) => void
   handleDeleteUploadedPhoto: (imageId: number) => void
+  handleDeleteUploadedAudio: (audioId: number) => void
 }
 
 const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
@@ -97,6 +98,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   isLoadingAudio,
   onSubmitForm,
   handleDeleteUploadedPhoto,
+  handleDeleteUploadedAudio,
 }) => {
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeCategory, setActiveCategory] = useState(
@@ -405,7 +407,15 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
               handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
             />
           )}
-          {isLoadingAudio ? <Loading /> : <UploadAudioComponent setAudioFiles={setAudioFiles} />}
+          {isLoadingAudio ? (
+            <Loading />
+          ) : (
+            <UploadAudioComponent
+              setAudioFiles={setAudioFiles}
+              audios={currentObject?.audio}
+              handleDeleteUploadedAudio={handleDeleteUploadedAudio}
+            />
+          )}
           <CustomNameInput
             value={audioParameters.voiced}
             name='Исполнитель'

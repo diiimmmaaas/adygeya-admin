@@ -1,15 +1,25 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadAudioComponent.module.css'
 import exit from '../../assets/icons/exit.png'
-import { FileType } from '../../pages/CreateObjectPage/types';
+import { FileType } from '../../pages/CreateObjectPage/types'
+import { AudioType } from '../../redux/types/types'
+import { useAppSelector } from '../../redux/utils/redux-utils'
 
 type UploadAudioComponentPropsType = {
+  audios?: AudioType
   setAudioFiles: (audioFiles: any) => void
+  handleDeleteUploadedAudio: (audioId: number) => void
 }
 
-const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({ setAudioFiles }) => {
+const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
+  audios,
+  setAudioFiles,
+  handleDeleteUploadedAudio,
+}) => {
   const [audio, setAudio] = useState<FileType[]>([])
   const [highlight, setHighlight] = useState(false)
+
+  const { currentObject } = useAppSelector((state) => state.objects)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -69,47 +79,67 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({ setAudi
 
   return (
     <div className={styles.uploadAudioContainer}>
-      <h4 className={styles.uploadAudioText}>Аудио</h4>
-      <div className={styles.uploadAudioBoard}>
-        <input
-          className={styles.inputFile}
-          type='file'
-          name='audio'
-          placeholder='Добавьте аудио'
-          id='fileaudio'
-          onChange={handleFileChange}
-          accept='audio/*'
-        />
-        {audio.length > 0 &&
-          audio.map((a, index) => {
-            return (
-              <div className={styles.audioContainer} key={index} data-audioindex={index}>
-                <video width='400' controls className={styles.audioPlayer}>
-                  <source src={a.src} />
-                </video>
-                <div className={styles.exitContainer}>
-                  <img
-                    className={styles.audioExit}
-                    src={exit}
-                    alt='exit'
-                    onClick={handleDelete}
-                    data-audioindex={index}
-                  />
-                </div>
+      {audios?.audio ? (
+        <div>
+          <h4 className={styles.uploadAudioText}>Аудио</h4>
+          <div className={styles.uploadAudioBoard}>
+            <div className={styles.audioContainer}>
+              <video width='400' controls className={styles.audioPlayer}>
+                <source src={audios?.audio} />
+              </video>
+              <div className={styles.exitContainer}>
+                <img
+                  className={styles.audioExit}
+                  src={exit}
+                  alt='exit'
+                  onClick={() => handleDeleteUploadedAudio(currentObject.id)}
+                />
               </div>
-            )
-          })}
-        <label
-          className={highlight ? `${styles.label} ${styles.activeLabel}` : styles.label}
-          htmlFor='fileaudio'
-          onDragEnter={handleHighlight}
-          onDragOver={handleHighlight}
-          onDragLeave={handleUnHighlight}
-          onDrop={handleDrop}
-        >
-          Добавьте аудио
-        </label>
-      </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.uploadAudioBoard}>
+          <input
+            className={styles.inputFile}
+            type='file'
+            name='audio'
+            placeholder='Добавьте аудио'
+            id='fileaudio'
+            onChange={handleFileChange}
+            accept='audio/*'
+          />
+          {audio.length > 0 &&
+            audio.map((a, index) => {
+              return (
+                <div className={styles.audioContainer} key={index} data-audioindex={index}>
+                  <video width='400' controls className={styles.audioPlayer}>
+                    <source src={a.src} />
+                  </video>
+                  <div className={styles.exitContainer}>
+                    <img
+                      className={styles.audioExit}
+                      src={exit}
+                      alt='exit'
+                      onClick={handleDelete}
+                      data-audioindex={index}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          <label
+            className={highlight ? `${styles.label} ${styles.activeLabel}` : styles.label}
+            htmlFor='fileaudio'
+            onDragEnter={handleHighlight}
+            onDragOver={handleHighlight}
+            onDragLeave={handleUnHighlight}
+            onDrop={handleDrop}
+          >
+            Добавьте аудио
+          </label>
+        </div>
+      )}
     </div>
   )
 }

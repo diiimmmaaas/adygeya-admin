@@ -93,6 +93,7 @@ const CreateObjectPage = () => {
         isLoadingAudio={isLoadingAudio}
         onSubmitForm={onSubmitFormHandler}
         handleDeleteUploadedPhoto={() => console.log('')}
+        handleDeleteUploadedAudio={() => console.log('')}
       />
     </div>
   )

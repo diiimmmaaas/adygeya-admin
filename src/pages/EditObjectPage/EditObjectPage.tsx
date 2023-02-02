@@ -9,16 +9,20 @@ import ObjectPageMainContainer from '../../components/ObjectPageMainContainer/Ob
 import { AudioParametersType, CheckedParametersType } from '../CreateObjectPage/types'
 import {
   changeObject,
+  deleteAudioObject,
   deleteImageObject,
   getCurrentObject,
+  postAudioForObject,
   postImageForObject,
 } from '../../redux/actions/objectsActions'
 
 const EditObjectPage = () => {
   const [error, setError] = useState(false)
   const [correct, setCorrect] = useState(false)
-  const [activeModal, setActiveModal] = useState(false)
+  const [activeImageModal, setActiveImageModal] = useState(false)
+  const [activeAudioModal, setActiveAudioModal] = useState(false)
   const [deletedImageId, setDeletedImageId] = useState<number | null>(null)
+  const [deletedAudioId, setDeletedAudioId] = useState<number | null>(null)
 
   const { isLoading, isLoadingPhoto, isLoadingAudio, currentObject } = useAppSelector(
     (state) => state.objects,
@@ -29,12 +33,17 @@ const EditObjectPage = () => {
   const { token } = useAppSelector((state) => state.auth)
 
   const handleDeleteUploadedPhoto = (imageId: number) => {
-    setActiveModal(true)
+    setActiveImageModal(true)
     setDeletedImageId(imageId)
   }
 
-  const onSubmitPopupHandler = async () => {
-    setActiveModal(false)
+  const handleDeleteUploadedAudio = (audioId: number) => {
+    setActiveAudioModal(true)
+    setDeletedImageId(audioId)
+  }
+
+  const onSubmitPhotoPopupHandler = async () => {
+    setActiveImageModal(false)
     await dispatch(
       deleteImageObject({
         id: currentObject.id,
@@ -46,13 +55,24 @@ const EditObjectPage = () => {
     await dispatch(getCurrentObject({ id: state, token }))
   }
 
+  const onSubmitAudioPopupHandler = async () => {
+    setActiveAudioModal(false)
+    await dispatch(
+      deleteAudioObject({
+        id: currentObject.id,
+        token,
+      }),
+    )
+    setDeletedAudioId(null)
+    await dispatch(getCurrentObject({ id: state, token }))
+  }
+
   const onSubmitForm = async (
     checkedParameters: CheckedParametersType,
     photosFiles: any,
     audioFiles: any,
     audioParameters: AudioParametersType,
   ) => {
-    console.log(photosFiles)
     await dispatch(changeObject({ objectId: currentObject.id, checkedParameters, token }))
 
     if (photosFiles) {
@@ -60,6 +80,21 @@ const EditObjectPage = () => {
         const formData = new FormData()
         formData.append('image', photo)
         await dispatch(postImageForObject({ formData, id: currentObject.id, token }))
+      }
+    }
+    if (audioFiles) {
+      for (const audio of audioFiles) {
+        const formData = new FormData()
+        formData.append('audio', audio)
+        formData.append('voiced', audioParameters.voiced)
+        formData.append('voicedLink', audioParameters.voicedLink)
+        await dispatch(
+          postAudioForObject({
+            formData,
+            id: currentObject.id,
+            token,
+          }),
+        )
       }
     }
     await dispatch(getCurrentObject({ id: state, token }))
@@ -90,12 +125,19 @@ const EditObjectPage = () => {
         isLoadingAudio={isLoadingAudio}
         onSubmitForm={onSubmitForm}
         handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+        handleDeleteUploadedAudio={handleDeleteUploadedAudio}
       />
       <PopupWithButtons
         popupTitle='Данная картинка находится на удаленном сервере. Вы точно хотите её удалить?'
-        isPopupActive={activeModal}
-        onCloseHandler={() => setActiveModal(false)}
-        onSubmitHandler={onSubmitPopupHandler}
+        isPopupActive={activeImageModal}
+        onCloseHandler={() => setActiveImageModal(false)}
+        onSubmitHandler={onSubmitPhotoPopupHandler}
+      />
+      <PopupWithButtons
+        popupTitle='Данное аудио находится на удаленном сервере. Вы точно хотите его удалить?'
+        isPopupActive={activeAudioModal}
+        onCloseHandler={() => setActiveAudioModal(false)}
+        onSubmitHandler={onSubmitAudioPopupHandler}
       />
     </div>
   )
