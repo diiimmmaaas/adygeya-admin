@@ -10,6 +10,14 @@ import TableComponentWithoutPagination from '../../components/TableComponentWith
 import Loading from '../../components/Loading/Loading'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
+export const headCellsNews = [
+  '№',
+  'Название',
+  'Идентификатор',
+  'Опубликовано',
+  'Дата',
+  'Управление',
+]
 
 const blocks = [
   { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
@@ -22,6 +30,9 @@ const blocks = [
 
 const MainPage = () => {
   const [search, setSearch] = useState<string>('')
+  const [isNews, setIsNews] = useState<boolean>(false)
+  const [isObject, setIsObject] = useState<boolean>(false)
+  const [isRoute, setIsRoute] = useState<boolean>(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
@@ -86,24 +97,79 @@ const MainPage = () => {
           ) : (
             <div>
               <div className={styles.footerButtonContainer}>
-                <button className={styles.footerButton}>
+                <button
+                  className={styles.footerButton}
+                  onClick={() => {
+                    setIsNews(false)
+                    setIsRoute(false)
+                    setIsObject(!isObject)
+                  }}
+                >
                   Объекты ({searchData.landmarks.length})
                 </button>
-                <button className={styles.footerButton}>Новости ({searchData.news.length})</button>
-                <button className={styles.footerButton}>
+                <button
+                  className={styles.footerButton}
+                  onClick={() => {
+                    setIsNews(!isNews)
+                    setIsRoute(false)
+                    setIsObject(false)
+                  }}
+                >
+                  Новости ({searchData.news.length})
+                </button>
+                <button
+                  className={styles.footerButton}
+                  onClick={() => {
+                    setIsNews(false)
+                    setIsRoute(!isRoute)
+                    setIsObject(false)
+                  }}
+                >
                   Маршруты ({searchData.routes.length})
                 </button>
               </div>
-              <div className={styles.tableStyle}>
-                <TableComponentWithoutPagination
-                  objects={searchData.landmarks}
-                  news={searchData.news}
-                  routes={searchData.routes}
-                  headCells={headCellsObj}
-                  onDeleteObject={onDeleteElement}
-                  onChangeObject={onChangeElement}
-                />
-              </div>
+              {isRoute && (
+                <div className={styles.tableStyle}>
+                  <TableComponentWithoutPagination
+                    routes={searchData.routes}
+                    headCells={headCellsObj}
+                    onDeleteObject={onDeleteElement}
+                    onChangeObject={onChangeElement}
+                  />
+                </div>
+              )}
+              {isNews && (
+                <div className={styles.tableStyle}>
+                  <TableComponentWithoutPagination
+                    news={searchData.news}
+                    headCells={headCellsNews}
+                    onDeleteObject={onDeleteElement}
+                    onChangeObject={onChangeElement}
+                  />
+                </div>
+              )}
+              {isObject && (
+                <div className={styles.tableStyle}>
+                  <TableComponentWithoutPagination
+                    objects={searchData.landmarks}
+                    headCells={headCellsObj}
+                    onDeleteObject={onDeleteElement}
+                    onChangeObject={onChangeElement}
+                  />
+                </div>
+              )}
+              {/* для каждой из колонок надо создать свое удаление и редактирование */}
+
+              {/* <div className={styles.tableStyle}> */}
+              {/*   <TableComponentWithoutPagination */}
+              {/*     objects={searchData.landmarks} */}
+              {/*     news={searchData.news} */}
+              {/*     routes={searchData.routes} */}
+              {/*     headCells={headCellsObj} */}
+              {/*     onDeleteObject={onDeleteElement} */}
+              {/*     onChangeObject={onChangeElement} */}
+              {/*   /> */}
+              {/* </div> */}
             </div>
           )}
         </div>
