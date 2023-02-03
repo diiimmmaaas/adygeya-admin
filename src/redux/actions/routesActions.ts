@@ -24,3 +24,19 @@ export const getRoutes = createAsyncThunk(
     }
   },
 )
+
+export const addAudioForRoutes = createAsyncThunk(
+  'routes/addAudioForRoutes',
+  async ({ formData, token }: { formData: any; token: string }, thunkAPI) => {
+    try {
+      const response = await instance.post('audio', formData, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return response.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)

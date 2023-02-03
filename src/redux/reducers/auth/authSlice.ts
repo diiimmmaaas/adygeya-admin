@@ -30,7 +30,7 @@ export const authSlice = createSlice({
       state.error = ''
       state.token = ''
       nookies.destroy(null, 'authToken')
-      nookies.destroy(null, 'useRole')
+      nookies.destroy(null, 'userRole')
     },
   },
   extraReducers: (builder) => {

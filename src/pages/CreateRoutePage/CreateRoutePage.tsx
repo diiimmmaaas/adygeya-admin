@@ -1,29 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './CreateRoutePage.module.css'
 import main from '../../style/common.module.css'
-import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
-import SubmitButton from '../../components/SubmitButton/SubmitButton'
-import Waypoints from '../../components/Waypoints/Waypoints'
+import RoutePageMainContainer from '../../components/RoutePageMainContainer/RoutePageMainContainer'
+
+export type WaypointType = {
+  name: string
+  icon: string
+  description: string
+  location: {
+    longitude: number | string
+    latitude: number | string
+    address: string
+  }
+  audioId: number
+}
+
+export type CheckedRouteParametersType = {
+  name: string
+  description: string
+  waypoints: WaypointType[]
+}
 
 const CreateRoutePage = () => {
+  const [error, setError] = useState(false)
+  const [correct, setCorrect] = useState(false)
+
+  const onSubmitFormHandler = async (checkedRouteParameters: CheckedRouteParametersType) => {
+    console.log(checkedRouteParameters)
+  }
+
   return (
     <div className={styles.routes}>
-      <div className={main.container}>
-        <h1 className={main.title}>Создать маршрут</h1>
-        <div className={styles.content}>
-          <CustomNameInput
-            name='Название маршрута'
-            placeholder='Введите название маршрута'
-            type='text'
-          />
-          <div className={styles.uploadMediaContainer}>
-            <h2 className={styles.uploadMediaTitle}>Загрузить медиа файлы</h2>
-            {/* <UploadHighlightComponent /> */}
+      <div className={styles.errorBlock}>
+        {correct && <div className={styles.correctText}>Маршрут был успешно добавлен</div>}
+        {error && (
+          <div className={styles.errorText}>
+            Произошла ошибка при создании маршрута, попробуйте еще раз...
           </div>
-          <Waypoints />
-        </div>
-        <SubmitButton name='Сохранить' />
+        )}
       </div>
+      <h1 className={main.title}>Создать маршрут</h1>
+      <RoutePageMainContainer onSubmitForm={onSubmitFormHandler} />
     </div>
   )
 }

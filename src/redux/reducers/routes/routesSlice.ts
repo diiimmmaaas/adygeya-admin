@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { ObjectResponseMetaType, RoutesResponseDataType } from '../../types/types'
-import { getRoutes } from '../../actions/routesActions'
+import { addAudioForRoutes, getRoutes } from '../../actions/routesActions'
 
 export interface IRoutes {
   routes: RoutesResponseDataType[]
   meta: ObjectResponseMetaType
+  audioArray: number[]
   id: number | null
   isLoading: boolean
   isLoadingAudio: boolean
@@ -22,6 +23,7 @@ const initialState: IRoutes = {
     pageCount: 5,
     take: 5,
   },
+  audioArray: [],
   id: null,
   isLoading: false,
   isLoadingAudio: false,
@@ -49,6 +51,18 @@ export const routesSlice = createSlice({
       state.error = ''
     })
     builder.addCase(getRoutes.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(addAudioForRoutes.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(addAudioForRoutes.fulfilled, (state, action) => {
+      state.audioArray = [...state.audioArray, action.payload]
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(addAudioForRoutes.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })
