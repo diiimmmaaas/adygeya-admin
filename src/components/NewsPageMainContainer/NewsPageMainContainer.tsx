@@ -226,7 +226,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
               images={currentNews?.images}
               handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
             />
-            <h1 className={main.title}>Добавить медиа для хайлайт событий</h1>
+            <h1 className={main.title}>Медиа для хайлайт событий</h1>
             <UploadHighlightComponent
               setPhotosFiles={setPhotoHighlightFiles}
               images={currentNews?.stories?.images}

@@ -65,7 +65,7 @@ const CreateObjectPage = () => {
     setActiveModal(false)
     setCorrect(true)
     const timer = setTimeout(() => {
-      setCorrect(true)
+      setCorrect(false)
     }, 4000)
     return () => clearTimeout(timer)
   }

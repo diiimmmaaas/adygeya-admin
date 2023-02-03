@@ -78,7 +78,7 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
 
   return (
     <div className={styles.uploadAudioContainer}>
-      {currentObject?.audio?.audio ? (
+      {audios?.audio ? (
         <div>
           <h4 className={styles.uploadAudioText}>Аудио</h4>
           <div className={styles.uploadAudioBoard}>

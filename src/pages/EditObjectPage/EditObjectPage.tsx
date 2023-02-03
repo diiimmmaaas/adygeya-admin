@@ -98,6 +98,11 @@ const EditObjectPage = () => {
       }
     }
     await dispatch(getCurrentObject({ id: state, token }))
+    setCorrect(true)
+    const timer = setTimeout(() => {
+      setCorrect(false)
+    }, 4000)
+    return () => clearTimeout(timer)
   }
 
   useEffect(() => {

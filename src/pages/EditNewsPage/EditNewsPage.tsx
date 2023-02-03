@@ -73,6 +73,11 @@ const EditNewsPage = () => {
       }
     }
     await dispatch(getCurrentNews({ id: state, token }))
+    setCorrect(true)
+    const timer = setTimeout(() => {
+      setCorrect(false)
+    }, 4000)
+    return () => clearTimeout(timer)
   }
 
   useEffect(() => {
