@@ -50,8 +50,6 @@ const Navbar = () => {
                     navigate(btn.path)
                     setActiveBtn(btn.path)
                     if (btn.path === PATH.auth) {
-                      // eslint-disable-next-line no-debugger
-                      debugger
                       await dispatch(logout())
                     }
                   }
