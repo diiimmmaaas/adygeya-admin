@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 import Loading from '../../components/Loading/Loading'
 import TableComponent from '../../components/TableComponent/TableComponent'
-import { headCellsRoute } from '../RoutePage/RoutePage'
-import { getRoutes } from '../../redux/actions/routesActions'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { deleteUser, getUsers } from '../../redux/actions/usersActions'
+import { changeUserRole, deleteUser, getUsers } from '../../redux/actions/usersActions'
+import PopupForCreateMedia from '../../components/PopupForCreateMedia/PopupForCreateMedia'
+import CustomSelect from '../../components/CustomSelect/CustomSelect'
+import { options } from '../CreateUsersPage/CreateUsersPage'
 
 export const headCellsUsers = ['№', 'Название', 'Идентификатор', 'Роли', 'Управление']
 
@@ -18,6 +19,9 @@ const UsersPage = () => {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [currentSize, setCurrentSize] = useState<number>(5)
+  const [activeModal, setActiveModal] = useState(false)
+  const [roles, setRoles] = useState<string[]>(['copywriter'])
+  const [userChangedId, setUserChangedId] = useState<number | null>(null)
 
   const { token } = useAppSelector((state) => state.auth)
   const {
@@ -34,9 +38,20 @@ const UsersPage = () => {
     navigate(PATH.createUsersPage)
   }
 
-  const onDeleteRoute = async (userId: number) => {
+  const onDeleteUser = async (userId: number) => {
     await dispatch(deleteUser({ id: userId, token }))
     await dispatch(getUsers({ page: currentPage, size: currentSize, search, token }))
+  }
+
+  const onChangeUserRole = (userId: number) => {
+    setUserChangedId(userId)
+    setActiveModal(true)
+  }
+
+  const onSubmitPopup = async () => {
+    await dispatch(changeUserRole({ id: userChangedId, roles: roles, token }))
+    setActiveModal(false)
+    setUserChangedId(null)
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -53,12 +68,37 @@ const UsersPage = () => {
     if (pageCount < page) {
       setCurrentPage(0)
     }
-  }, [currentPage, currentSize, search])
+  }, [currentPage, currentSize, search, userChangedId])
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <div className={styles.usersPageContainer}>
+      <PopupForCreateMedia
+        onSubmitHandler={onSubmitPopup}
+        isPopupActive={activeModal}
+        popupTitle='Редактирование пользователя'
+        onCloseHandler={() => setActiveModal(false)}
+      >
+        <div className={styles.selectBlock}>
+          <h4 className={styles.objectNameTitle}>Выберите роль пользователя</h4>
+          <CustomSelect
+            value={roles[0]}
+            defaultValue='copywriter'
+            options={options}
+            callbackHandler={(newValue) => {
+              setRoles([newValue.value])
+            }}
+          />
+        </div>
+      </PopupForCreateMedia>
       <div className={main.container}>
         <h1 className={main.title}>Список пользователей</h1>
+        {error && (
+          <div className={styles.errorText}>Упс... что-то пошло не так, попробуйте еще раз...</div>
+        )}
         <div className={styles.createUserBtnContainer}>
           <SearchFunctionalityComponent search={search} setSearch={setSearch} />
           <CustomButton name='Создать пользователя' onClick={onRedirectToCreateUser} />
@@ -68,10 +108,8 @@ const UsersPage = () => {
         ) : (
           <TableComponent
             users={users}
-            onDeleteObject={onDeleteRoute}
-            onChangeObject={() => {
-              console.log('')
-            }}
+            onDeleteObject={onDeleteUser}
+            onChangeObject={onChangeUserRole}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}

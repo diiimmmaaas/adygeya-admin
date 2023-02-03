@@ -18,6 +18,15 @@
     width: 100%;
     margin-bottom: 16px;
 }
+.errorText {
+    color: red;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    margin-top: 24px;
+}
 
 .createUserBtnContainer {
     display: flex;
@@ -27,3 +36,20 @@
     margin-bottom: 16px;
     gap: 8px;
 }
+
+.objectNameTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}
+
+.selectBlock {
+    margin-bottom: 64px;
+    width: 100%;
+}
+
+

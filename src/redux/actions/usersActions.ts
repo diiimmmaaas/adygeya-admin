@@ -65,3 +65,23 @@ export const deleteUser = createAsyncThunk(
     }
   },
 )
+
+export const changeUserRole = createAsyncThunk(
+  'user/changeUserRole',
+  async ({ id, roles, token }: { id: number | null; roles: string[]; token: string }, thunkAPI) => {
+    try {
+      const res = await instance.put(
+        `users/${id}/roles`,
+        { roles },
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      )
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)

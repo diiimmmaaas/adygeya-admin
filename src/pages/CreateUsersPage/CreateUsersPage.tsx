@@ -6,7 +6,6 @@ import SubmitButton from '../../components/SubmitButton/SubmitButton'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { postUser } from '../../redux/actions/usersActions'
-import { loginUser } from '../../redux/actions/authActions'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 
@@ -16,9 +15,10 @@ export type CreateUserType = {
   roles: string[]
 }
 
-const options = [
+export const options = [
   { label: 'admin', value: 'admin' },
   { label: 'copywriter', value: 'copywriter' },
+  { label: 'publish', value: 'publish' },
 ]
 
 const CreateUsersPage = () => {

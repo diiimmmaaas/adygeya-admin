@@ -11,17 +11,9 @@ import {
   postObject,
 } from '../../actions/objectsActions'
 import {
-  AudioType,
-  CategoryType,
-  ContactType,
-  FilterType,
-  GetCurrentNewsType,
   GetCurrentObjectType,
-  ImagesType,
-  LocationType,
   ObjectResponseDataType,
   ObjectResponseMetaType,
-  ScheduleType,
 } from '../../types/types'
 
 export interface IObjects {
@@ -32,7 +24,7 @@ export interface IObjects {
   isLoading: boolean
   isLoadingAudio: boolean
   isLoadingPhoto: boolean
-  error: unknown | string
+  error: any
 }
 
 const initialState: IObjects = {
@@ -93,7 +85,6 @@ export const objectsSlice = createSlice({
       state.meta.itemCount = action.payload.meta.itemCount
       state.meta.take = action.payload.meta.take
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(getObjects.rejected, (state, action) => {
       state.isLoading = false
@@ -118,7 +109,6 @@ export const objectsSlice = createSlice({
       state.currentObject.filters = action.payload.filters
 
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(getCurrentObject.rejected, (state, action) => {
       state.isLoading = false
@@ -130,7 +120,6 @@ export const objectsSlice = createSlice({
     builder.addCase(postObject.fulfilled, (state, action) => {
       state.id = action.payload.id
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postObject.rejected, (state, action) => {
       state.isLoading = false
@@ -141,7 +130,6 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(postImageForObject.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postImageForObject.rejected, (state, action) => {
       state.isLoading = false
@@ -152,7 +140,6 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(postAudioForObject.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postAudioForObject.rejected, (state, action) => {
       state.isLoading = false
@@ -163,7 +150,6 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(deleteObject.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(deleteObject.rejected, (state, action) => {
       state.isLoading = false
@@ -174,7 +160,6 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(changeObject.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(changeObject.rejected, (state, action) => {
       state.isLoading = false
@@ -185,7 +170,6 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(deleteImageObject.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(deleteImageObject.rejected, (state, action) => {
       state.isLoading = false
@@ -196,7 +180,6 @@ export const objectsSlice = createSlice({
     })
     builder.addCase(deleteAudioObject.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(deleteAudioObject.rejected, (state, action) => {
       state.isLoading = false

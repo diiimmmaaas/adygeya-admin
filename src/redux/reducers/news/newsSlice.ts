@@ -19,7 +19,7 @@ export interface INews {
   isLoading: boolean
   isLoadingPhoto: boolean
   isLoadingHighlight: boolean
-  error: unknown | string
+  error: any
 }
 
 const initialState: INews = {
@@ -76,7 +76,6 @@ export const newsSlice = createSlice({
       state.meta.itemCount = action.payload.meta.itemCount
       state.meta.take = action.payload.meta.take
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(getNews.rejected, (state, action) => {
       state.isLoading = false
@@ -101,7 +100,6 @@ export const newsSlice = createSlice({
       state.currentNews.stories.content = action.payload.stories.content
       state.currentNews.stories.images = action.payload.stories.images
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(getCurrentNews.rejected, (state, action) => {
       state.isLoading = false
@@ -113,7 +111,6 @@ export const newsSlice = createSlice({
     builder.addCase(postNews.fulfilled, (state, action) => {
       state.id = action.payload.id
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postNews.rejected, (state, action) => {
       state.isLoading = false
@@ -124,7 +121,6 @@ export const newsSlice = createSlice({
     })
     builder.addCase(changeNews.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(changeNews.rejected, (state, action) => {
       state.isLoading = false
@@ -135,7 +131,6 @@ export const newsSlice = createSlice({
     })
     builder.addCase(postImageForNews.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postImageForNews.rejected, (state, action) => {
       state.isLoading = false
@@ -146,7 +141,6 @@ export const newsSlice = createSlice({
     })
     builder.addCase(postHighlightForNews.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postHighlightForNews.rejected, (state, action) => {
       state.isLoading = false
@@ -157,7 +151,6 @@ export const newsSlice = createSlice({
     })
     builder.addCase(deleteNews.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(deleteNews.rejected, (state, action) => {
       state.isLoading = false
@@ -168,7 +161,6 @@ export const newsSlice = createSlice({
     })
     builder.addCase(deleteImageNews.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(deleteImageNews.rejected, (state, action) => {
       state.isLoading = false

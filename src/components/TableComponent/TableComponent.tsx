@@ -238,6 +238,10 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(user.id)
                   }
+
+                  const onChangeUserHandler = () => {
+                    onChangeObject(user.id)
+                  }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell size='small' align='left' sx={{ overflowWrap: 'anywhere' }}>
@@ -255,19 +259,22 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                         })}
                       </TableCell>
                       <TableCell align='left' sx={{ overflowWrap: 'anywhere' }}>
-                        <div className={styles.functionalBtnBlock}>
-                          <img
-                            className={styles.functionalBtn}
-                            src={changeObjIcon}
-                            alt='changeObjIcon'
-                          />
-                          <img
-                            className={styles.functionalBtn}
-                            src={deleteObjIcon}
-                            alt='deleteObjIcon'
-                            onClick={onDeleteObjectHandler}
-                          />
-                        </div>
+                        {!user.roles.includes('admin') && (
+                          <div className={styles.functionalBtnBlock}>
+                            <img
+                              className={styles.functionalBtn}
+                              src={changeObjIcon}
+                              alt='changeObjIcon'
+                              onClick={onChangeUserHandler}
+                            />
+                            <img
+                              className={styles.functionalBtn}
+                              src={deleteObjIcon}
+                              alt='deleteObjIcon'
+                              onClick={onDeleteObjectHandler}
+                            />
+                          </div>
+                        )}
                       </TableCell>
                     </TableRow>
                   )

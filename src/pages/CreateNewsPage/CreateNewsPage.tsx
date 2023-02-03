@@ -29,7 +29,6 @@ const CreateNewsPage = () => {
   const [activeModal, setActiveModal] = useState(false)
 
   const { isLoading, id } = useAppSelector((state) => state.news)
-
   const dispatch = useAppDispatch()
   const { token } = useAppSelector((state) => state.auth)
 

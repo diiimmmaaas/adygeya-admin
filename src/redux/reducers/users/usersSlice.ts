@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUsers, postUser } from '../../actions/usersActions'
+import { changeUserRole, getUsers, postUser } from '../../actions/usersActions'
 import { ObjectResponseMetaType, UsersResponseDataType } from '../../types/types'
 
 export interface IUsers {
   users: UsersResponseDataType[]
   meta: ObjectResponseMetaType
   isLoading: boolean
-  error: unknown | string
+  error: any
 }
 
 const initialState: IUsers = {
@@ -40,7 +40,6 @@ export const usersSlice = createSlice({
       state.meta.itemCount = action.payload.meta.itemCount
       state.meta.take = action.payload.meta.take
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(getUsers.rejected, (state, action) => {
       state.isLoading = false
@@ -51,9 +50,19 @@ export const usersSlice = createSlice({
     })
     builder.addCase(postUser.fulfilled, (state) => {
       state.isLoading = false
-      state.error = ''
     })
     builder.addCase(postUser.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(changeUserRole.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(changeUserRole.fulfilled, (state) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(changeUserRole.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

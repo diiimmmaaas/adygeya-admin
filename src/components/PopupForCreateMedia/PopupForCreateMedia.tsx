@@ -34,7 +34,7 @@ const PopupForCreateMedia: React.FC<PopupPropsType> = ({
         {children}
         <div className={styles.modal__btnGroup}>
           <CustomButton name='Отменить' onClick={onCloseHandler} className={styles.cancelBtn} />
-          <CustomButton name='Добавить' onClick={onSubmitHandler} className={styles.deleteBtn} />
+          <CustomButton name='Сохранить' onClick={onSubmitHandler} className={styles.deleteBtn} />
         </div>
       </div>
     </div>
