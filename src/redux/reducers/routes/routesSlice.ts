@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ObjectResponseMetaType, RoutesResponseDataType } from '../../types/types'
-import { addAudioForRoutes, getRoutes } from '../../actions/routesActions'
+import { AudioArrayType, ObjectResponseMetaType, RoutesResponseDataType } from '../../types/types'
+import {
+  addAudioForRoutes,
+  deleteRoute,
+  getRoutes,
+  postImageForRoute,
+  postRoutes,
+} from '../../actions/routesActions'
 
 export interface IRoutes {
   routes: RoutesResponseDataType[]
   meta: ObjectResponseMetaType
-  audioArray: number[]
+  audioArray: AudioArrayType[]
   id: number | null
   isLoading: boolean
   isLoadingAudio: boolean
@@ -55,14 +61,48 @@ export const routesSlice = createSlice({
       state.error = action.payload
     })
     builder.addCase(addAudioForRoutes.pending, (state) => {
-      state.isLoading = true
+      state.isLoadingAudio = true
     })
     builder.addCase(addAudioForRoutes.fulfilled, (state, action) => {
       state.audioArray = [...state.audioArray, action.payload]
-      state.isLoading = false
+      state.isLoadingAudio = false
       state.error = ''
     })
     builder.addCase(addAudioForRoutes.rejected, (state, action) => {
+      state.isLoadingAudio = false
+      state.error = action.payload
+    })
+    builder.addCase(postRoutes.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(postRoutes.fulfilled, (state, action) => {
+      state.id = action.payload.id
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(postRoutes.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(postImageForRoute.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(postImageForRoute.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(postImageForRoute.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(deleteRoute.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteRoute.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(deleteRoute.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

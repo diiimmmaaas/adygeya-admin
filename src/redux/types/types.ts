@@ -143,3 +143,11 @@ export type GetWaypointType = {
   id: number
   link: string
 }
+
+export type AudioArrayType = {
+  id: number
+  audio: string
+  length: number
+  voiced: string
+  voicedLink: string
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './RoutePageMainContainer.module.css'
 import main from '../../style/common.module.css'
+import exitImg from '../../assets/icons/exit.svg'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
 import UploadDescriptionComponent from '../../components/UploadDescriptionComponent/UploadDescriptionComponent'
 import SubmitButton from '../../components/SubmitButton/SubmitButton'
@@ -12,18 +13,21 @@ import { AudioParametersType } from '../../pages/CreateObjectPage/types'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { addAudioForRoutes } from '../../redux/actions/routesActions'
 import CustomButton from '../CustomButton/CustomButton'
-import waypoints from '../Waypoints/Waypoints'
 import CustomSelect from '../CustomSelect/CustomSelect'
 import { options } from '../ObjectPageMainContainer/ObjectPageMainContainer'
+import UploadPhotoComponent from '../UploadPhotoComponent/UploadPhotoComponent'
+import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
+import InputMask from 'react-input-mask'
+import Loading from '../Loading/Loading'
 
 export type RoutePageMainContainerPropsType = {
   isEditMode?: boolean
   activeModal?: boolean
   setActiveModal?: (activeModal: boolean) => void
-  onSubmitPopup?: (photosNewsFiles: any, photoHighlightFiles: any) => void
+  onSubmitPopup?: (photosNewsFiles: any) => void
   currentRoute?: GetCurrentRouteType
   onSubmitForm: (checkedRouteParameters: CheckedRouteParametersType, photosRouteFiles: any) => void
-  handleDeleteUploadedPhoto?: (imageId: number) => void
+  handleDeleteUploadedPhoto: (imageId: number) => void
 }
 
 const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
@@ -35,15 +39,19 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
   onSubmitForm,
   handleDeleteUploadedPhoto,
 }) => {
-  const [photosNewsFiles, setPhotosNewsFiles] = useState<any>()
+  const [activePopupAudio, setActivePopupAudio] = useState<boolean>(false)
+  const [photosRouteFiles, setPhotosRouteFiles] = useState<any>()
+  const [audioRouteFiles, setAudioRouteFiles] = useState<any>()
   const [audioParameters, setAudioParameters] = useState<AudioParametersType>({
     voiced: '',
     voicedLink: '',
   })
 
-  const [checkedRouteParameters, setCheckedRouteParameters] = useState<CheckedRouteParametersType>({
+  // eslint-disable-next-line prefer-const
+  let [checkedRouteParameters, setCheckedRouteParameters] = useState<CheckedRouteParametersType>({
     name: '',
     description: '',
+    publishAt: '',
     waypoints: [
       {
         name: '',
@@ -59,7 +67,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
     ],
   })
 
-  const { audioArray } = useAppSelector((state) => state.routes)
+  const { audioArray, isLoadingAudio } = useAppSelector((state) => state.routes)
   const { token } = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
 
@@ -92,6 +100,9 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
       ),
     })
   }
+  const onChangeRouteDateSendHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedRouteParameters({ ...checkedRouteParameters, publishAt: e.target.value })
+  }
   const onChangeRouteLatitudeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
     waypointIndex: number | string,
@@ -114,6 +125,19 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
       waypoints: checkedRouteParameters.waypoints.map((way, index) =>
         index === waypointIndex
           ? { ...way, location: { ...way.location, longitude: e.currentTarget.value } }
+          : { ...way },
+      ),
+    })
+  }
+  const onChangeRouteAddressHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    waypointIndex: number | string,
+  ) => {
+    setCheckedRouteParameters({
+      ...checkedRouteParameters,
+      waypoints: checkedRouteParameters.waypoints.map((way, index) =>
+        index === waypointIndex
+          ? { ...way, location: { ...way.location, address: e.currentTarget.value } }
           : { ...way },
       ),
     })
@@ -161,41 +185,55 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
     })
   }
 
-  const onSubmitFormHandler = () => {
-    console.log(checkedRouteParameters)
-    console.log(audioArray)
-    console.log(audioParameters)
-    // onSubmitForm(checkedRouteParameters, photosRouteFiles)
+  const addDeletePointHandler = () => {
+    const newArray = [
+      ...checkedRouteParameters.waypoints.filter(
+        (el, i) => i !== checkedRouteParameters.waypoints.length - 1,
+      ),
+    ]
+
+    setCheckedRouteParameters({
+      ...checkedRouteParameters,
+      waypoints: newArray,
+    })
   }
-  // const onSubmitPopupHandler = () => {
-  //   onSubmitPopup && onSubmitPopup(photosRouteFiles)
-  // }
+
+  const onSubmitFormHandler = async () => {
+    if (audioArray.length > 0) {
+      const newArr = checkedRouteParameters.waypoints.map((w, ind) => {
+        const newId = audioArray[ind]?.id
+        return { ...w, audioId: newId }
+      })
+
+      checkedRouteParameters = { ...checkedRouteParameters, waypoints: newArr }
+      setCheckedRouteParameters(checkedRouteParameters)
+    }
+
+    onSubmitForm(checkedRouteParameters, photosRouteFiles)
+  }
+
+  const onSubmitPopupHandler = () => {
+    onSubmitPopup && onSubmitPopup(photosRouteFiles)
+  }
 
   return (
     <div className={main.container}>
       <div className={styles.content}>
-        {/* {!isEditMode && ( */}
-        {/*   <PopupForCreateMedia */}
-        {/*     popupTitle='Добавить медиа файлы' */}
-        {/*     isPopupActive={activeModal} */}
-        {/*     onCloseHandler={() => setActiveModal && setActiveModal(false)} */}
-        {/*     onSubmitHandler={onSubmitPopupHandler} */}
-        {/*   > */}
-        {/*     <div className={styles.uploadMediaContainer}> */}
-        {/*       <UploadPhotoComponent */}
-        {/*         setPhotosFiles={setPhotosNewsFiles} */}
-        {/*         images={currentNews?.images} */}
-        {/*         handleDeleteUploadedPhoto={handleDeleteUploadedPhoto} */}
-        {/*       /> */}
-        {/*       <h1 className={main.title}>Добавить медиа для хайлайт событий</h1> */}
-        {/*       <UploadHighlightComponent */}
-        {/*         setPhotosFiles={setPhotoHighlightFiles} */}
-        {/*         images={currentNews?.stories?.images} */}
-        {/*         handleDeleteUploadedPhoto={handleDeleteUploadedHighlight} */}
-        {/*       /> */}
-        {/*     </div> */}
-        {/*   </PopupForCreateMedia> */}
-        {/* )} */}
+        {!isEditMode && (
+          <PopupForCreateMedia
+            popupTitle='Добавить медиа файлы'
+            isPopupActive={activeModal}
+            onCloseHandler={() => setActiveModal && setActiveModal(false)}
+            onSubmitHandler={onSubmitPopupHandler}
+          >
+            <div className={styles.uploadMediaContainer}>
+              <UploadPhotoComponent
+                setPhotosFiles={setPhotosRouteFiles}
+                handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+              />
+            </div>
+          </PopupForCreateMedia>
+        )}
         <CustomNameInput
           value={checkedRouteParameters.name}
           name='Название маршрута'
@@ -209,12 +247,23 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
           title='Описание маршрута'
           callbackHandler={onChangeRouteDescriptionHandler}
         />
+        <div className={styles.dateBlock}>
+          <h4 className={styles.dateText}>Дата публикации</h4>
+          <InputMask
+            value={checkedRouteParameters?.publishAt}
+            mask='99-99-9999'
+            placeholder='Введите дату публикации новости'
+            type='text'
+            className={styles.input}
+            onChange={onChangeRouteDateSendHandler}
+          />
+        </div>
         <h1 className={main.title}>Точки маршрута</h1>
         <div className={styles.wayPointsBlock}>
           {checkedRouteParameters.waypoints.map((waypoint, index) => {
-            const onAddAudioFile = async (audioFiles: any) => {
-              if (audioFiles) {
-                for (const audio of audioFiles) {
+            const onAddAudioFile = async () => {
+              if (audioRouteFiles) {
+                for (const audio of audioRouteFiles) {
                   const formData = new FormData()
                   formData.append('audio', audio)
                   formData.append('voiced', audioParameters.voiced)
@@ -227,17 +276,64 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                   )
                 }
               }
+              setActivePopupAudio(false)
             }
 
             return (
               <div key={index} className={styles.wayPointBlock}>
+                <PopupForCreateMedia
+                  isPopupActive={activePopupAudio}
+                  popupTitle='Добавить аудио'
+                  onCloseHandler={() => setActivePopupAudio(false)}
+                  onSubmitHandler={onAddAudioFile}
+                >
+                  {isLoadingAudio ? (
+                    <Loading />
+                  ) : (
+                    <>
+                      <UploadAudioComponent
+                        setAudioFiles={setAudioRouteFiles}
+                        handleDeleteUploadedAudio={() => {
+                          console.log('переделать')
+                        }}
+                      />
+                      <CustomNameInput
+                        value={audioParameters.voiced}
+                        name='Исполнитель'
+                        placeholder='Введите имя исполнителя'
+                        type='text'
+                        callbackHandler={onChangeNameOfArtistHandler}
+                      />
+                      <CustomNameInput
+                        value={audioParameters.voicedLink}
+                        name='Ссылка на аккаунт исполнителя'
+                        placeholder='Введите ссылку'
+                        type='text'
+                        callbackHandler={onChangeArtistLinkHandler}
+                      />
+                    </>
+                  )}
+                </PopupForCreateMedia>
                 <h4 className={styles.waypointNameTitle}>Точка {index + 1}</h4>
+                <img
+                  onClick={addDeletePointHandler}
+                  className={styles.exitImg}
+                  src={exitImg}
+                  alt='exitImg'
+                />
                 <CustomNameInput
                   value={waypoint.name}
                   name='Название точки маршрута'
                   placeholder='Введите название точки маршрута'
                   type='text'
                   callbackHandler={(e) => onChangeWaypointNameHandler(e, index)}
+                />
+                <CustomNameInput
+                  value={waypoint.location.address}
+                  name='Адрес точки маршрута'
+                  placeholder='Введите адрес точки маршрута'
+                  type='text'
+                  callbackHandler={(e) => onChangeRouteAddressHandler(e, index)}
                 />
                 <UploadDescriptionComponent
                   value={waypoint.description}
@@ -266,26 +362,9 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                   callbackFirstHandler={(e) => onChangeRouteLatitudeHandler(e, index)}
                   callbackSecondHandler={(e) => onChangeRouteLongitudeHandler(e, index)}
                 />
-                <UploadAudioComponent
-                  setAudioFiles={onAddAudioFile}
-                  handleDeleteUploadedAudio={() => {
-                    console.log('переделать')
-                  }}
-                />
-                <CustomNameInput
-                  value={audioParameters.voiced}
-                  name='Исполнитель'
-                  placeholder='Введите имя исполнителя'
-                  type='text'
-                  callbackHandler={onChangeNameOfArtistHandler}
-                />
-                <CustomNameInput
-                  value={audioParameters.voicedLink}
-                  name='Ссылка на аккаунт исполнителя'
-                  placeholder='Введите ссылку'
-                  type='text'
-                  callbackHandler={onChangeArtistLinkHandler}
-                />
+                <div className={styles.attachAudio} onClick={() => setActivePopupAudio(true)}>
+                  Прикрепить аудио
+                </div>
                 <div className={styles.strip}></div>
               </div>
             )

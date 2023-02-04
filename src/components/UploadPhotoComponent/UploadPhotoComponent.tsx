@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import styles from './UploadPhotoComponent.module.css'
 import exit from '../../assets/icons/exit.svg'
 import { FileType } from '../../pages/CreateObjectPage/types'
-import { GetCurrentNewsType, ImagesType } from '../../redux/types/types'
+import { ImagesType } from '../../redux/types/types'
 
 type UploadPhotoComponentPropsType = {
   images?: ImagesType[]
