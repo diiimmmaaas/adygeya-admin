@@ -6,6 +6,7 @@ import {
   getRoutes,
   postImageForRoute,
   postRoutes,
+  publishRoute,
 } from '../../actions/routesActions'
 
 export interface IRoutes {
@@ -103,6 +104,17 @@ export const routesSlice = createSlice({
       state.error = ''
     })
     builder.addCase(deleteRoute.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(publishRoute.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(publishRoute.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(publishRoute.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

@@ -135,12 +135,14 @@ const EditObjectPage = () => {
         isPopupActive={activeImageModal}
         onCloseHandler={() => setActiveImageModal(false)}
         onSubmitHandler={onSubmitPhotoPopupHandler}
+        submitBtnTitle='Удалить'
       />
       <PopupWithButtons
         popupTitle='Данное аудио находится на удаленном сервере. Вы точно хотите его удалить?'
         isPopupActive={activeAudioModal}
         onCloseHandler={() => setActiveAudioModal(false)}
         onSubmitHandler={onSubmitAudioPopupHandler}
+        submitBtnTitle='Удалить'
       />
     </div>
   )

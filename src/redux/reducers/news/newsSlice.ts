@@ -8,6 +8,7 @@ import {
   postHighlightForNews,
   postImageForNews,
   postNews,
+  publishNews,
 } from '../../actions/newsActions'
 import { GetCurrentNewsType, NewsResponseDataType, ObjectResponseMetaType } from '../../types/types'
 
@@ -163,6 +164,16 @@ export const newsSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(deleteImageNews.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(publishNews.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(publishNews.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    builder.addCase(publishNews.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { deleteObject, getObjects } from '../../redux/actions/objectsActions'
+import { deleteObject, getObjects, publishObject } from '../../redux/actions/objectsActions'
 import Loading from '../../components/Loading/Loading'
 import TableComponent from '../../components/TableComponent/TableComponent'
-import { deleteNews, getNews } from '../../redux/actions/newsActions'
+import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 
@@ -17,6 +17,9 @@ const ObjectPage = () => {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [currentSize, setCurrentSize] = useState<number>(5)
+  const [activePublishModal, setActivePublishModal] = useState(false)
+  const [activeDeleteModal, setActiveDeleteModal] = useState(false)
+  const [activeObjectId, setActiveObjectId] = useState<number | null>(null)
 
   const { token } = useAppSelector((state) => state.auth)
   const {
@@ -34,8 +37,25 @@ const ObjectPage = () => {
   }
 
   const onDeleteObject = async (objectId: number) => {
-    await dispatch(deleteObject({ id: objectId, token }))
+    setActiveObjectId(objectId)
+    setActiveDeleteModal(true)
+  }
+
+  const onPublishObject = (objectId: number) => {
+    setActiveObjectId(objectId)
+    setActivePublishModal(true)
+  }
+
+  const onSubmitDelete = async () => {
+    await dispatch(deleteObject({ id: activeObjectId, token }))
     await dispatch(getObjects({ page: currentPage, size: currentSize, search, token }))
+    setActiveDeleteModal(false)
+  }
+
+  const onSubmitPublish = async () => {
+    await dispatch(publishObject({ objectId: activeObjectId, token }))
+    await dispatch(getObjects({ page: currentPage, size: currentSize, search, token }))
+    setActivePublishModal(false)
   }
 
   const onChangeObject = (objectId: number) => {
@@ -73,6 +93,7 @@ const ObjectPage = () => {
             objects={objects}
             onDeleteObject={onDeleteObject}
             onChangeObject={onChangeObject}
+            onPublish={onPublishObject}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}
@@ -82,6 +103,20 @@ const ObjectPage = () => {
           />
         )}
       </div>
+      <PopupWithButtons
+        popupTitle='Публикация или снятие с публикации объекта будет осуществлено в течении часа. Продолжить?'
+        isPopupActive={activePublishModal}
+        onCloseHandler={() => setActivePublishModal(false)}
+        onSubmitHandler={onSubmitPublish}
+        submitBtnTitle='Продолжить'
+      />
+      <PopupWithButtons
+        popupTitle='Вы собираетесь удалить объект. Продолжить?'
+        isPopupActive={activeDeleteModal}
+        onCloseHandler={() => setActiveDeleteModal(false)}
+        onSubmitHandler={onSubmitDelete}
+        submitBtnTitle='Удалить'
+      />
     </div>
   )
 }

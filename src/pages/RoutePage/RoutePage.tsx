@@ -8,8 +8,9 @@ import SearchFunctionalityComponent from '../../components/SearchFunctionalityCo
 import Loading from '../../components/Loading/Loading'
 import TableComponent from '../../components/TableComponent/TableComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { deleteRoute, getRoutes } from '../../redux/actions/routesActions'
-import { deleteObject, getObjects } from '../../redux/actions/objectsActions'
+import { deleteRoute, getRoutes, publishRoute } from '../../redux/actions/routesActions'
+import { deleteObject, getObjects, publishObject } from '../../redux/actions/objectsActions'
+import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
 
 export const headCellsRoute = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 
@@ -17,6 +18,9 @@ const RoutePage = () => {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [currentSize, setCurrentSize] = useState<number>(5)
+  const [activePublishModal, setActivePublishModal] = useState(false)
+  const [activeDeleteModal, setActiveDeleteModal] = useState(false)
+  const [activeObjectId, setActiveObjectId] = useState<number | null>(null)
 
   const { token } = useAppSelector((state) => state.auth)
   const {
@@ -34,8 +38,25 @@ const RoutePage = () => {
   }
 
   const onDeleteRoute = async (routeId: number) => {
-    await dispatch(deleteRoute({ id: routeId, token }))
+    setActiveObjectId(routeId)
+    setActiveDeleteModal(true)
+  }
+
+  const onSubmitDelete = async () => {
+    await dispatch(deleteRoute({ id: activeObjectId, token }))
     await dispatch(getRoutes({ page: currentPage, size: currentSize, search, token }))
+    setActiveDeleteModal(false)
+  }
+
+  const onPublishObject = (objectId: number) => {
+    setActiveObjectId(objectId)
+    setActivePublishModal(true)
+  }
+
+  const onSubmitPublish = async () => {
+    await dispatch(publishRoute({ objectId: activeObjectId, token }))
+    await dispatch(getRoutes({ page: currentPage, size: currentSize, search, token }))
+    setActivePublishModal(false)
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -80,6 +101,20 @@ const RoutePage = () => {
           />
         )}
       </div>
+      <PopupWithButtons
+        popupTitle='Публикация или снятие с публикации маршрута будет осуществлено в течении часа. Продолжить?'
+        isPopupActive={activePublishModal}
+        onCloseHandler={() => setActivePublishModal(false)}
+        onSubmitHandler={onSubmitPublish}
+        submitBtnTitle='Продолжить'
+      />
+      <PopupWithButtons
+        popupTitle='Вы собираетесь удалить маршрут. Продолжить?'
+        isPopupActive={activeDeleteModal}
+        onCloseHandler={() => setActiveDeleteModal(false)}
+        onSubmitHandler={onSubmitDelete}
+        submitBtnTitle='Удалить'
+      />
     </div>
   )
 }

@@ -9,6 +9,7 @@ type PopupPropsType = {
   children?: React.ReactNode
   onCloseHandler: () => void
   onSubmitHandler?: () => void
+  submitBtnTitle: string
 }
 
 const PopupWithButtons: React.FC<PopupPropsType> = ({
@@ -17,6 +18,7 @@ const PopupWithButtons: React.FC<PopupPropsType> = ({
   isPopupActive,
   onCloseHandler,
   onSubmitHandler,
+  submitBtnTitle,
 }) => {
   return (
     <div
@@ -34,7 +36,11 @@ const PopupWithButtons: React.FC<PopupPropsType> = ({
         {children}
         <div className={styles.modal__btnGroup}>
           <CustomButton name='Отменить' onClick={onCloseHandler} className={styles.cancelBtn} />
-          <CustomButton name='Удалить' onClick={onSubmitHandler} className={styles.deleteBtn} />
+          <CustomButton
+            name={submitBtnTitle}
+            onClick={onSubmitHandler}
+            className={styles.deleteBtn}
+          />
         </div>
       </div>
     </div>

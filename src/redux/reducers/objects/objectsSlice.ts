@@ -9,6 +9,7 @@ import {
   postAudioForObject,
   postImageForObject,
   postObject,
+  publishObject,
 } from '../../actions/objectsActions'
 import {
   GetCurrentObjectType,
@@ -182,6 +183,16 @@ export const objectsSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(deleteAudioObject.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(publishObject.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(publishObject.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    builder.addCase(publishObject.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

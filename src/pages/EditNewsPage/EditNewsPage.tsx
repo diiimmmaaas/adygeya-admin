@@ -111,6 +111,7 @@ const EditNewsPage = () => {
         isPopupActive={activeModal}
         onCloseHandler={() => setActiveModal(false)}
         onSubmitHandler={onSubmitPopupHandler}
+        submitBtnTitle='Удалить'
       />
     </div>
   )

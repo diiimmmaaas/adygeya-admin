@@ -147,7 +147,7 @@ export const postHighlightForNews = createAsyncThunk(
 
 export const deleteNews = createAsyncThunk(
   'news/deleteNews',
-  async ({ id, token }: { id: number; token: string }, thunkAPI) => {
+  async ({ id, token }: { id: number | null; token: string }, thunkAPI) => {
     try {
       const res = await instance.delete(`news/${id}`, {
         headers: { authorization: `Bearer ${token}` },
@@ -189,6 +189,26 @@ export const deleteImageNews = createAsyncThunk(
       })
 
       return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const publishNews = createAsyncThunk(
+  'news/publishNews',
+  async ({ objectId, token }: { objectId: number | null; token: string }, thunkAPI) => {
+    try {
+      const response = await instance.post(
+        `news/${objectId}/publish`,
+        {},
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      )
+
+      return response.data
     } catch (error) {
       console.log('error', error)
       return thunkAPI.rejectWithValue(handleAppRequestError(error))

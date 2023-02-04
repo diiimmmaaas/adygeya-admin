@@ -13,6 +13,8 @@ import {
 } from '@mui/material'
 import changeObjIcon from '../../assets/icons/change.svg'
 import deleteObjIcon from '../../assets/icons/delete.svg'
+import publishIcon from '../../assets/icons/publish.svg'
+import unpublishIcon from '../../assets/icons/unpublish.svg'
 import { visuallyHidden } from '@mui/utils'
 import {
   NewsResponseDataType,
@@ -21,6 +23,8 @@ import {
   UsersResponseDataType,
 } from '../../redux/types/types'
 import styles from './TableComponent.module.css'
+import { useAppSelector } from '../../redux/utils/redux-utils'
+import PopupWithButtons from '../PopupWithButtons/PopupWithButtons'
 
 type Order = 'asc' | 'desc'
 
@@ -78,6 +82,7 @@ type TableComponentPropsType = {
   headCells: string[]
   onDeleteObject: (objectId: number) => void
   onChangeObject: (objectId: number) => void
+  onPublish?: (objectId: number) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -93,9 +98,12 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
   headCells,
   onDeleteObject,
   onChangeObject,
+  onPublish,
   handleChangeRowsPerPage,
   handleChangePage,
 }) => {
+  const { userRoles } = useAppSelector((state) => state.auth)
+
   return (
     <Box sx={{ width: '100%', marginBottom: 32 }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -118,6 +126,9 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                   }
                   const onChangeObjectHandler = () => {
                     onChangeObject(object.id)
+                  }
+                  const onPublishHandler = () => {
+                    onPublish && onPublish(object.id)
                   }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
@@ -147,6 +158,25 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                             alt='deleteObjIcon'
                             onClick={onDeleteObjectHandler}
                           />
+                          {(userRoles.includes('admin') || userRoles.includes('publish')) && (
+                            <div>
+                              {object.published ? (
+                                <img
+                                  className={styles.functionalBtn}
+                                  src={publishIcon}
+                                  alt='publishIcon'
+                                  onClick={onPublishHandler}
+                                />
+                              ) : (
+                                <img
+                                  className={styles.functionalBtn}
+                                  src={unpublishIcon}
+                                  alt='unpublishIcon'
+                                  onClick={onPublishHandler}
+                                />
+                              )}
+                            </div>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -159,6 +189,9 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                   }
                   const onChangeObjectHandler = () => {
                     onChangeObject(n.id)
+                  }
+                  const onPublishHandler = () => {
+                    onPublish && onPublish(n.id)
                   }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
@@ -191,6 +224,25 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                             alt='deleteObjIcon'
                             onClick={onDeleteObjectHandler}
                           />
+                          {(userRoles.includes('admin') || userRoles.includes('publish')) && (
+                            <div>
+                              {n.published ? (
+                                <img
+                                  className={styles.functionalBtn}
+                                  src={publishIcon}
+                                  alt='publishIcon'
+                                  onClick={onPublishHandler}
+                                />
+                              ) : (
+                                <img
+                                  className={styles.functionalBtn}
+                                  src={unpublishIcon}
+                                  alt='unpublishIcon'
+                                  onClick={onPublishHandler}
+                                />
+                              )}
+                            </div>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -200,6 +252,9 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                 routes.map((route, index) => {
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(route.id)
+                  }
+                  const onPublishHandler = () => {
+                    onPublish && onPublish(route.id)
                   }
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
@@ -228,6 +283,25 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                             alt='deleteObjIcon'
                             onClick={onDeleteObjectHandler}
                           />
+                          {(userRoles.includes('admin') || userRoles.includes('publish')) && (
+                            <div>
+                              {route.published ? (
+                                <img
+                                  className={styles.functionalBtn}
+                                  src={publishIcon}
+                                  alt='publishIcon'
+                                  onClick={onPublishHandler}
+                                />
+                              ) : (
+                                <img
+                                  className={styles.functionalBtn}
+                                  src={unpublishIcon}
+                                  alt='unpublishIcon'
+                                  onClick={onPublishHandler}
+                                />
+                              )}
+                            </div>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>

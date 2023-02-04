@@ -116,7 +116,7 @@ export const postImageForRoute = createAsyncThunk(
 
 export const deleteRoute = createAsyncThunk(
   'route/deleteRoute',
-  async ({ id, token }: { id: number; token: string }, thunkAPI) => {
+  async ({ id, token }: { id: number | null; token: string }, thunkAPI) => {
     try {
       const res = await instance.delete(`routes/${id}`, {
         headers: { authorization: `Bearer ${token}` },
@@ -124,6 +124,26 @@ export const deleteRoute = createAsyncThunk(
 
       return res.data
     } catch (error) {
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const publishRoute = createAsyncThunk(
+  'route/publishRoute',
+  async ({ objectId, token }: { objectId: number | null; token: string }, thunkAPI) => {
+    try {
+      const response = await instance.post(
+        `routes/${objectId}/publish`,
+        {},
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+      )
+
+      return response.data
+    } catch (error) {
+      console.log('error', error)
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },
