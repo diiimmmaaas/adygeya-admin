@@ -8,7 +8,8 @@ import SearchFunctionalityComponent from '../../components/SearchFunctionalityCo
 import Loading from '../../components/Loading/Loading'
 import TableComponent from '../../components/TableComponent/TableComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
-import { getRoutes } from '../../redux/actions/routesActions'
+import { deleteRoute, getRoutes } from '../../redux/actions/routesActions'
+import { deleteObject, getObjects } from '../../redux/actions/objectsActions'
 
 export const headCellsRoute = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 
@@ -32,8 +33,9 @@ const RoutePage = () => {
     navigate(PATH.createRouteCardPage)
   }
 
-  const onDeleteRoute = (routeId: number) => {
-    console.log(routeId)
+  const onDeleteRoute = async (routeId: number) => {
+    await dispatch(deleteRoute({ id: routeId, token }))
+    await dispatch(getRoutes({ page: currentPage, size: currentSize, search, token }))
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {

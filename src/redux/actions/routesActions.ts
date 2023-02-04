@@ -2,6 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
 import { RoutesResponseType } from '../types/types'
+import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
+import { CheckedRouteParametersType } from '../../pages/CreateRoutePage/CreateRoutePage'
+import waypoints from '../../components/Waypoints/Waypoints'
 
 export const getRoutes = createAsyncThunk(
   'routes/getRoutes',
@@ -20,6 +23,107 @@ export const getRoutes = createAsyncThunk(
       return res.data
     } catch (error) {
       console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const addAudioForRoutes = createAsyncThunk(
+  'routes/addAudioForRoutes',
+  async ({ formData, token }: { formData: any; token: string }, thunkAPI) => {
+    try {
+      const response = await instance.post('audio', formData, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return response.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const postRoutes = createAsyncThunk(
+  'routes/postRoutes',
+  async (
+    {
+      checkedRouteParameters,
+      token,
+    }: { checkedRouteParameters: CheckedRouteParametersType; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      let isoPublish = null
+
+      if (checkedRouteParameters?.publishAt) {
+        const publish = checkedRouteParameters?.publishAt.split('-').reverse().join('-')
+        const publishObj = new Date(publish)
+        isoPublish = publishObj.toISOString()
+      } else {
+        isoPublish = null
+      }
+
+      const newArr = checkedRouteParameters.waypoints.map((w, ind) => {
+        return {
+          ...w,
+          location: {
+            ...w.location,
+            latitude: +(w.location.latitude as string),
+            longitude: +(w.location.longitude as string),
+          },
+        }
+      })
+
+      const refactoringParameters = {
+        ...checkedRouteParameters,
+        publishAt: isoPublish,
+        waypoints: newArr,
+      }
+
+      console.log(refactoringParameters)
+
+      const res = await instance.post('routes', refactoringParameters, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const postImageForRoute = createAsyncThunk(
+  'routes/postImageForRoute',
+  async (
+    { formData, id, token }: { formData: any; id: number | null; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const response = await instance.post(`routes/${id}/image`, formData, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return response.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const deleteRoute = createAsyncThunk(
+  'route/deleteRoute',
+  async ({ id, token }: { id: number; token: string }, thunkAPI) => {
+    try {
+      const res = await instance.delete(`routes/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },

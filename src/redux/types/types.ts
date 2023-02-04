@@ -128,3 +128,26 @@ export type FilterType = {
   id: number
   value: string
 }
+
+export type GetCurrentRouteType = {
+  id: number
+  name: string
+  published: boolean
+  publishAt: string
+  images: ImagesType[]
+  waypoints: GetWaypointType[]
+  description: string
+}
+
+export type GetWaypointType = {
+  id: number
+  link: string
+}
+
+export type AudioArrayType = {
+  id: number
+  audio: string
+  length: number
+  voiced: string
+  voicedLink: string
+}
