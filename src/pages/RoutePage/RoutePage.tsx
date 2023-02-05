@@ -59,6 +59,10 @@ const RoutePage = () => {
     setActivePublishModal(false)
   }
 
+  const onChangeRoute = (objectId: number) => {
+    navigate(PATH.editRoutePage, { replace: true, state: objectId })
+  }
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setCurrentPage(newPage)
   }
@@ -89,9 +93,8 @@ const RoutePage = () => {
           <TableComponent
             routes={routes}
             onDeleteObject={onDeleteRoute}
-            onChangeObject={() => {
-              console.log('')
-            }}
+            onPublish={onPublishObject}
+            onChangeObject={onChangeRoute}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             itemCount={itemCount}

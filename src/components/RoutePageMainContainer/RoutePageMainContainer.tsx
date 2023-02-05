@@ -49,22 +49,26 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
 
   // eslint-disable-next-line prefer-const
   let [checkedRouteParameters, setCheckedRouteParameters] = useState<CheckedRouteParametersType>({
-    name: '',
-    description: '',
-    publishAt: '',
-    waypoints: [
-      {
-        name: '',
-        icon: '',
-        description: '',
-        location: {
-          longitude: 0,
-          latitude: 0,
-          address: '',
-        },
-        audioId: 0,
-      },
-    ],
+    name: currentRoute ? currentRoute?.name : '',
+    description: currentRoute ? currentRoute?.description : '',
+    publishAt: currentRoute?.publishAt
+      ? currentRoute?.publishAt.slice(0, 10).split('-').reverse().join('-')
+      : '',
+    waypoints: currentRoute?.waypoints
+      ? [...currentRoute.waypoints]
+      : [
+          {
+            name: '',
+            icon: '',
+            description: '',
+            location: {
+              longitude: 0,
+              latitude: 0,
+              address: '',
+            },
+            audioId: 0,
+          },
+        ],
   })
 
   const { audioArray, isLoadingAudio } = useAppSelector((state) => state.routes)
@@ -258,6 +262,15 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
             onChange={onChangeRouteDateSendHandler}
           />
         </div>
+        {isEditMode && (
+          <div className={styles.uploadMediaContainer}>
+            <UploadPhotoComponent
+              images={currentRoute?.images}
+              setPhotosFiles={setPhotosRouteFiles}
+              handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+            />
+          </div>
+        )}
         <h1 className={main.title}>Точки маршрута</h1>
         <div className={styles.wayPointsBlock}>
           {checkedRouteParameters.waypoints.map((waypoint, index) => {
@@ -290,7 +303,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                   {isLoadingAudio ? (
                     <Loading />
                   ) : (
-                    <>
+                    <div className={styles.imagePopupBlock}>
                       <UploadAudioComponent
                         setAudioFiles={setAudioRouteFiles}
                         handleDeleteUploadedAudio={() => {
@@ -311,7 +324,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                         type='text'
                         callbackHandler={onChangeArtistLinkHandler}
                       />
-                    </>
+                    </div>
                   )}
                 </PopupForCreateMedia>
                 <h4 className={styles.waypointNameTitle}>Точка {index + 1}</h4>
@@ -377,21 +390,6 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
             />
           </div>
         </div>
-        {/* {isEditMode && ( */}
-        {/*   <div className={styles.uploadMediaContainer}> */}
-        {/*     <UploadPhotoComponent */}
-        {/*       setPhotosFiles={setPhotosNewsFiles} */}
-        {/*       images={currentNews?.images} */}
-        {/*       handleDeleteUploadedPhoto={handleDeleteUploadedPhoto} */}
-        {/*     /> */}
-        {/*     <h1 className={main.title}>Медиа для хайлайт событий</h1> */}
-        {/*     <UploadHighlightComponent */}
-        {/*       setPhotosFiles={setPhotoHighlightFiles} */}
-        {/*       images={currentNews?.stories?.images} */}
-        {/*       handleDeleteUploadedPhoto={handleDeleteUploadedHighlight} */}
-        {/*     /> */}
-        {/*   </div> */}
-        {/* )} */}
       </div>
       <SubmitButton name='Сохранить' onClickHandler={onSubmitFormHandler} />
     </div>

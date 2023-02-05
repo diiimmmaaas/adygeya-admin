@@ -253,6 +253,11 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                   const onDeleteObjectHandler = () => {
                     onDeleteObject(route.id)
                   }
+
+                  const onChangeObjectHandler = () => {
+                    onChangeObject(route.id)
+                  }
+
                   const onPublishHandler = () => {
                     onPublish && onPublish(route.id)
                   }
@@ -276,6 +281,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
                             className={styles.functionalBtn}
                             src={changeObjIcon}
                             alt='changeObjIcon'
+                            onClick={onChangeObjectHandler}
                           />
                           <img
                             className={styles.functionalBtn}

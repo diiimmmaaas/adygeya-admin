@@ -1,8 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AudioArrayType, ObjectResponseMetaType, RoutesResponseDataType } from '../../types/types'
+import {
+  AudioArrayType,
+  GetCurrentNewsType,
+  GetCurrentRouteType,
+  GetWaypointType,
+  ImagesType,
+  ObjectResponseMetaType,
+  RoutesResponseDataType,
+} from '../../types/types'
 import {
   addAudioForRoutes,
+  deleteImageRoute,
   deleteRoute,
+  getCurrentRoute,
   getRoutes,
   postImageForRoute,
   postRoutes,
@@ -13,6 +23,7 @@ export interface IRoutes {
   routes: RoutesResponseDataType[]
   meta: ObjectResponseMetaType
   audioArray: AudioArrayType[]
+  currentRoute: GetCurrentRouteType
   id: number | null
   isLoading: boolean
   isLoadingAudio: boolean
@@ -31,6 +42,15 @@ const initialState: IRoutes = {
     take: 5,
   },
   audioArray: [],
+  currentRoute: {
+    id: 0,
+    name: '',
+    published: false,
+    publishAt: '',
+    images: [],
+    waypoints: [],
+    description: '',
+  },
   id: null,
   isLoading: false,
   isLoadingAudio: false,
@@ -58,6 +78,24 @@ export const routesSlice = createSlice({
       state.error = ''
     })
     builder.addCase(getRoutes.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(getCurrentRoute.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getCurrentRoute.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.currentRoute.id = action.payload.id
+      state.currentRoute.name = action.payload.name
+      state.currentRoute.published = action.payload.published
+      state.currentRoute.publishAt = action.payload.publishAt
+      state.currentRoute.images = action.payload.images
+      state.currentRoute.waypoints = action.payload.waypoints
+      state.currentRoute.description = action.payload.description
+      state.error = ''
+    })
+    builder.addCase(getCurrentRoute.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })
@@ -115,6 +153,17 @@ export const routesSlice = createSlice({
       state.error = ''
     })
     builder.addCase(publishRoute.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    })
+    builder.addCase(deleteImageRoute.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteImageRoute.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.error = ''
+    })
+    builder.addCase(deleteImageRoute.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.payload
     })

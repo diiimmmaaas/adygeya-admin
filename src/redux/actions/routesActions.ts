@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
-import { RoutesResponseType } from '../types/types'
+import { GetCurrentNewsType, GetCurrentRouteType, RoutesResponseType } from '../types/types'
 import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
 import { CheckedRouteParametersType } from '../../pages/CreateRoutePage/CreateRoutePage'
 import waypoints from '../../components/Waypoints/Waypoints'
@@ -142,6 +142,41 @@ export const publishRoute = createAsyncThunk(
       )
 
       return response.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const getCurrentRoute = createAsyncThunk(
+  'route/getCurrentRoute',
+  async ({ id, token }: { id: number | undefined; token: string }, thunkAPI) => {
+    try {
+      const res = await instance.get<GetCurrentRouteType>(`routes/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
+    } catch (error) {
+      console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const deleteImageRoute = createAsyncThunk(
+  'route/deleteImageRoute',
+  async (
+    { id, imageId, token }: { id: number; imageId: number | null; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      const res = await instance.delete(`routes/${id}/image/${imageId}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return res.data
     } catch (error) {
       console.log('error', error)
       return thunkAPI.rejectWithValue(handleAppRequestError(error))

@@ -10,6 +10,7 @@ export const PATH = {
   createNotificationsPage: '/create-notifications-page',
   editNewsCardPage: '/edit-news-card-page',
   editObjectCardPage: '/edit-object-card-page',
+  editRoutePage: '/edit-route-page',
   usersPage: '/users-page',
   settingsPage: '/settings-page',
   auth: '/auth',
