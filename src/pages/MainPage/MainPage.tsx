@@ -10,6 +10,7 @@ import TableComponentWithoutPagination from '../../components/TableComponentWith
 import Loading from '../../components/Loading/Loading'
 import { deleteNews } from '../../redux/actions/newsActions'
 import { deleteObject } from '../../redux/actions/objectsActions'
+import { deleteRoute } from '../../redux/actions/routesActions'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 export const headCellsNews = [
@@ -51,12 +52,13 @@ const MainPage = () => {
     await dispatch(postSearch({ query: search, token: token }))
   }
 
-  const onDeleteElement = (elementId: number) => {
-    console.log('del', elementId)
+  const onDeleteElement = async (elementId: number) => {
+    await dispatch(deleteRoute({ id: elementId, token }))
+    await dispatch(postSearch({ query: search, token: token }))
   }
 
   const onChangeElement = (elementId: number) => {
-    console.log('change', elementId)
+    navigate(PATH.editRoutePage, { replace: true, state: elementId })
   }
 
   const onDeleteNews = async (newsId: number) => {
