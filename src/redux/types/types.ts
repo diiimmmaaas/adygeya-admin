@@ -140,6 +140,7 @@ export type GetCurrentRouteType = {
 }
 
 export type GetWaypointType = {
+  id: number
   name: string
   icon: string
   description: string
@@ -149,6 +150,13 @@ export type GetWaypointType = {
     address: string
   }
   audioId: number
+  audio: {
+    id: number
+    audio: string
+    length: number
+    voiced: string
+    voicedLink: string
+  }
 }
 
 export type AudioArrayType = {

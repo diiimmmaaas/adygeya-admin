@@ -6,14 +6,22 @@ import main from '../../style/common.module.css'
 import { useLocation } from 'react-router-dom'
 import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
 import RoutePageMainContainer from '../../components/RoutePageMainContainer/RoutePageMainContainer'
-import { deleteImageRoute, getCurrentRoute } from '../../redux/actions/routesActions'
+import {
+  changeRoute,
+  deleteImageRoute,
+  getCurrentRoute,
+  postImageForRoute,
+} from '../../redux/actions/routesActions'
 import { CheckedRouteParametersType } from '../CreateRoutePage/CreateRoutePage'
+import { deleteAudioObject, getCurrentObject } from '../../redux/actions/objectsActions'
 
 const EditRoutePage = () => {
   const [error, setError] = useState(false)
   const [correct, setCorrect] = useState(false)
   const [activeModal, setActiveModal] = useState(false)
+  const [activeAudioModal, setActiveAudioModal] = useState(false)
   const [deletedImageId, setDeletedImageId] = useState<number | null>(null)
+  const [deletedAudioId, setDeletedAudioId] = useState<number | null>(null)
 
   const { isLoading, currentRoute } = useAppSelector((state) => state.routes)
 
@@ -39,41 +47,43 @@ const EditRoutePage = () => {
     await dispatch(getCurrentRoute({ id: state, token }))
   }
 
+  const handleDeleteUploadedAudio = (audioId: number) => {
+    setActiveAudioModal(true)
+    setDeletedAudioId(audioId)
+  }
+
+  const onSubmitAudioPopupHandler = async () => {
+    setActiveAudioModal(false)
+    await dispatch(
+      deleteAudioObject({
+        id: deletedAudioId,
+        token,
+      }),
+    )
+    setDeletedAudioId(null)
+    await dispatch(getCurrentRoute({ id: state, token }))
+  }
+
   const onSubmitForm = async (
     checkedRouteParameters: CheckedRouteParametersType,
     photosRouteFiles: any,
   ) => {
     console.log(checkedRouteParameters)
     console.log(photosRouteFiles)
-    // await dispatch(changeObject({ objectId: currentObject.id, checkedParameters, token }))
-    // if (photosFiles) {
-    //   for (const photo of photosFiles) {
-    //     const formData = new FormData()
-    //     formData.append('image', photo)
-    //     await dispatch(postImageForObject({ formData, id: currentObject.id, token }))
-    //   }
-    // }
-    // if (audioFiles) {
-    //   for (const audio of audioFiles) {
-    //     const formData = new FormData()
-    //     formData.append('audio', audio)
-    //     formData.append('voiced', audioParameters.voiced)
-    //     formData.append('voicedLink', audioParameters.voicedLink)
-    //     await dispatch(
-    //       postAudioForObject({
-    //         formData,
-    //         id: currentObject.id,
-    //         token,
-    //       }),
-    //     )
-    //   }
-    // }
-    // await dispatch(getCurrentObject({ id: state, token }))
-    // setCorrect(true)
-    // const timer = setTimeout(() => {
-    //   setCorrect(false)
-    // }, 4000)
-    // return () => clearTimeout(timer)
+    await dispatch(changeRoute({ routeId: currentRoute.id, checkedRouteParameters, token }))
+    if (photosRouteFiles) {
+      for (const photo of photosRouteFiles) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        await dispatch(postImageForRoute({ formData, id: currentRoute.id, token }))
+      }
+    }
+    await dispatch(getCurrentRoute({ id: state, token }))
+    setCorrect(true)
+    const timer = setTimeout(() => {
+      setCorrect(false)
+    }, 4000)
+    return () => clearTimeout(timer)
   }
 
   useEffect(() => {
@@ -100,12 +110,20 @@ const EditRoutePage = () => {
         currentRoute={currentRoute}
         onSubmitForm={onSubmitForm}
         handleDeleteUploadedPhoto={handleDeleteUploadedPhoto}
+        handleDeleteUploadedAudio={handleDeleteUploadedAudio}
       />
       <PopupWithButtons
         popupTitle='Данная картинка находится на удаленном сервере. Вы точно хотите её удалить?'
         isPopupActive={activeModal}
         onCloseHandler={() => setActiveModal(false)}
         onSubmitHandler={onSubmitPopupHandler}
+        submitBtnTitle='Удалить'
+      />
+      <PopupWithButtons
+        popupTitle='Данное аудио находится на удаленном сервере. Вы точно хотите его удалить?'
+        isPopupActive={activeAudioModal}
+        onCloseHandler={() => setActiveAudioModal(false)}
+        onSubmitHandler={onSubmitAudioPopupHandler}
         submitBtnTitle='Удалить'
       />
     </div>

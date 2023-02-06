@@ -39,7 +39,7 @@ const EditObjectPage = () => {
 
   const handleDeleteUploadedAudio = (audioId: number) => {
     setActiveAudioModal(true)
-    setDeletedImageId(audioId)
+    setDeletedAudioId(audioId)
   }
 
   const onSubmitPhotoPopupHandler = async () => {
@@ -57,10 +57,9 @@ const EditObjectPage = () => {
 
   const onSubmitAudioPopupHandler = async () => {
     setActiveAudioModal(false)
-    console.log('удалено')
     await dispatch(
       deleteAudioObject({
-        id: currentObject.id,
+        id: deletedAudioId,
         token,
       }),
     )

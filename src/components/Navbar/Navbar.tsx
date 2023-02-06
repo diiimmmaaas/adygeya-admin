@@ -7,24 +7,37 @@ import { PATH } from '../../navigation/path'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { logout } from '../../redux/reducers/auth/authSlice'
 
-const buttons = [
-  { id: 1, title: 'Объекты', path: PATH.objectCardPage },
-  { id: 2, title: 'События', path: PATH.newsCardPage },
-  { id: 3, title: 'Маршруты', path: PATH.routeCardPage },
-  { id: 4, title: 'Пользователи', path: PATH.usersPage },
-  { id: 5, title: 'Уведомления', path: PATH.notificationsPage },
-  { id: 6, title: 'Настройки', path: PATH.settingsPage },
-  { id: 7, title: 'Выйти', path: PATH.auth },
-]
-
 const Navbar = () => {
   const [activeBtn, setActiveBtn] = useState('')
 
-  const { isAuth } = useAppSelector((state) => state.auth)
+  const { isAuth, userRoles } = useAppSelector((state) => state.auth)
 
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
+
+  let buttons = []
+
+  if (userRoles.includes('admin')) {
+    buttons = [
+      { id: 1, title: 'Объекты', path: PATH.objectCardPage },
+      { id: 2, title: 'События', path: PATH.newsCardPage },
+      { id: 3, title: 'Маршруты', path: PATH.routeCardPage },
+      { id: 4, title: 'Пользователи', path: PATH.usersPage },
+      { id: 5, title: 'Уведомления', path: PATH.notificationsPage },
+      { id: 6, title: 'Настройки', path: PATH.settingsPage },
+      { id: 7, title: 'Выйти', path: PATH.auth },
+    ]
+  } else {
+    buttons = [
+      { id: 1, title: 'Объекты', path: PATH.objectCardPage },
+      { id: 2, title: 'События', path: PATH.newsCardPage },
+      { id: 3, title: 'Маршруты', path: PATH.routeCardPage },
+      { id: 4, title: 'Уведомления', path: PATH.notificationsPage },
+      { id: 5, title: 'Настройки', path: PATH.settingsPage },
+      { id: 6, title: 'Выйти', path: PATH.auth },
+    ]
+  }
 
   const onActiveLogo = () => {
     navigate('/')

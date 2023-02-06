@@ -6,12 +6,14 @@ import { AudioType } from '../../redux/types/types'
 import { useAppSelector } from '../../redux/utils/redux-utils'
 
 type UploadAudioComponentPropsType = {
+  currentObjectId?: number
   audios?: AudioType
   setAudioFiles: (audioFiles: any) => void
   handleDeleteUploadedAudio: (audioId: number) => void
 }
 
 const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
+  currentObjectId,
   audios,
   setAudioFiles,
   handleDeleteUploadedAudio,
@@ -76,6 +78,8 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
     handFiles(files)
   }
 
+  console.log(currentObjectId)
+
   return (
     <div className={styles.uploadAudioContainer}>
       {audios?.audio ? (
@@ -86,14 +90,25 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
               <video width='400' controls className={styles.audioPlayer}>
                 <source src={audios?.audio} />
               </video>
-              <div className={styles.exitContainer}>
-                <img
-                  className={styles.audioExit}
-                  src={exit}
-                  alt='exit'
-                  onClick={() => handleDeleteUploadedAudio(currentObject.id)}
-                />
-              </div>
+              {currentObjectId ? (
+                <div className={styles.exitContainer}>
+                  <img
+                    className={styles.audioExit}
+                    src={exit}
+                    alt='exit'
+                    onClick={() => handleDeleteUploadedAudio(currentObjectId)}
+                  />
+                </div>
+              ) : (
+                <div className={styles.exitContainer}>
+                  <img
+                    className={styles.audioExit}
+                    src={exit}
+                    alt='exit'
+                    onClick={() => handleDeleteUploadedAudio(currentObject.id)}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -111,6 +126,7 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
           />
           {audio.length > 0 &&
             audio.map((a, index) => {
+              console.log(a)
               return (
                 <div className={styles.audioContainer} key={index} data-audioindex={index}>
                   <video width='400' controls className={styles.audioPlayer}>

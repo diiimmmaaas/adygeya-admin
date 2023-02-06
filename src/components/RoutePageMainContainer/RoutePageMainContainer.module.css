@@ -1,5 +1,9 @@
 .content {}
 
+.uploadMediaContainer {
+    width: 100%;
+}
+
 .subTitle {
     width: 100%;
     font-family: 'Roboto';

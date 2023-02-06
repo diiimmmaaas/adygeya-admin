@@ -8,6 +8,7 @@ import { postObject } from '../../redux/actions/objectsActions'
 import { postImageForRoute, postRoutes } from '../../redux/actions/routesActions'
 
 export type WaypointType = {
+  id: number
   name: string
   icon: string
   description: string
@@ -17,6 +18,13 @@ export type WaypointType = {
     address: string
   }
   audioId: number
+  audio: {
+    id: number
+    audio: string
+    length: number
+    voiced: string
+    voicedLink: string
+  }
 }
 
 export type CheckedRouteParametersType = {
@@ -86,6 +94,7 @@ const CreateRoutePage = () => {
         onSubmitPopup={onSubmitPopup}
         onSubmitForm={onSubmitFormHandler}
         handleDeleteUploadedPhoto={() => console.log('')}
+        handleDeleteUploadedAudio={() => console.log('')}
       />
     </div>
   )

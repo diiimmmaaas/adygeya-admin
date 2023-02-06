@@ -28,6 +28,7 @@ export type RoutePageMainContainerPropsType = {
   currentRoute?: GetCurrentRouteType
   onSubmitForm: (checkedRouteParameters: CheckedRouteParametersType, photosRouteFiles: any) => void
   handleDeleteUploadedPhoto: (imageId: number) => void
+  handleDeleteUploadedAudio: (audioId: number) => void
 }
 
 const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
@@ -38,6 +39,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
   currentRoute,
   onSubmitForm,
   handleDeleteUploadedPhoto,
+  handleDeleteUploadedAudio,
 }) => {
   const [activePopupAudio, setActivePopupAudio] = useState<boolean>(false)
   const [photosRouteFiles, setPhotosRouteFiles] = useState<any>()
@@ -58,6 +60,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
       ? [...currentRoute.waypoints]
       : [
           {
+            id: 0,
             name: '',
             icon: '',
             description: '',
@@ -67,6 +70,13 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
               address: '',
             },
             audioId: 0,
+            audio: {
+              id: 0,
+              audio: '',
+              length: 0,
+              voiced: '',
+              voicedLink: '',
+            },
           },
         ],
   })
@@ -169,9 +179,36 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
       voicedLink: e.target.value,
     })
   }
+  const onChangeNameOfArtistAudio = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    waypointIndex: number | string,
+  ) => {
+    setCheckedRouteParameters({
+      ...checkedRouteParameters,
+      waypoints: checkedRouteParameters.waypoints.map((way, index) =>
+        index === waypointIndex
+          ? { ...way, audio: { ...way.audio, voiced: e.currentTarget.value } }
+          : { ...way },
+      ),
+    })
+  }
+  const onChangeArtistLinkAudio = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    waypointIndex: number | string,
+  ) => {
+    setCheckedRouteParameters({
+      ...checkedRouteParameters,
+      waypoints: checkedRouteParameters.waypoints.map((way, index) =>
+        index === waypointIndex
+          ? { ...way, audio: { ...way.audio, voicedLink: e.currentTarget.value } }
+          : { ...way },
+      ),
+    })
+  }
 
   const addOnePointHandler = () => {
     const newPoint = {
+      id: 0,
       name: '',
       icon: 'route',
       description: '',
@@ -181,6 +218,13 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
         address: '',
       },
       audioId: 0,
+      audio: {
+        id: 0,
+        audio: '',
+        length: 0,
+        voiced: '',
+        voicedLink: '',
+      },
     }
 
     setCheckedRouteParameters({
@@ -273,7 +317,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
         )}
         <h1 className={main.title}>Точки маршрута</h1>
         <div className={styles.wayPointsBlock}>
-          {checkedRouteParameters.waypoints.map((waypoint, index) => {
+          {checkedRouteParameters?.waypoints.map((waypoint, index) => {
             const onAddAudioFile = async () => {
               if (audioRouteFiles) {
                 for (const audio of audioRouteFiles) {
@@ -305,25 +349,46 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                   ) : (
                     <div className={styles.imagePopupBlock}>
                       <UploadAudioComponent
+                        currentObjectId={waypoint.id}
+                        audios={waypoint.audio}
                         setAudioFiles={setAudioRouteFiles}
-                        handleDeleteUploadedAudio={() => {
-                          console.log('переделать')
-                        }}
+                        handleDeleteUploadedAudio={handleDeleteUploadedAudio}
                       />
-                      <CustomNameInput
-                        value={audioParameters.voiced}
-                        name='Исполнитель'
-                        placeholder='Введите имя исполнителя'
-                        type='text'
-                        callbackHandler={onChangeNameOfArtistHandler}
-                      />
-                      <CustomNameInput
-                        value={audioParameters.voicedLink}
-                        name='Ссылка на аккаунт исполнителя'
-                        placeholder='Введите ссылку'
-                        type='text'
-                        callbackHandler={onChangeArtistLinkHandler}
-                      />
+                      {waypoint.audio ? (
+                        <div>
+                          <CustomNameInput
+                            value={waypoint.audio.voiced}
+                            name='Исполнитель'
+                            placeholder='Введите имя исполнителя'
+                            type='text'
+                            callbackHandler={(e) => onChangeNameOfArtistAudio(e, index)}
+                          />
+                          <CustomNameInput
+                            value={waypoint.audio.voicedLink}
+                            name='Ссылка на аккаунт исполнителя'
+                            placeholder='Введите ссылку'
+                            type='text'
+                            callbackHandler={(e) => onChangeArtistLinkAudio(e, index)}
+                          />
+                        </div>
+                      ) : (
+                        <div>
+                          <CustomNameInput
+                            value={audioParameters.voiced}
+                            name='Исполнитель'
+                            placeholder='Введите имя исполнителя'
+                            type='text'
+                            callbackHandler={onChangeNameOfArtistHandler}
+                          />
+                          <CustomNameInput
+                            value={audioParameters.voicedLink}
+                            name='Ссылка на аккаунт исполнителя'
+                            placeholder='Введите ссылку'
+                            type='text'
+                            callbackHandler={onChangeArtistLinkHandler}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
                 </PopupForCreateMedia>

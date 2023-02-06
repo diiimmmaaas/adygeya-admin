@@ -5,6 +5,7 @@ import { GetCurrentNewsType, GetCurrentRouteType, RoutesResponseType } from '../
 import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
 import { CheckedRouteParametersType } from '../../pages/CreateRoutePage/CreateRoutePage'
 import waypoints from '../../components/Waypoints/Waypoints'
+import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
 
 export const getRoutes = createAsyncThunk(
   'routes/getRoutes',
@@ -179,6 +180,41 @@ export const deleteImageRoute = createAsyncThunk(
       return res.data
     } catch (error) {
       console.log('error', error)
+      return thunkAPI.rejectWithValue(handleAppRequestError(error))
+    }
+  },
+)
+
+export const changeRoute = createAsyncThunk(
+  'route/changeRoute',
+  async (
+    {
+      routeId,
+      checkedRouteParameters,
+      token,
+    }: { routeId: number; checkedRouteParameters: CheckedRouteParametersType; token: string },
+    thunkAPI,
+  ) => {
+    try {
+      let isoPublish = null
+
+      if (checkedRouteParameters?.publishAt) {
+        const publish = checkedRouteParameters.publishAt.split('-').reverse().join('-')
+        const publishObj = new Date(publish)
+        isoPublish = publishObj.toISOString()
+      }
+
+      const refactoringParameters = {
+        ...checkedRouteParameters,
+        publishAt: isoPublish,
+      }
+
+      const response = await instance.put(`routes/${routeId}`, refactoringParameters, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+
+      return response.data
+    } catch (error) {
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },
