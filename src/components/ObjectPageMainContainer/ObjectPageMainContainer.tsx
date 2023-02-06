@@ -469,7 +469,10 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
             />
           </div>
         )}
-        <MyEditor onEditorStateChange={onChangeDescriptionHandler} />
+        <MyEditor
+          value={checkedParameters.description}
+          onEditorStateChange={onChangeDescriptionHandler}
+        />
         <TimeTable
           schedule={checkedParameters.schedule}
           onOpenChangeHandler={onOpenChangeHandler}

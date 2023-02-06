@@ -412,6 +412,7 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                   callbackHandler={(e) => onChangeRouteAddressHandler(e, index)}
                 />
                 <MyEditor
+                  value={waypoint.description}
                   onEditorStateChange={(htmlText) =>
                     onChangeWaypointDescriptionHandler(htmlText, index)
                   }

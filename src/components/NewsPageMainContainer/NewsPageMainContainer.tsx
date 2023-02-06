@@ -200,7 +200,10 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
             }}
           />
         </div>
-        <MyEditor onEditorStateChange={onChangeNewsDescriptionHandler} />
+        <MyEditor
+          value={checkedNewsParameters?.description}
+          onEditorStateChange={onChangeNewsDescriptionHandler}
+        />
         <CustomNameInput
           value={currentNews?.stories?.title}
           name='Заголовок хайлайта'
