@@ -14,6 +14,7 @@ import { GetCurrentNewsType } from '../../redux/types/types'
 import { options } from '../ObjectPageMainContainer/ObjectPageMainContainer'
 import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
 import UploadHighlightComponent from '../UploadHighlightComponent/UploadHighlightComponent'
+import { MyEditor } from '../MyEditor/MyEditor'
 
 export type NewsPageMainContainerPropsType = {
   isEditMode?: boolean
@@ -89,8 +90,8 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
       location: { ...checkedNewsParameters.location, longitude: e.target.value },
     })
   }
-  const onChangeNewsDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCheckedNewsParameters({ ...checkedNewsParameters, description: e.target.value })
+  const onChangeNewsDescriptionHandler = (htmlText: string) => {
+    setCheckedNewsParameters({ ...checkedNewsParameters, description: htmlText })
   }
   const onChangeTitleHighlightHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({
@@ -199,12 +200,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
             }}
           />
         </div>
-        <UploadDescriptionComponent
-          value={checkedNewsParameters?.description}
-          placeholder='Добавьте описание события'
-          title='Описание'
-          callbackHandler={onChangeNewsDescriptionHandler}
-        />
+        <MyEditor onEditorStateChange={onChangeNewsDescriptionHandler} />
         <CustomNameInput
           value={currentNews?.stories?.title}
           name='Заголовок хайлайта'

@@ -78,8 +78,6 @@ const UploadAudioComponent: React.FC<UploadAudioComponentPropsType> = ({
     handFiles(files)
   }
 
-  console.log(currentObjectId)
-
   return (
     <div className={styles.uploadAudioContainer}>
       {audios?.audio ? (

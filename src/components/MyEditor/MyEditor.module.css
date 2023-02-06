@@ -1,0 +1,18 @@
+.editorStyles {
+    min-height: 250px;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.dateText {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 125%;
+    color: #414141;
+    margin-bottom: 8px;
+}

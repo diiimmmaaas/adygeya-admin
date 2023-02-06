@@ -11,6 +11,7 @@ import Loading from '../../components/Loading/Loading'
 import { deleteNews } from '../../redux/actions/newsActions'
 import { deleteObject } from '../../redux/actions/objectsActions'
 import { deleteRoute } from '../../redux/actions/routesActions'
+import { MyEditor } from '../../components/MyEditor/MyEditor'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 export const headCellsNews = [

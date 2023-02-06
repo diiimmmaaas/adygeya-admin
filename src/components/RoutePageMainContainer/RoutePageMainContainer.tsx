@@ -19,6 +19,7 @@ import UploadPhotoComponent from '../UploadPhotoComponent/UploadPhotoComponent'
 import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
 import InputMask from 'react-input-mask'
 import Loading from '../Loading/Loading'
+import { MyEditor } from '../MyEditor/MyEditor'
 
 export type RoutePageMainContainerPropsType = {
   isEditMode?: boolean
@@ -103,14 +104,11 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
       ),
     })
   }
-  const onChangeWaypointDescriptionHandler = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-    waypointIndex: number,
-  ) => {
+  const onChangeWaypointDescriptionHandler = (htmlText: string, waypointIndex: number) => {
     setCheckedRouteParameters({
       ...checkedRouteParameters,
       waypoints: checkedRouteParameters.waypoints.map((way, index) =>
-        index === waypointIndex ? { ...way, description: e.target.value } : { ...way },
+        index === waypointIndex ? { ...way, description: htmlText } : { ...way },
       ),
     })
   }
@@ -413,11 +411,10 @@ const RoutePageMainContainer: React.FC<RoutePageMainContainerPropsType> = ({
                   type='text'
                   callbackHandler={(e) => onChangeRouteAddressHandler(e, index)}
                 />
-                <UploadDescriptionComponent
-                  value={waypoint.description}
-                  placeholder='Добавьте описание точки маршрута'
-                  title='Описание точки маршрута'
-                  callbackHandler={(e) => onChangeWaypointDescriptionHandler(e, index)}
+                <MyEditor
+                  onEditorStateChange={(htmlText) =>
+                    onChangeWaypointDescriptionHandler(htmlText, index)
+                  }
                 />
                 <div className={styles.selectBlock}>
                   <h4 className={styles.objectNameTitle}>Выберите тип иконки</h4>

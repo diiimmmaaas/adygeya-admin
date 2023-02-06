@@ -16,6 +16,8 @@ import { getCurrentObject } from '../../redux/actions/objectsActions'
 import { GetCurrentObjectType } from '../../redux/types/types'
 import InputMask from 'react-input-mask'
 import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
+import { MyEditor } from '../MyEditor/MyEditor'
+import { EditorState } from 'draft-js'
 
 const categoriesArray = [
   {
@@ -244,8 +246,8 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
       ),
     })
   }
-  const onChangeDescriptionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCheckedParameters({ ...checkedParameters, description: e.target.value })
+  const onChangeDescriptionHandler = (editHtml: string) => {
+    setCheckedParameters({ ...checkedParameters, description: editHtml })
   }
   const onOpenChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
     setCheckedParameters({
@@ -467,12 +469,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
             />
           </div>
         )}
-        <UploadDescriptionComponent
-          value={checkedParameters.description}
-          placeholder='Добавьте описание объекта'
-          title='Описание'
-          callbackHandler={onChangeDescriptionHandler}
-        />
+        <MyEditor onEditorStateChange={onChangeDescriptionHandler} />
         <TimeTable
           schedule={checkedParameters.schedule}
           onOpenChangeHandler={onOpenChangeHandler}
