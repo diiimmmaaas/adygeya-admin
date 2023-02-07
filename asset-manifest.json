@@ -1,17 +1,30 @@
 {
   "files": {
-    "main.css": "/adygeya-admin/static/css/main.947a6d6f.css",
-    "main.js": "/adygeya-admin/static/js/main.b560384c.js",
+    "main.css": "/adygeya-admin/static/css/main.c36b8792.css",
+    "main.js": "/adygeya-admin/static/js/main.68a81c7d.js",
     "static/js/787.d8efedc5.chunk.js": "/adygeya-admin/static/js/787.d8efedc5.chunk.js",
-    "static/media/exit.svg": "/adygeya-admin/static/media/exit.df79c473c8b4d98f8c7041d6883d6857.svg",
+    "static/media/6tutorial.png": "/adygeya-admin/static/media/6tutorial.81a131cbca2769730712.png",
+    "static/media/3tutorial.png": "/adygeya-admin/static/media/3tutorial.7a360f559ec7d92ec333.png",
+    "static/media/2tutorial.png": "/adygeya-admin/static/media/2tutorial.65b90784c42ab964ec52.png",
+    "static/media/1tutorial.png": "/adygeya-admin/static/media/1tutorial.704b94847daf7707df08.png",
+    "static/media/5tutorial.png": "/adygeya-admin/static/media/5tutorial.3d29604ae5954435a3fa.png",
+    "static/media/9tutorial.png": "/adygeya-admin/static/media/9tutorial.5fbb96fce73d5b046480.png",
+    "static/media/7tutorial.png": "/adygeya-admin/static/media/7tutorial.e06cce9d163d117e7fb0.png",
+    "static/media/8tutorial.png": "/adygeya-admin/static/media/8tutorial.13c5e45491b4f82b160f.png",
+    "static/media/4tutorial.png": "/adygeya-admin/static/media/4tutorial.e00e322681cd7d6148da.png",
+    "static/media/unpublish.svg": "/adygeya-admin/static/media/unpublish.1d23c08020b9011701b9e371867ae94c.svg",
+    "static/media/change.svg": "/adygeya-admin/static/media/change.3c1e7530903f16d6ea674fda13358fc9.svg",
+    "static/media/publish.svg": "/adygeya-admin/static/media/publish.03df47b0f9240cbaf234d57904ab6ebe.svg",
+    "static/media/delete.svg": "/adygeya-admin/static/media/delete.7d4c4fb332b0ffc3444662dabff8ab1b.svg",
     "static/media/search.svg": "/adygeya-admin/static/media/search.9a444a47517a09d1271fb05ecf354956.svg",
     "index.html": "/adygeya-admin/index.html",
-    "main.947a6d6f.css.map": "/adygeya-admin/static/css/main.947a6d6f.css.map",
-    "main.b560384c.js.map": "/adygeya-admin/static/js/main.b560384c.js.map",
+    "static/media/exit.svg": "/adygeya-admin/static/media/exit.b5f505cf42c52c9909e2a80a6984a7b5.svg",
+    "main.c36b8792.css.map": "/adygeya-admin/static/css/main.c36b8792.css.map",
+    "main.68a81c7d.js.map": "/adygeya-admin/static/js/main.68a81c7d.js.map",
     "787.d8efedc5.chunk.js.map": "/adygeya-admin/static/js/787.d8efedc5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.947a6d6f.css",
-    "static/js/main.b560384c.js"
+    "static/css/main.c36b8792.css",
+    "static/js/main.68a81c7d.js"
   ]
 }
