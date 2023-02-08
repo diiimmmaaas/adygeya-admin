@@ -23,15 +23,6 @@ export const headCellsNews = [
   'Управление',
 ]
 
-const blocks = [
-  { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
-  { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
-  { id: 3, title: 'Создать маршрут', path: PATH.createRouteCardPage },
-  { id: 4, title: 'Создать уведомление', path: PATH.notificationsPage },
-  { id: 5, title: 'Создать пользователей', path: PATH.createUsersPage },
-  { id: 6, title: 'Настройки', path: PATH.settingsPage },
-]
-
 const MainPage = () => {
   const [search, setSearch] = useState<string>('')
   const [isNews, setIsNews] = useState<boolean>(false)
@@ -40,14 +31,30 @@ const MainPage = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { isAuth, token } = useAppSelector((state) => state.auth)
+  const { isAuth, token, userRoles } = useAppSelector((state) => state.auth)
   const { searchData, isLoading } = useAppSelector((state) => state.search)
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate(PATH.auth)
-    }
-  }, [])
+  let blocks = []
+
+  if (userRoles.includes('admin')) {
+    blocks = [
+      { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
+      { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
+      { id: 3, title: 'Создать маршрут', path: PATH.createRouteCardPage },
+      { id: 4, title: 'Создать уведомление', path: PATH.notificationsPage },
+      { id: 5, title: 'Создать пользователей', path: PATH.createUsersPage },
+      { id: 6, title: 'Настройки', path: PATH.settingsPage },
+    ]
+  } else {
+    blocks = [
+      { id: 1, title: 'Создать объект', path: PATH.createObjectCardPage },
+      { id: 2, title: 'Создать событие', path: PATH.createNewsCardPage },
+      { id: 3, title: 'Создать маршрут', path: PATH.createRouteCardPage },
+      { id: 4, title: 'Создать уведомление', path: PATH.notificationsPage },
+      { id: 5, title: 'Настройки', path: PATH.settingsPage },
+    ]
+  }
+
 
   const handleSearch = async () => {
     await dispatch(postSearch({ query: search, token: token }))
@@ -78,6 +85,12 @@ const MainPage = () => {
   const onChangeObject = (objectId: number) => {
     navigate(PATH.editObjectCardPage, { replace: false, state: objectId })
   }
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate(PATH.auth)
+    }
+  }, [])
 
   return (
     <div className={styles.main}>
