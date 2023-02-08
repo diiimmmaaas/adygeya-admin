@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/adygeya-admin/static/css/main.c36b8792.css",
-    "main.js": "/adygeya-admin/static/js/main.68a81c7d.js",
+    "main.js": "/adygeya-admin/static/js/main.ab74c399.js",
     "static/js/787.d8efedc5.chunk.js": "/adygeya-admin/static/js/787.d8efedc5.chunk.js",
     "static/media/6tutorial.png": "/adygeya-admin/static/media/6tutorial.81a131cbca2769730712.png",
     "static/media/3tutorial.png": "/adygeya-admin/static/media/3tutorial.7a360f559ec7d92ec333.png",
@@ -20,11 +20,11 @@
     "index.html": "/adygeya-admin/index.html",
     "static/media/exit.svg": "/adygeya-admin/static/media/exit.b5f505cf42c52c9909e2a80a6984a7b5.svg",
     "main.c36b8792.css.map": "/adygeya-admin/static/css/main.c36b8792.css.map",
-    "main.68a81c7d.js.map": "/adygeya-admin/static/js/main.68a81c7d.js.map",
+    "main.ab74c399.js.map": "/adygeya-admin/static/js/main.ab74c399.js.map",
     "787.d8efedc5.chunk.js.map": "/adygeya-admin/static/js/787.d8efedc5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c36b8792.css",
-    "static/js/main.68a81c7d.js"
+    "static/js/main.ab74c399.js"
   ]
 }
