@@ -103,6 +103,16 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
 }) => {
   const { userRoles } = useAppSelector((state) => state.auth)
   const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<string>('Name');
+
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: string,
+  ) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   return (
     <Box sx={{ width: '100%', marginBottom: 32 }}>
@@ -112,11 +122,9 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
             <EnhancedTableHead
               isNews
               headCells={headCells}
-              order={'asc'}
-              orderBy={''}
-              onRequestSort={() => {
-                console.log('')
-              }}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
             />
             <TableBody>
               {objects &&
