@@ -11,6 +11,7 @@ import {
   publishNews,
 } from '../../actions/newsActions'
 import { GetCurrentNewsType, NewsResponseDataType, ObjectResponseMetaType } from '../../types/types'
+import { Order } from '../../../components/TableComponent/TableComponent';
 
 export interface INews {
   news: NewsResponseDataType[]
@@ -20,6 +21,8 @@ export interface INews {
   isLoading: boolean
   isLoadingPhoto: boolean
   isLoadingHighlight: boolean
+  order: Order
+  orderBy: string
   error: any
 }
 
@@ -57,6 +60,8 @@ const initialState: INews = {
   isLoading: false,
   isLoadingPhoto: false,
   isLoadingHighlight: false,
+  order: 'asc',
+  orderBy: 'name',
   error: '',
 }
 
@@ -69,13 +74,15 @@ export const newsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getNews.fulfilled, (state, action) => {
-      state.news = action.payload.data
-      state.meta.page = action.payload.meta.page
-      state.meta.pageCount = action.payload.meta.pageCount
-      state.meta.hasNextPage = action.payload.meta.hasNextPage
-      state.meta.hasPreviousPage = action.payload.meta.hasPreviousPage
-      state.meta.itemCount = action.payload.meta.itemCount
-      state.meta.take = action.payload.meta.take
+      state.news = action.payload.data.data
+      state.meta.page = action.payload.data.meta.page
+      state.meta.pageCount = action.payload.data.meta.pageCount
+      state.meta.hasNextPage = action.payload.data.meta.hasNextPage
+      state.meta.hasPreviousPage = action.payload.data.meta.hasPreviousPage
+      state.meta.itemCount = action.payload.data.meta.itemCount
+      state.meta.take = action.payload.data.meta.take
+      state.order = action.payload?.order
+      state.orderBy = action.payload?.orderBy
       state.isLoading = false
     })
     builder.addCase(getNews.rejected, (state, action) => {
@@ -93,13 +100,10 @@ export const newsSlice = createSlice({
       state.currentNews.publishAt = action.payload.publishAt
       state.currentNews.published = action.payload.published
       state.currentNews.icon = action.payload.icon
-      state.currentNews.location.longitude = action.payload.location.longitude
-      state.currentNews.location.latitude = action.payload.location.latitude
-      state.currentNews.location.address = action.payload.location.address
+      state.currentNews.location = action.payload.location
       state.currentNews.images = action.payload.images
-      state.currentNews.stories.title = action.payload.stories.title
-      state.currentNews.stories.content = action.payload.stories.content
-      state.currentNews.stories.images = action.payload.stories.images
+      state.currentNews.stories = action.payload.stories
+
       state.isLoading = false
     })
     builder.addCase(getCurrentNews.rejected, (state, action) => {

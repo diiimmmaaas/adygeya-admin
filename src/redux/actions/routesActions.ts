@@ -1,27 +1,41 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { instance } from '../api/api'
 import { handleAppRequestError } from '../utils/error-utils'
-import { GetCurrentNewsType, GetCurrentRouteType, RoutesResponseType } from '../types/types'
-import { CheckedParametersType } from '../../pages/CreateObjectPage/types'
+import { GetCurrentRouteType, RoutesResponseType } from '../types/types'
 import { CheckedRouteParametersType } from '../../pages/CreateRoutePage/CreateRoutePage'
-import waypoints from '../../components/Waypoints/Waypoints'
-import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
+import { Order } from '../../components/TableComponent/TableComponent'
 
 export const getRoutes = createAsyncThunk(
   'routes/getRoutes',
   async (
-    { page, size, search, token }: { page: number; size: number; search: string; token: string },
+    {
+      page,
+      size,
+      search,
+      token,
+      order,
+      orderBy,
+    }: {
+      page: number
+      size: number
+      search: string
+      token: string
+      order?: Order
+      orderBy?: string
+    },
     thunkAPI,
   ) => {
     try {
       const res = await instance.get<RoutesResponseType>(
-        `routes/?page=${page}&size=${size}${search ? `&search=${search}` : ''}`,
+        `routes/?page=${page}&size=${size}${search ? `&search=${search}` : ''}${
+          order ? `&sort=${order}` : ''
+        }${orderBy ? `&sortBy=${orderBy}` : ''}`,
         {
           headers: { authorization: `Bearer ${token}` },
         },
       )
 
-      return res.data
+      return { data: res.data, order: order as Order, orderBy: orderBy as string }
     } catch (error) {
       console.log('error', error)
       return thunkAPI.rejectWithValue(handleAppRequestError(error))

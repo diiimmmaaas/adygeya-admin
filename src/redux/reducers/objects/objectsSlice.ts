@@ -16,8 +16,7 @@ import {
   ObjectResponseDataType,
   ObjectResponseMetaType,
 } from '../../types/types'
-import { Order } from '../../../components/TableComponent/TableComponent';
-import nookies from 'nookies';
+import { Order } from '../../../components/TableComponent/TableComponent'
 
 export interface IObjects {
   objects: ObjectResponseDataType[]
@@ -78,8 +77,7 @@ const initialState: IObjects = {
 export const objectsSlice = createSlice({
   name: 'objects',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getObjects.pending, (state) => {
       state.isLoading = true

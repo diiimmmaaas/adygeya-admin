@@ -89,7 +89,7 @@ const UploadPhotoComponent: React.FC<UploadPhotoComponentPropsType> = ({
                     alt='exit'
                     onClick={() => handleDeleteUploadedPhoto(image.id)}
                   />
-                  <img className={styles.image} src={image.link} alt={image.id.toString()} />
+                  <img className={styles.uploadedImage} src={image.link} alt={image.id.toString()} />
                 </div>
               )
             })}

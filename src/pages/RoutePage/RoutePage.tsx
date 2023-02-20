@@ -39,6 +39,8 @@ const RoutePage = () => {
     routes,
     isLoading,
     error,
+    orderBy,
+    order,
     meta: { page, hasPreviousPage, pageCount, itemCount, hasNextPage, take },
   } = useAppSelector((state) => state.routes)
 
@@ -72,8 +74,7 @@ const RoutePage = () => {
   }
 
   const onSortHandler = async (order: Order, orderBy: string) => {
-    console.log(order)
-    console.log(orderBy)
+    dispatch(getRoutes({ page: currentPage, size: currentSize, search, token, order, orderBy }))
   }
 
   const onChangeRoute = (objectId: number) => {
@@ -119,8 +120,8 @@ const RoutePage = () => {
             currentSize={currentSize}
             headCells={headCellsRoute}
             onSort={onSortHandler}
-            storeOrder={'asc'}
-            storeOrderBy={'name'}
+            storeOrder={order}
+            storeOrderBy={orderBy}
           />
         )}
       </div>

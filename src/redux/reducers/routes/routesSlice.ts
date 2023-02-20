@@ -18,6 +18,7 @@ import {
   postRoutes,
   publishRoute,
 } from '../../actions/routesActions'
+import { Order } from '../../../components/TableComponent/TableComponent';
 
 export interface IRoutes {
   routes: RoutesResponseDataType[]
@@ -28,6 +29,8 @@ export interface IRoutes {
   isLoading: boolean
   isLoadingAudio: boolean
   isLoadingPhoto: boolean
+  order: Order
+  orderBy: string
   error: unknown | string
 }
 
@@ -55,6 +58,8 @@ const initialState: IRoutes = {
   isLoading: false,
   isLoadingAudio: false,
   isLoadingPhoto: false,
+  order: 'asc',
+  orderBy: 'name',
   error: '',
 }
 
@@ -67,13 +72,15 @@ export const routesSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getRoutes.fulfilled, (state, action) => {
-      state.routes = action.payload.data
-      state.meta.page = action.payload.meta.page
-      state.meta.pageCount = action.payload.meta.pageCount
-      state.meta.hasNextPage = action.payload.meta.hasNextPage
-      state.meta.hasPreviousPage = action.payload.meta.hasPreviousPage
-      state.meta.itemCount = action.payload.meta.itemCount
-      state.meta.take = action.payload.meta.take
+      state.routes = action.payload.data.data
+      state.meta.page = action.payload.data.meta.page
+      state.meta.pageCount = action.payload.data.meta.pageCount
+      state.meta.hasNextPage = action.payload.data.meta.hasNextPage
+      state.meta.hasPreviousPage = action.payload.data.meta.hasPreviousPage
+      state.meta.itemCount = action.payload.data.meta.itemCount
+      state.meta.take = action.payload.data.meta.take
+      state.order = action.payload?.order
+      state.orderBy = action.payload?.orderBy
       state.isLoading = false
       state.error = ''
     })

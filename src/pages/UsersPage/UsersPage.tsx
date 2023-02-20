@@ -42,6 +42,8 @@ const UsersPage = () => {
     users,
     isLoading,
     error,
+    order,
+    orderBy,
     meta: { page, hasPreviousPage, pageCount, itemCount, hasNextPage, take },
   } = useAppSelector((state) => state.user)
 
@@ -137,8 +139,8 @@ const UsersPage = () => {
             currentSize={currentSize}
             headCells={headCellsUsers}
             onSort={onSortHandler}
-            storeOrder={'asc'}
-            storeOrderBy={'name'}
+            storeOrder={order}
+            storeOrderBy={orderBy}
           />
         )}
       </div>

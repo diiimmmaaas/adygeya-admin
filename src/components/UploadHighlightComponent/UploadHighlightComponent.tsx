@@ -89,7 +89,7 @@ const UploadHighlightComponent: React.FC<UploadPhotoComponentPropsType> = ({
                     alt='exit'
                     onClick={() => handleDeleteUploadedPhoto(image.id)}
                   />
-                  <img className={styles.image} src={image.link} alt={image.id.toString()} />
+                  <img className={styles.uploadedImage} src={image.link} alt={image.id.toString()} />
                 </div>
               )
             })}
@@ -119,7 +119,7 @@ const UploadHighlightComponent: React.FC<UploadPhotoComponentPropsType> = ({
                   onClick={handleDelete}
                   data-imgindex={index}
                 />
-                <img className={styles.image} src={photo.src} alt={photo.name} />
+                <img className={styles.uploadedImage} src={photo.src} alt={photo.name} />
               </div>
             )
           })}

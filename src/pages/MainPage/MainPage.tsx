@@ -11,7 +11,6 @@ import Loading from '../../components/Loading/Loading'
 import { deleteNews } from '../../redux/actions/newsActions'
 import { deleteObject } from '../../redux/actions/objectsActions'
 import { deleteRoute } from '../../redux/actions/routesActions'
-import { MyEditor } from '../../components/MyEditor/MyEditor'
 
 export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
 export const headCellsNews = [
@@ -54,7 +53,6 @@ const MainPage = () => {
       { id: 5, title: 'Настройки', path: PATH.settingsPage },
     ]
   }
-
 
   const handleSearch = async () => {
     await dispatch(postSearch({ query: search, token: token }))

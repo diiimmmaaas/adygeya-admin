@@ -119,7 +119,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-    onSort(isAsc ? 'desc' : 'asc' , orderBy)
+    onSort(isAsc ? 'desc' : 'asc' , property)
   };
 
   return (

@@ -33,7 +33,12 @@
     width: 150px;
     height: 200px;
     object-fit: cover;
+}
 
+.uploadedImage {
+    width: 150px;
+    height: 200px;
+    object-fit: contain;
 }
 
 .imageExit {

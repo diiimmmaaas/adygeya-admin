@@ -43,6 +43,8 @@ const NewsPage = () => {
     news,
     isLoading,
     error,
+    orderBy,
+    order,
     meta: { page, hasPreviousPage, pageCount, itemCount, hasNextPage, take },
   } = useAppSelector((state) => state.news)
 
@@ -76,8 +78,10 @@ const NewsPage = () => {
   }
 
   const onSortHandler = async (order: Order, orderBy: string) => {
-    console.log(order)
-    console.log(orderBy)
+    console.log(order);
+    console.log(orderBy);
+
+    await dispatch(getNews({ page: currentPage, size: currentSize, search, token, order, orderBy }))
   }
 
   const onChangeObject = (objectId: number) => {
@@ -123,8 +127,8 @@ const NewsPage = () => {
             currentPage={currentPage}
             currentSize={currentSize}
             onSort={onSortHandler}
-            storeOrder={'asc'}
-            storeOrderBy={'name'}
+            storeOrder={order}
+            storeOrderBy={orderBy}
           />
         )}
       </div>
