@@ -29,7 +29,8 @@ const EditObjectPage = () => {
   )
 
   const dispatch = useAppDispatch()
-  const { state } = useLocation()
+  const location = useLocation()
+  const state = location.state as number;
   const { token } = useAppSelector((state) => state.auth)
 
   const handleDeleteUploadedPhoto = (imageId: number) => {

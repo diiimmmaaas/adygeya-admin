@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
   Box,
   Paper,
@@ -24,7 +24,6 @@ import {
 } from '../../redux/types/types'
 import styles from './TableComponent.module.css'
 import { useAppSelector } from '../../redux/utils/redux-utils'
-import PopupWithButtons from '../PopupWithButtons/PopupWithButtons'
 
 type Order = 'asc' | 'desc'
 
@@ -103,6 +102,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
   handleChangePage,
 }) => {
   const { userRoles } = useAppSelector((state) => state.auth)
+  const [order, setOrder] = React.useState<Order>('asc');
 
   return (
     <Box sx={{ width: '100%', marginBottom: 32 }}>
@@ -377,4 +377,4 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
   )
 }
 
-export default TableComponent
+export default TableComponent;

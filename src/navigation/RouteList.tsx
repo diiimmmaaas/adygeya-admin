@@ -24,7 +24,6 @@ const RouteList = () => {
   return (
     <Routes>
       <Route path={'/'} element={<MainPage />} />
-      <Route path='/adygeya-admin' element={<Navigate to={'/'} />} />
       <Route path={PATH.objectCardPage} element={<ObjectPage />} />
       <Route path={PATH.newsCardPage} element={<NewsPage />} />
       <Route path={PATH.routeCardPage} element={<RoutePage />} />
