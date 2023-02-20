@@ -20,18 +20,6 @@ export const getObjects = createAsyncThunk(
         },
       )
 
-      order &&
-      setCookie(null, 'order', order, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      })
-
-      orderBy &&
-      setCookie(null, 'orderBy', orderBy, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      })
-
       return { data: res.data, order: order as Order, orderBy: orderBy as string }
     } catch (error) {
       console.log('error', error)

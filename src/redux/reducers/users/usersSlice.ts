@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { changeUserRole, getUsers, postUser } from '../../actions/usersActions'
 import { ObjectResponseMetaType, UsersResponseDataType } from '../../types/types'
+import { Order } from '../../../components/TableComponent/TableComponent';
 
 export interface IUsers {
   users: UsersResponseDataType[]
   meta: ObjectResponseMetaType
   isLoading: boolean
+  order: Order
+  orderBy: string
   error: any
 }
 
@@ -20,6 +23,8 @@ const initialState: IUsers = {
     take: 5,
   },
   isLoading: false,
+  order: 'asc',
+  orderBy: 'name',
   error: '',
 }
 
@@ -32,13 +37,15 @@ export const usersSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getUsers.fulfilled, (state, action) => {
-      state.users = action.payload.data
-      state.meta.page = action.payload.meta.page
-      state.meta.pageCount = action.payload.meta.pageCount
-      state.meta.hasNextPage = action.payload.meta.hasNextPage
-      state.meta.hasPreviousPage = action.payload.meta.hasPreviousPage
-      state.meta.itemCount = action.payload.meta.itemCount
-      state.meta.take = action.payload.meta.take
+      state.users = action.payload.data.data
+      state.meta.page = action.payload.data.meta.page
+      state.meta.pageCount = action.payload.data.meta.pageCount
+      state.meta.hasNextPage = action.payload.data.meta.hasNextPage
+      state.meta.hasPreviousPage = action.payload.data.meta.hasPreviousPage
+      state.meta.itemCount = action.payload.data.meta.itemCount
+      state.meta.take = action.payload.data.meta.take
+      state.order = action.payload?.order
+      state.orderBy = action.payload?.orderBy
       state.isLoading = false
     })
     builder.addCase(getUsers.rejected, (state, action) => {

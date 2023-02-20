@@ -32,9 +32,6 @@ export interface IObjects {
   error: any
 }
 
-
-const cookies = nookies.get(null)
-
 const initialState: IObjects = {
   objects: [],
   meta: {
@@ -73,8 +70,6 @@ const initialState: IObjects = {
   isLoading: false,
   isLoadingAudio: false,
   isLoadingPhoto: false,
-  // order: cookies.order as Order ?? 'asc',
-  // orderBy: cookies.orderBy ?? 'name',
   order: 'asc',
   orderBy: 'name',
   error: '',

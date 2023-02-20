@@ -71,6 +71,7 @@ const UsersPage = () => {
   const onSortHandler = async (order: Order, orderBy: string) => {
     console.log(order);
     console.log(orderBy);
+    dispatch(getUsers({ page: currentPage, size: currentSize, search, token, order, orderBy }))
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
