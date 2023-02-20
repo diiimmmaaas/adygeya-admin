@@ -6,19 +6,28 @@ import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 import Loading from '../../components/Loading/Loading'
-import TableComponent from '../../components/TableComponent/TableComponent'
+import TableComponent, { Order } from '../../components/TableComponent/TableComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { deleteNews, getNews, publishNews } from '../../redux/actions/newsActions'
 import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
-import { getObjects, publishObject } from '../../redux/actions/objectsActions'
+import { HeadCellType } from '../ObjectPage/ObjectPage';
 
-export const headCellsNews = [
-  '№',
-  'Название',
-  'Идентификатор',
-  'Опубликовано',
-  'Дата' + ' создания',
-  'Управление',
+export const headCellsNews:Array<HeadCellType> = [
+  { title: '№', orderBy: 'number' },
+  {
+    title: 'Название',
+    orderBy: 'name',
+  },
+  { title: 'Идентификатор', orderBy: 'id' },
+  {
+    title: 'Опубликовано',
+    orderBy: 'published',
+  },
+  {
+    title: 'Дата создания',
+    orderBy: 'date',
+  },
+  { title: 'Управление', orderBy: 'functional' },
 ]
 
 const NewsPage = () => {
@@ -66,6 +75,11 @@ const NewsPage = () => {
     setActivePublishModal(false)
   }
 
+  const onSortHandler = async (order: Order, orderBy: string) => {
+    console.log(order)
+    console.log(orderBy)
+  }
+
   const onChangeObject = (objectId: number) => {
     navigate(PATH.editNewsCardPage, { replace: true, state: objectId })
   }
@@ -108,6 +122,9 @@ const NewsPage = () => {
             itemCount={itemCount}
             currentPage={currentPage}
             currentSize={currentSize}
+            onSort={onSortHandler}
+            storeOrder={'asc'}
+            storeOrderBy={'name'}
           />
         )}
       </div>

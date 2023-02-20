@@ -6,14 +6,28 @@ import CustomButton from '../../components/CustomButton/CustomButton'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../navigation/path'
 import Loading from '../../components/Loading/Loading'
-import TableComponent from '../../components/TableComponent/TableComponent'
+import TableComponent, { Order } from '../../components/TableComponent/TableComponent';
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { changeUserRole, deleteUser, getUsers } from '../../redux/actions/usersActions'
 import PopupForCreateMedia from '../../components/PopupForCreateMedia/PopupForCreateMedia'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { options } from '../CreateUsersPage/CreateUsersPage'
+import { HeadCellType } from '../ObjectPage/ObjectPage';
 
-export const headCellsUsers = ['№', 'Название', 'Идентификатор', 'Роли', 'Управление']
+
+export const headCellsUsers:Array<HeadCellType> = [
+  { title: '№', orderBy: 'number' },
+  {
+    title: 'Название',
+    orderBy: 'name',
+  },
+  { title: 'Идентификатор', orderBy: 'id' },
+  {
+    title: 'Роли',
+    orderBy: 'role',
+  },
+  { title: 'Управление', orderBy: 'functional' },
+]
 
 const UsersPage = () => {
   const [search, setSearch] = useState('')
@@ -52,6 +66,11 @@ const UsersPage = () => {
     await dispatch(changeUserRole({ id: userChangedId, roles: roles, token }))
     setActiveModal(false)
     setUserChangedId(null)
+  }
+
+  const onSortHandler = async (order: Order, orderBy: string) => {
+    console.log(order);
+    console.log(orderBy);
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -116,6 +135,9 @@ const UsersPage = () => {
             currentPage={currentPage}
             currentSize={currentSize}
             headCells={headCellsUsers}
+            onSort={onSortHandler}
+            storeOrder={'asc'}
+            storeOrderBy={'name'}
           />
         )}
       </div>

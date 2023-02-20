@@ -8,10 +8,27 @@ import SearchFunctionalityComponent from '../../components/SearchFunctionalityCo
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { deleteObject, getObjects, publishObject } from '../../redux/actions/objectsActions'
 import Loading from '../../components/Loading/Loading'
-import TableComponent from '../../components/TableComponent/TableComponent'
+import TableComponent, { Order } from '../../components/TableComponent/TableComponent'
 import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
 
-export const headCellsObj = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
+export type HeadCellType = {
+  title: string
+  orderBy: string
+}
+
+export const headCellsObj:Array<HeadCellType> = [
+  { title: '№', orderBy: 'number' },
+  {
+    title: 'Название',
+    orderBy: 'name',
+  },
+  { title: 'Идентификатор', orderBy: 'id' },
+  {
+    title: 'Опубликовано',
+    orderBy: 'published',
+  },
+  { title: 'Управление', orderBy: 'functional' },
+]
 
 const ObjectPage = () => {
   const [search, setSearch] = useState('')
@@ -26,8 +43,12 @@ const ObjectPage = () => {
     objects,
     isLoading,
     error,
+    order,
+    orderBy,
     meta: { page, hasPreviousPage, pageCount, itemCount, hasNextPage, take },
   } = useAppSelector((state) => state.objects)
+
+  console.log(order, orderBy);
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -58,6 +79,19 @@ const ObjectPage = () => {
     setActivePublishModal(false)
   }
 
+  const onSortHandler = async (order: Order, orderBy: string) => {
+    await dispatch(
+      getObjects({
+        page: currentPage,
+        size: currentSize,
+        search,
+        token,
+        order,
+        orderBy: orderBy,
+      }),
+    )
+  }
+
   const onChangeObject = (objectId: number) => {
     navigate(PATH.editObjectCardPage, { replace: false, state: objectId })
   }
@@ -71,7 +105,7 @@ const ObjectPage = () => {
   }
 
   useEffect(() => {
-    dispatch(getObjects({ page: currentPage, size: currentSize, search, token }))
+    dispatch(getObjects({ page: currentPage, size: currentSize, search, token, order, orderBy }))
 
     if (pageCount < page) {
       setCurrentPage(0)
@@ -100,6 +134,9 @@ const ObjectPage = () => {
             currentPage={currentPage}
             currentSize={currentSize}
             headCells={headCellsObj}
+            onSort={onSortHandler}
+            storeOrder={order}
+            storeOrderBy={orderBy}
           />
         )}
       </div>

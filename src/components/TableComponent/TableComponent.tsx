@@ -24,14 +24,15 @@ import {
 } from '../../redux/types/types'
 import styles from './TableComponent.module.css'
 import { useAppSelector } from '../../redux/utils/redux-utils'
+import { HeadCellType } from '../../pages/ObjectPage/ObjectPage';
 
-type Order = 'asc' | 'desc'
+export type Order = 'asc' | 'desc'
 
 interface EnhancedTableProps {
   onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void
   order: Order
   orderBy: string
-  headCells: Array<string>
+  headCells:Array<HeadCellType>
   isNews: boolean
 }
 
@@ -46,18 +47,18 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell}
+            key={headCell.orderBy}
             align={'left'}
             padding='normal'
-            sortDirection={orderBy === headCell ? order : false}
+            sortDirection={orderBy === headCell.orderBy ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell}
-              direction={orderBy === headCell ? order : 'asc'}
-              onClick={createSortHandler(headCell)}
+              active={orderBy === headCell.orderBy}
+              direction={orderBy === headCell.orderBy ? order : 'asc'}
+              onClick={createSortHandler(headCell.orderBy)}
             >
-              {headCell}
-              {orderBy === headCell ? (
+              {headCell.title}
+              {orderBy === headCell.orderBy ? (
                 <Box component='span' sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
@@ -78,12 +79,15 @@ type TableComponentPropsType = {
   itemCount: number
   currentPage: number
   currentSize: number
-  headCells: string[]
+  headCells: Array<HeadCellType>
   onDeleteObject: (objectId: number) => void
   onChangeObject: (objectId: number) => void
   onPublish?: (objectId: number) => void
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSort: (order:Order, orderBy: string) => void
+  storeOrder: Order
+  storeOrderBy: string
 }
 
 const TableComponent: React.FC<TableComponentPropsType> = ({
@@ -100,10 +104,13 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
   onPublish,
   handleChangeRowsPerPage,
   handleChangePage,
+  onSort,
+                                                             storeOrder,
+                                                             storeOrderBy,
 }) => {
   const { userRoles } = useAppSelector((state) => state.auth)
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<string>('Name');
+  const [order, setOrder] = React.useState<Order>(storeOrder);
+  const [orderBy, setOrderBy] = React.useState<string>(storeOrderBy);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -112,6 +119,7 @@ const TableComponent: React.FC<TableComponentPropsType> = ({
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    onSort(isAsc ? 'desc' : 'asc' , orderBy)
   };
 
   return (

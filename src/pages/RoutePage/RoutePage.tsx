@@ -6,13 +6,25 @@ import main from '../../style/common.module.css'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import SearchFunctionalityComponent from '../../components/SearchFunctionalityComponent/SearchFunctionalityComponent'
 import Loading from '../../components/Loading/Loading'
-import TableComponent from '../../components/TableComponent/TableComponent'
+import TableComponent, { Order } from '../../components/TableComponent/TableComponent'
 import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils'
 import { deleteRoute, getRoutes, publishRoute } from '../../redux/actions/routesActions'
-import { deleteObject, getObjects, publishObject } from '../../redux/actions/objectsActions'
 import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
+import { HeadCellType } from '../ObjectPage/ObjectPage';
 
-export const headCellsRoute = ['№', 'Название', 'Идентификатор', 'Опубликовано', 'Управление']
+export const headCellsRoute:Array<HeadCellType> = [
+  { title: '№', orderBy: 'number' },
+  {
+    title: 'Название',
+    orderBy: 'name',
+  },
+  { title: 'Идентификатор', orderBy: 'id' },
+  {
+    title: 'Опубликовано',
+    orderBy: 'published',
+  },
+  { title: 'Управление', orderBy: 'functional' },
+]
 
 const RoutePage = () => {
   const [search, setSearch] = useState('')
@@ -59,6 +71,11 @@ const RoutePage = () => {
     setActivePublishModal(false)
   }
 
+  const onSortHandler = async (order: Order, orderBy: string) => {
+    console.log(order)
+    console.log(orderBy)
+  }
+
   const onChangeRoute = (objectId: number) => {
     navigate(PATH.editRoutePage, { replace: true, state: objectId })
   }
@@ -101,6 +118,9 @@ const RoutePage = () => {
             currentPage={currentPage}
             currentSize={currentSize}
             headCells={headCellsRoute}
+            onSort={onSortHandler}
+            storeOrder={'asc'}
+            storeOrderBy={'name'}
           />
         )}
       </div>

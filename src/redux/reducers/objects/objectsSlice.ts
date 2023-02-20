@@ -16,6 +16,8 @@ import {
   ObjectResponseDataType,
   ObjectResponseMetaType,
 } from '../../types/types'
+import { Order } from '../../../components/TableComponent/TableComponent';
+import nookies from 'nookies';
 
 export interface IObjects {
   objects: ObjectResponseDataType[]
@@ -25,8 +27,13 @@ export interface IObjects {
   isLoading: boolean
   isLoadingAudio: boolean
   isLoadingPhoto: boolean
+  order: Order
+  orderBy: string
   error: any
 }
+
+
+const cookies = nookies.get(null)
 
 const initialState: IObjects = {
   objects: [],
@@ -66,25 +73,32 @@ const initialState: IObjects = {
   isLoading: false,
   isLoadingAudio: false,
   isLoadingPhoto: false,
+  // order: cookies.order as Order ?? 'asc',
+  // orderBy: cookies.orderBy ?? 'name',
+  order: 'asc',
+  orderBy: 'name',
   error: '',
 }
 
 export const objectsSlice = createSlice({
   name: 'objects',
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder) => {
     builder.addCase(getObjects.pending, (state) => {
       state.isLoading = true
     })
     builder.addCase(getObjects.fulfilled, (state, action) => {
-      state.objects = action.payload.data
-      state.meta.page = action.payload.meta.page
-      state.meta.pageCount = action.payload.meta.pageCount
-      state.meta.hasNextPage = action.payload.meta.hasNextPage
-      state.meta.hasPreviousPage = action.payload.meta.hasPreviousPage
-      state.meta.itemCount = action.payload.meta.itemCount
-      state.meta.take = action.payload.meta.take
+      state.objects = action.payload.data.data
+      state.meta.page = action.payload.data.meta.page
+      state.meta.pageCount = action.payload.data.meta.pageCount
+      state.meta.hasNextPage = action.payload.data.meta.hasNextPage
+      state.meta.hasPreviousPage = action.payload.data.meta.hasPreviousPage
+      state.meta.itemCount = action.payload.data.meta.itemCount
+      state.meta.take = action.payload.data.meta.take
+      state.order = action.payload?.order
+      state.orderBy = action.payload?.orderBy
       state.isLoading = false
     })
     builder.addCase(getObjects.rejected, (state, action) => {
