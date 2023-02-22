@@ -15,6 +15,7 @@ export const getObjects = createAsyncThunk(
       token,
       order,
       orderBy,
+      category,
     }: {
       page: number
       size: number
@@ -22,6 +23,7 @@ export const getObjects = createAsyncThunk(
       token: string
       order?: Order
       orderBy?: string
+      category?: number
     },
     thunkAPI,
   ) => {
@@ -29,7 +31,7 @@ export const getObjects = createAsyncThunk(
       const res = await instance.get<ObjectResponseType>(
         `landmarks/?page=${page}&size=${size}${search ? `&search=${search}` : ''}${
           order ? `&sort=${order}` : ''
-        }${orderBy ? `&sortBy=${orderBy}` : ''}`,
+        }${orderBy ? `&sortBy=${orderBy}` : ''}${category ? `&category=${category}` : ''}`,
         {
           headers: { authorization: `Bearer ${token}` },
         },

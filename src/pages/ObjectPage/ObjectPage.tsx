@@ -10,6 +10,14 @@ import { deleteObject, getObjects, publishObject } from '../../redux/actions/obj
 import Loading from '../../components/Loading/Loading'
 import TableComponent, { Order } from '../../components/TableComponent/TableComponent'
 import PopupWithButtons from '../../components/PopupWithButtons/PopupWithButtons'
+import {
+  FormControl,
+  Box,
+  Select,
+  InputLabel,
+  SelectChangeEvent,
+  MenuItem
+} from '@mui/material';
 
 export type HeadCellType = {
   title: string
@@ -30,6 +38,35 @@ export const headCellsObj:Array<HeadCellType> = [
   { title: 'Управление', orderBy: 'functional' },
 ]
 
+const categoryForFilter = [
+  {id: 0, title: 'Все'},
+  {id: 1, title: 'Достопримечательности'},
+  {id: 2, title: 'Активный отдых'},
+  {id: 3, title: 'Маршруты'},
+  {id: 4, title: 'Места отдыха'},
+  {id: 5, title: 'Проживание'},
+  {id: 6, title: 'Питание'},
+  {id: 7, title: 'Культурные достопримечательности'},
+  {id: 8, title: 'Природные достопримечательности'},
+  {id: 9, title: 'Отели'},
+  {id: 10, title: 'Базы отдыха'},
+  {id: 11, title: 'Глэмпинги'},
+  {id: 12, title: 'Кемпинги'},
+  {id: 13, title: 'Рестораны'},
+  {id: 14, title: 'Кафе'},
+  {id: 15, title: 'Магазины'},
+  {id: 16, title: 'Рафтинг'},
+  {id: 17, title: 'Конные прогулки'},
+  {id: 18, title: 'Квадроциклы'},
+  {id: 19, title: 'Джимпинг'},
+  {id: 20, title: 'Экстрим'},
+  {id: 21, title: 'Зимний отдых'},
+  {id: 22, title: 'Термальные источники'},
+  {id: 23, title: 'Бани'},
+  {id: 24, title: 'Бассейны'},
+  {id: 25, title: 'Место для пикника'},
+]
+
 const ObjectPage = () => {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState<number>(0)
@@ -37,6 +74,23 @@ const ObjectPage = () => {
   const [activePublishModal, setActivePublishModal] = useState(false)
   const [activeDeleteModal, setActiveDeleteModal] = useState(false)
   const [activeObjectId, setActiveObjectId] = useState<number | null>(null)
+  const [categoryFilter, setCategoryFilter] = useState('0');
+
+  const handleChange = async (event: SelectChangeEvent) => {
+    const checkedCategory = event.target.value
+    setCategoryFilter(checkedCategory as string);
+    await dispatch(
+      getObjects({
+        page: currentPage,
+        size: currentSize,
+        search,
+        token,
+        order,
+        orderBy: orderBy,
+        category: checkedCategory !== '0' ? +checkedCategory : 0
+      }),
+    )
+  };
 
   const { token } = useAppSelector((state) => state.auth)
   const {
@@ -47,8 +101,6 @@ const ObjectPage = () => {
     orderBy,
     meta: { page, hasPreviousPage, pageCount, itemCount, hasNextPage, take },
   } = useAppSelector((state) => state.objects)
-
-  console.log(order, orderBy);
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -119,6 +171,22 @@ const ObjectPage = () => {
         <div className={styles.createObjectBtnContainer}>
           <SearchFunctionalityComponent setSearch={setSearch} search={search} />
           <CustomButton name='Создать объект' onClick={onRedirectToCreateObject} />
+        </div>
+        <div className={styles.categoryFilter}>
+          <FormControl variant="standard" sx={{ m: 1, width: 250 }}>
+            <InputLabel id="label">Выберите категорию</InputLabel>
+            <Select
+              labelId="label"
+              id="demo-simple-select-standard"
+              value={categoryFilter}
+              onChange={handleChange}
+              label="Age"
+            >
+              {categoryForFilter.map(category => {
+                return <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+              })}
+            </Select>
+          </FormControl>
         </div>
         {isLoading ? (
           <Loading />
