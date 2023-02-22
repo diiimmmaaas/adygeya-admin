@@ -12,6 +12,7 @@ export const PATH = {
   editObjectCardPage: '/edit-object-card-page',
   editRoutePage: '/edit-route-page',
   usersPage: '/users-page',
+  filtersPage: '/filters-page',
   settingsPage: '/settings-page',
   auth: '/auth',
   error404: '/error404',

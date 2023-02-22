@@ -166,3 +166,14 @@ export type AudioArrayType = {
   voiced: string
   voicedLink: string
 }
+
+export type GetFilterType = {
+  id: number
+  name: string
+  values: ValueType[]
+}
+
+export type ValueType = {
+  id: number
+  value: string
+}

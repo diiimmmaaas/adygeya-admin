@@ -19,6 +19,7 @@ import NotificationPage from '../pages/NotificationPage/NotificationPage'
 import EditNewsPage from '../pages/EditNewsPage/EditNewsPage'
 import EditObjectPage from '../pages/EditObjectPage/EditObjectPage'
 import EditRoutePage from '../pages/EditRoutePage/EditRoutePage'
+import FiltersPage from '../pages/FiltersPage/FiltersPage';
 
 const RouteList = () => {
   return (
@@ -28,6 +29,7 @@ const RouteList = () => {
       <Route path={PATH.newsCardPage} element={<NewsPage />} />
       <Route path={PATH.routeCardPage} element={<RoutePage />} />
       <Route path={PATH.notificationsPage} element={<NotificationPage />} />
+      <Route path={PATH.filtersPage} element={<FiltersPage />} />
       <Route path={PATH.createObjectCardPage} element={<CreateObjectPage />} />
       <Route path={PATH.createNewsCardPage} element={<CreateNewsPage />} />
       <Route path={PATH.createRouteCardPage} element={<CreateRoutePage />} />
