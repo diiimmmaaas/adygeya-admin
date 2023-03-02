@@ -34,6 +34,7 @@ const categoriesArray = [
       { id: 19, name: 'Джимпинг' },
       { id: 20, name: 'Экстрим' },
       { id: 21, name: 'Зимний отдых' },
+      { id: 26, name: 'Походы' },
     ],
   },
   {
