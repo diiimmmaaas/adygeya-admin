@@ -20,6 +20,11 @@
     position: relative;
 }
 
+.categoryFilter {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
 .dateBlock {
     width: 100%;
     display: flex;

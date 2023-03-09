@@ -43,8 +43,8 @@ export const postNews = createAsyncThunk(
     try {
       const date = checkedNewsParameters.date.split('-').reverse().join('-')
       const publish = checkedNewsParameters.publishAt.split('-').reverse().join('-')
-      const dateObj = new Date(date)
-      const publishObj = new Date(publish)
+      const dateObj = date ? new Date(date) : new Date()
+      const publishObj = publish ? new Date(publish) : new Date()
       const isoDate = dateObj.toISOString().slice(0, 10)
       const isoPublish = publishObj.toISOString()
       const refactoringParameters = {
@@ -64,6 +64,7 @@ export const postNews = createAsyncThunk(
 
       return response.data
     } catch (error) {
+      console.log('error', error);
       return thunkAPI.rejectWithValue(handleAppRequestError(error))
     }
   },

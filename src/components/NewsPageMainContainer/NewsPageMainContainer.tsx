@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import styles from './NewsPageMainContainer.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -10,11 +10,20 @@ import InputMask from 'react-input-mask'
 import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPhotoComponent'
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { CheckedNewsParametersType } from '../../pages/CreateNewsPage/CreateNewsPage'
-import { GetCurrentNewsType } from '../../redux/types/types'
+import { GetCurrentNewsType, ObjectResponseDataType } from '../../redux/types/types';
 import { options } from '../ObjectPageMainContainer/ObjectPageMainContainer'
 import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
 import UploadHighlightComponent from '../UploadHighlightComponent/UploadHighlightComponent'
 import { MyEditor } from '../MyEditor/MyEditor'
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent
+} from '@mui/material';
+import { getObjects } from '../../redux/actions/objectsActions';
+import { useAppDispatch, useAppSelector } from '../../redux/utils/redux-utils';
 
 export type NewsPageMainContainerPropsType = {
   isEditMode?: boolean
@@ -43,6 +52,7 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
 }) => {
   const [photosNewsFiles, setPhotosNewsFiles] = useState<any>()
   const [photoHighlightFiles, setPhotoHighlightFiles] = useState<any>()
+  const [objectForList, setObjectForList] = useState<string>(currentNews?.landmark?.name ? `${currentNews?.landmark?.name},${currentNews?.landmark?.id}` : '');
 
   const [checkedNewsParameters, setCheckedNewsParameters] = useState<CheckedNewsParametersType>({
     title: currentNews?.title ? currentNews?.title : '',
@@ -61,7 +71,21 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
       title: currentNews?.stories?.title ? currentNews?.stories?.title : '',
       content: currentNews?.stories?.content ? currentNews?.stories?.content : '',
     },
+    landmarkId: currentNews?.landmark?.id ? currentNews?.landmark?.id : 0,
   })
+
+  const {token} = useAppSelector(state => state.auth)
+  const {objects} = useAppSelector(state => state.objects)
+
+  const dispatch = useAppDispatch()
+
+  const handleChange = async (event: SelectChangeEvent) => {
+    const checkedObject = event.target.value
+    const checkedObjectId = +(checkedObject.split(',').slice(1).toString())
+
+    setCheckedNewsParameters({ ...checkedNewsParameters, landmarkId: checkedObjectId })
+    setObjectForList(checkedObject)
+  };
 
   const onChangeNewsNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedNewsParameters({ ...checkedNewsParameters, title: e.target.value })
@@ -113,6 +137,10 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
     onSubmitPopup && onSubmitPopup(photosNewsFiles, photoHighlightFiles)
   }
 
+  useEffect(() => {
+    dispatch(getObjects({ page: 0, size: 1000, token }))
+  }, [])
+
   return (
     <div className={main.container}>
       <div className={styles.content}>
@@ -138,6 +166,22 @@ const NewsPageMainContainer: React.FC<NewsPageMainContainerPropsType> = ({
             </div>
           </PopupForCreateMedia>
         )}
+        <div className={styles.categoryFilter}>
+          <FormControl variant="standard" sx={{ m: 1, width: 700 }}>
+            <InputLabel id="label">Выберите объект из списка чтобы привязать его к событию (для рекламы бизнеса)</InputLabel>
+            <Select
+              labelId="label"
+              id="demo-simple-select-standard"
+              value={objectForList}
+              onChange={handleChange}
+              label="Age"
+            >
+              {objects.map((object, index) => {
+                return <MenuItem key={index} value={`${object.name},${object.id}`}>{object.name}</MenuItem>
+              })}
+            </Select>
+          </FormControl>
+        </div>
         <CustomNameInput
           value={checkedNewsParameters.title}
           name='Название события'

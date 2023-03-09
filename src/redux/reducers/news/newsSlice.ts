@@ -55,6 +55,13 @@ const initialState: INews = {
       content: '',
       images: [],
     },
+    landmark: {
+      id: 0,
+      name: '',
+      published: false,
+      icon: '',
+      categories: []
+    }
   },
   id: null,
   isLoading: false,
@@ -103,6 +110,7 @@ export const newsSlice = createSlice({
       state.currentNews.location = action.payload.location
       state.currentNews.images = action.payload.images
       state.currentNews.stories = action.payload.stories
+      state.currentNews.landmark = action.payload.landmark
 
       state.isLoading = false
     })

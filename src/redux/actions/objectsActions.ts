@@ -19,7 +19,7 @@ export const getObjects = createAsyncThunk(
     }: {
       page: number
       size: number
-      search: string
+      search?: string
       token: string
       order?: Order
       orderBy?: string

@@ -21,6 +21,7 @@ export type CheckedNewsParametersType = {
     title: string
     content: string
   }
+  landmarkId: number,
 }
 
 const CreateNewsPage = () => {

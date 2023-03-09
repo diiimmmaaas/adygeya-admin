@@ -71,6 +71,7 @@ export type GetCurrentNewsType = {
   location: LocationType
   images: ImagesType[]
   stories: StoriesNewsType
+  landmark: ObjectResponseDataType
 }
 
 export type LocationType = {
