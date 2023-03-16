@@ -246,22 +246,6 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   const onChangeDescriptionHandler = (editHtml: string) => {
     setCheckedParameters({ ...checkedParameters, description: editHtml })
   }
-  const onOpenChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
-    setCheckedParameters({
-      ...checkedParameters,
-      schedule: checkedParameters.schedule.map((ctc) =>
-        ctc.weekday === weekday ? { ...ctc, open: e.target.value } : { ...ctc },
-      ),
-    })
-  }
-  const onCloseChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
-    setCheckedParameters({
-      ...checkedParameters,
-      schedule: checkedParameters.schedule.map((ctc) =>
-        ctc.weekday === weekday ? { ...ctc, close: e.target.value } : { ...ctc },
-      ),
-    })
-  }
   const onChangeNameOfArtistHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAudioParameters({
       ...audioParameters,
@@ -469,11 +453,6 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
         <MyEditor
           value={checkedParameters.description}
           onEditorStateChange={onChangeDescriptionHandler}
-        />
-        <TimeTable
-          schedule={checkedParameters.schedule}
-          onOpenChangeHandler={onOpenChangeHandler}
-          onCloseChangeHandler={onCloseChangeHandler}
         />
         <ContactsComponent
           contacts={checkedParameters.contacts}
