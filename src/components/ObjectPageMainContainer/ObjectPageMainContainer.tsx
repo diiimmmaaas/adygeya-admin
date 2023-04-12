@@ -8,12 +8,13 @@ import UploadPhotoComponent from '../../components/UploadPhotoComponent/UploadPh
 import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import { AudioParametersType, CheckedParametersType } from '../../pages/CreateObjectPage/types'
 import UploadAudioComponent from '../UploadAudioComponent/UploadAudioComponent'
-import TimeTable from '../TimeTable/TimeTable'
 import ContactsComponent from '../ContactsComponent/ContactsComponent'
 import { GetCurrentObjectType } from '../../redux/types/types'
 import InputMask from 'react-input-mask'
 import PopupForCreateMedia from '../PopupForCreateMedia/PopupForCreateMedia'
 import { MyEditor } from '../MyEditor/MyEditor'
+import TimeTable from '../TimeTable/TimeTable'
+import PriceComponent from '../PriceComponent/PriceComponent'
 
 const categoriesArray = [
   {
@@ -246,6 +247,24 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   const onChangeDescriptionHandler = (editHtml: string) => {
     setCheckedParameters({ ...checkedParameters, description: editHtml })
   }
+
+  const onOpenChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      schedule: checkedParameters.schedule.map((ctc) =>
+        ctc.weekday === weekday ? { ...ctc, open: e.target.value } : { ...ctc },
+      ),
+    })
+  }
+  const onCloseChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, weekday: number) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      schedule: checkedParameters.schedule.map((ctc) =>
+        ctc.weekday === weekday ? { ...ctc, close: e.target.value } : { ...ctc },
+      ),
+    })
+  }
+
   const onChangeNameOfArtistHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAudioParameters({
       ...audioParameters,
@@ -261,6 +280,13 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   const onChangeObjectDateSendHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({ ...checkedParameters, publishAt: e.target.value })
   }
+  const onChangeNameOfTicket = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+  }
+  const onChangeCountOfTicket = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+  }
+
 
   const onSubmitFormHandler = () => {
     onSubmitForm(checkedParameters, photosFiles, audioFiles, audioParameters)
@@ -453,6 +479,15 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
         <MyEditor
           value={checkedParameters.description}
           onEditorStateChange={onChangeDescriptionHandler}
+        />
+        <TimeTable
+          schedule={checkedParameters.schedule}
+          onOpenChangeHandler={onOpenChangeHandler}
+          onCloseChangeHandler={onCloseChangeHandler}
+        />
+        <PriceComponent
+          onChangeNameOfTicketHandler={onChangeNameOfTicket}
+          onChangeCountOfTicketHandler={onChangeCountOfTicket}
         />
         <ContactsComponent
           contacts={checkedParameters.contacts}
