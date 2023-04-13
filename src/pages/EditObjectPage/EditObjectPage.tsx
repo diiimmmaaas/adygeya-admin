@@ -108,6 +108,7 @@ const EditObjectPage = () => {
   useEffect(() => {
     dispatch(getCurrentObject({ id: state, token }))
   }, [])
+
   if (isLoading) {
     return <Loading />
   }

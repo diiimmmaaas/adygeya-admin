@@ -62,7 +62,10 @@ const initialState: IObjects = {
     },
     schedule: [],
     contacts: [],
-    categories: [],
+    categories: [
+      {id: 0, name: ''},
+      {id: 0, name: ''},
+    ],
     filters: [],
   },
   id: null,

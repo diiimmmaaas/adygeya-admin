@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ObjectPageMainContainer.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -105,6 +105,9 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   handleDeleteUploadedPhoto,
   handleDeleteUploadedAudio,
 }) => {
+  console.log(currentObject?.categories[0]?.id)
+  console.log(currentObject?.categories[1]?.id)
+  console.log(currentObject)
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeCategory, setActiveCategory] = useState(
     currentObject?.categories[0] !== undefined ? currentObject?.categories[0]?.id : 0,
@@ -186,7 +189,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
           { name: 'Сайт', contact: '' },
           { name: 'Почта', contact: '' },
         ],
-    categories: [],
+    categories: [currentObject?.categories[1].id as number],
     waypoints: [],
     filters: [],
     publishAt: currentObject?.publishAt
@@ -286,7 +289,6 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   const onChangeCountOfTicket = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value)
   }
-
 
   const onSubmitFormHandler = () => {
     onSubmitForm(checkedParameters, photosFiles, audioFiles, audioParameters)
