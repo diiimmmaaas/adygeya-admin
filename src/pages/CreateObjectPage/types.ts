@@ -1,3 +1,5 @@
+import { PricesType } from '../../redux/types/types';
+
 export type AudioParametersType = {
   voiced: string
   voicedLink: string
@@ -36,4 +38,5 @@ export type CheckedParametersType = {
   waypoints: number[]
   filters: number[]
   publishAt: string
+  prices: PricesType[],
 }

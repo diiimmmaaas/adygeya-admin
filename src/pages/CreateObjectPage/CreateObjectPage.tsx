@@ -44,7 +44,14 @@ const CreateObjectPage = () => {
       for (const photo of photosFiles) {
         const formData = new FormData()
         formData.append('image', photo)
-        await dispatch(postImageForObject({ formData, id: id, token }))
+        const res = await dispatch(postImageForObject({ formData, id: id, token }))
+        if (postImageForObject.rejected.match(res)) {
+          setError(true)
+          const timer = setTimeout(() => {
+            setError(false)
+          }, 4000)
+          return () => clearTimeout(timer)
+        }
       }
     }
     if (audioFiles) {
@@ -53,13 +60,20 @@ const CreateObjectPage = () => {
         formData.append('audio', audio)
         formData.append('voiced', audioParameters.voiced)
         formData.append('voicedLink', audioParameters.voicedLink)
-        await dispatch(
+        const res = await dispatch(
           postAudioForObject({
             formData,
             id: id,
             token,
           }),
         )
+        if (postAudioForObject.rejected.match(res)) {
+          setError(true)
+          const timer = setTimeout(() => {
+            setError(false)
+          }, 4000)
+          return () => clearTimeout(timer)
+        }
       }
     }
     setActiveModal(false)

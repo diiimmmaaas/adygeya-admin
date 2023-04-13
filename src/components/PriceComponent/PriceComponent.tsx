@@ -1,45 +1,63 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState } from 'react'
 import styles from './PriceComponent.module.css'
 import CustomNameInput from '../CustomNameInput/CustomNameInput'
 import CustomButton from '../CustomButton/CustomButton'
-import exitImg from '../../assets/icons/exit.svg';
+import exitImg from '../../assets/icons/exit.svg'
 
 type PriceComponentPropsType = {
-  onChangeNameOfTicketHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onChangeCountOfTicketHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  // onChangeNameOfTicketHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  // onChangeCountOfTicketHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 type PricesType = {
   name: string
-  count: string
+  value: string
 }
 
-const PriceComponent: FC<PriceComponentPropsType> = ({
-  onChangeNameOfTicketHandler,
-  onChangeCountOfTicketHandler,
-}) => {
-  const [prices, setPrices] = useState<PricesType[]>([])
+const PriceComponent: FC<PriceComponentPropsType> = () => {
+  const [prices, setPrices] = useState<PricesType[]>([{ name: '', value: '' }])
+
+  console.log(prices)
 
   const addOnePointHandler = () => {
     const newPrice = {
       name: '',
-      count: '',
+      value: '',
     }
 
-    setPrices([
-      ...prices,
-      newPrice
-    ])
+    setPrices([...prices, newPrice])
   }
 
   const addDeletePointHandler = () => {
-    const newArray = [
-      ...prices.filter(
-        (el, i) => i !== prices.length - 1,
-      ),
-    ]
+    const newArray = [...prices.filter((el, i) => i !== prices.length - 1)]
 
     setPrices(newArray)
+  }
+
+  const onChangeNameOfTicketHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    setPrices(
+      prices.map((price, ind) =>
+        index === ind
+          ? {
+              ...price,
+              name: e.target.value,
+            }
+          : { ...price },
+      ),
+    )
+  }
+
+  const onChangeCountOfTicketHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    setPrices(
+      prices.map((price, ind) =>
+        index === ind
+          ? {
+            ...price,
+            value: e.target.value,
+          }
+          : { ...price },
+      ),
+    )
   }
 
   return (
@@ -58,13 +76,13 @@ const PriceComponent: FC<PriceComponentPropsType> = ({
               name='Категория для цены'
               placeholder='Введите категорию для установки цены билета'
               type='text'
-              callbackHandler={onChangeNameOfTicketHandler}
+              callbackHandler={(e) => onChangeNameOfTicketHandler(e, index)}
             />
             <CustomNameInput
               name='Стоимость'
               placeholder='Введите стоимость билета'
               type='text'
-              callbackHandler={onChangeCountOfTicketHandler}
+              callbackHandler={(e) => onChangeCountOfTicketHandler(e, index)}
             />
             <div className={styles.strip}></div>
           </div>

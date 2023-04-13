@@ -105,6 +105,12 @@ export type GetCurrentObjectType = {
   contacts: ContactType[]
   categories: CategoryType[]
   filters: FilterType[]
+  prices: PricesType[],
+}
+
+export type PricesType = {
+  name: string
+  value: string
 }
 
 export type AudioType = {

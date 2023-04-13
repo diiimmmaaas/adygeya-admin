@@ -105,9 +105,6 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   handleDeleteUploadedPhoto,
   handleDeleteUploadedAudio,
 }) => {
-  console.log(currentObject?.categories[0]?.id)
-  console.log(currentObject?.categories[1]?.id)
-  console.log(currentObject)
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeCategory, setActiveCategory] = useState(
     currentObject?.categories[0] !== undefined ? currentObject?.categories[0]?.id : 0,
@@ -192,6 +189,9 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
     categories: [currentObject?.categories[1].id as number],
     waypoints: [],
     filters: [],
+    prices: [
+      {name: '', value: ''}
+    ],
     publishAt: currentObject?.publishAt
       ? currentObject?.publishAt.slice(0, 10).split('-').reverse().join('-')
       : '',
@@ -283,6 +283,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   const onChangeObjectDateSendHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedParameters({ ...checkedParameters, publishAt: e.target.value })
   }
+
   const onChangeNameOfTicket = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value)
   }
@@ -488,8 +489,8 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
           onCloseChangeHandler={onCloseChangeHandler}
         />
         <PriceComponent
-          onChangeNameOfTicketHandler={onChangeNameOfTicket}
-          onChangeCountOfTicketHandler={onChangeCountOfTicket}
+          // onChangeNameOfTicketHandler={onChangeNameOfTicket}
+          // onChangeCountOfTicketHandler={onChangeCountOfTicket}
         />
         <ContactsComponent
           contacts={checkedParameters.contacts}

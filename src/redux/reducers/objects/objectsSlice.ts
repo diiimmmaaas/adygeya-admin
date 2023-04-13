@@ -67,6 +67,7 @@ const initialState: IObjects = {
       {id: 0, name: ''},
     ],
     filters: [],
+    prices: [],
   },
   id: null,
   isLoading: false,
