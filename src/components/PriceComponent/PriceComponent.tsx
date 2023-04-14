@@ -1,12 +1,15 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import styles from './PriceComponent.module.css'
 import CustomNameInput from '../CustomNameInput/CustomNameInput'
 import CustomButton from '../CustomButton/CustomButton'
 import exitImg from '../../assets/icons/exit.svg'
 
 type PriceComponentPropsType = {
-  // onChangeNameOfTicketHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  // onChangeCountOfTicketHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  addOnePoint: () => void
+  addDeletePoint: () => void
+  prices: PricesType[]
+  onChangeNameOfTicketHandler: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void
+  onChangeCountOfTicketHandler: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void
 }
 
 type PricesType = {
@@ -14,50 +17,19 @@ type PricesType = {
   value: string
 }
 
-const PriceComponent: FC<PriceComponentPropsType> = () => {
-  const [prices, setPrices] = useState<PricesType[]>([{ name: '', value: '' }])
-
-  console.log(prices)
-
+const PriceComponent: FC<PriceComponentPropsType> = ({
+  addOnePoint,
+  addDeletePoint,
+  prices,
+  onChangeNameOfTicketHandler,
+  onChangeCountOfTicketHandler,
+}) => {
   const addOnePointHandler = () => {
-    const newPrice = {
-      name: '',
-      value: '',
-    }
-
-    setPrices([...prices, newPrice])
+    addOnePoint()
   }
 
   const addDeletePointHandler = () => {
-    const newArray = [...prices.filter((el, i) => i !== prices.length - 1)]
-
-    setPrices(newArray)
-  }
-
-  const onChangeNameOfTicketHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    setPrices(
-      prices.map((price, ind) =>
-        index === ind
-          ? {
-              ...price,
-              name: e.target.value,
-            }
-          : { ...price },
-      ),
-    )
-  }
-
-  const onChangeCountOfTicketHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    setPrices(
-      prices.map((price, ind) =>
-        index === ind
-          ? {
-            ...price,
-            value: e.target.value,
-          }
-          : { ...price },
-      ),
-    )
+    addDeletePoint()
   }
 
   return (
@@ -73,12 +45,14 @@ const PriceComponent: FC<PriceComponentPropsType> = () => {
               alt='exitImg'
             />
             <CustomNameInput
+              value={price.name}
               name='Категория для цены'
               placeholder='Введите категорию для установки цены билета'
               type='text'
               callbackHandler={(e) => onChangeNameOfTicketHandler(e, index)}
             />
             <CustomNameInput
+              value={price.value}
               name='Стоимость'
               placeholder='Введите стоимость билета'
               type='text'

@@ -74,56 +74,55 @@ const EditObjectPage = () => {
     audioFiles: any,
     audioParameters: AudioParametersType,
   ) => {
-    console.log(checkedParameters);
-    // await dispatch(changeObject({ objectId: currentObject.id, checkedParameters, token }))
-    // if (photosFiles) {
-    //   for (const photo of photosFiles) {
-    //     const formData = new FormData()
-    //     formData.append('image', photo)
-    //     const res = await dispatch(
-    //       postImageForObject({
-    //         formData,
-    //         id: currentObject.id,
-    //         token,
-    //       }),
-    //     )
-    //     if (postImageForObject.rejected.match(res)) {
-    //       setError(true)
-    //       const timer = setTimeout(() => {
-    //         setError(false)
-    //       }, 4000)
-    //       return () => clearTimeout(timer)
-    //     }
-    //   }
-    // }
-    // if (audioFiles) {
-    //   for (const audio of audioFiles) {
-    //     const formData = new FormData()
-    //     formData.append('audio', audio)
-    //     formData.append('voiced', audioParameters.voiced)
-    //     formData.append('voicedLink', audioParameters.voicedLink)
-    //     const res = await dispatch(
-    //       postAudioForObject({
-    //         formData,
-    //         id: currentObject.id,
-    //         token,
-    //       }),
-    //     )
-    //     if (postAudioForObject.rejected.match(res)) {
-    //       setError(true)
-    //       const timer = setTimeout(() => {
-    //         setError(false)
-    //       }, 4000)
-    //       return () => clearTimeout(timer)
-    //     }
-    //   }
-    // }
-    // await dispatch(getCurrentObject({ id: state, token }))
-    // setCorrect(true)
-    // const timer = setTimeout(() => {
-    //   setCorrect(false)
-    // }, 4000)
-    // return () => clearTimeout(timer)
+    await dispatch(changeObject({ objectId: currentObject.id, checkedParameters, token }))
+    if (photosFiles) {
+      for (const photo of photosFiles) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        const res = await dispatch(
+          postImageForObject({
+            formData,
+            id: currentObject.id,
+            token,
+          }),
+        )
+        if (postImageForObject.rejected.match(res)) {
+          setError(true)
+          const timer = setTimeout(() => {
+            setError(false)
+          }, 4000)
+          return () => clearTimeout(timer)
+        }
+      }
+    }
+    if (audioFiles) {
+      for (const audio of audioFiles) {
+        const formData = new FormData()
+        formData.append('audio', audio)
+        formData.append('voiced', audioParameters.voiced)
+        formData.append('voicedLink', audioParameters.voicedLink)
+        const res = await dispatch(
+          postAudioForObject({
+            formData,
+            id: currentObject.id,
+            token,
+          }),
+        )
+        if (postAudioForObject.rejected.match(res)) {
+          setError(true)
+          const timer = setTimeout(() => {
+            setError(false)
+          }, 4000)
+          return () => clearTimeout(timer)
+        }
+      }
+    }
+    await dispatch(getCurrentObject({ id: state, token }))
+    setCorrect(true)
+    const timer = setTimeout(() => {
+      setCorrect(false)
+    }, 4000)
+    return () => clearTimeout(timer)
   }
 
   useEffect(() => {

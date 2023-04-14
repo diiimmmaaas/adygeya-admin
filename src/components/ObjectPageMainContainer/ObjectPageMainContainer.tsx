@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './ObjectPageMainContainer.module.css'
 import main from '../../style/common.module.css'
 import CustomNameInput from '../../components/CustomNameInput/CustomNameInput'
@@ -105,6 +105,8 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
   handleDeleteUploadedPhoto,
   handleDeleteUploadedAudio,
 }) => {
+
+  console.log(currentObject);
   const [activeCategoryId, setActiveCategoryId] = useState(1)
   const [activeCategory, setActiveCategory] = useState(
     currentObject?.categories[0] !== undefined ? currentObject?.categories[0]?.id : 0,
@@ -189,9 +191,7 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
     categories: [currentObject?.categories[1].id as number],
     waypoints: [],
     filters: [],
-    prices: [
-      {name: '', value: ''}
-    ],
+    prices: currentObject?.prices ? currentObject?.prices : [{ name: '', value: '' }],
     publishAt: currentObject?.publishAt
       ? currentObject?.publishAt.slice(0, 10).split('-').reverse().join('-')
       : '',
@@ -284,11 +284,40 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
     setCheckedParameters({ ...checkedParameters, publishAt: e.target.value })
   }
 
-  const onChangeNameOfTicket = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
+  const onChangeNameOfTicketHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      prices: checkedParameters.prices.map((price, ind) =>
+        ind === index ? { ...price, name: e.target.value } : { ...price },
+      ),
+    })
   }
-  const onChangeCountOfTicket = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
+  const onChangeCountOfTicketHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    setCheckedParameters({
+      ...checkedParameters,
+      prices: checkedParameters.prices.map((price, ind) =>
+        ind === index ? { ...price, value: e.target.value } : { ...price },
+      ),
+    })
+  }
+
+  const addOnePoint = () => {
+    const newPrice = {
+      name: '',
+      value: '',
+    }
+
+    setCheckedParameters({
+      ...checkedParameters,
+      prices: [...checkedParameters.prices, newPrice],
+    })
+  }
+
+  const addDeletePoint = () => {
+    const newArray = [
+      ...checkedParameters.prices.filter((el, i) => i !== checkedParameters.prices.length - 1),
+    ]
+    setCheckedParameters({ ...checkedParameters, prices: newArray })
   }
 
   const onSubmitFormHandler = () => {
@@ -489,8 +518,11 @@ const ObjectPageMainContainer: React.FC<ObjectPageMainContainerPropsType> = ({
           onCloseChangeHandler={onCloseChangeHandler}
         />
         <PriceComponent
-          // onChangeNameOfTicketHandler={onChangeNameOfTicket}
-          // onChangeCountOfTicketHandler={onChangeCountOfTicket}
+          addOnePoint={addOnePoint}
+          addDeletePoint={addDeletePoint}
+          prices={checkedParameters.prices}
+          onChangeCountOfTicketHandler={onChangeCountOfTicketHandler}
+          onChangeNameOfTicketHandler={onChangeNameOfTicketHandler}
         />
         <ContactsComponent
           contacts={checkedParameters.contacts}

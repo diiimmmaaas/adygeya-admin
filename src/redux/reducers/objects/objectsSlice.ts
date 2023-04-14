@@ -119,6 +119,7 @@ export const objectsSlice = createSlice({
       state.currentObject.contacts = action.payload.contacts
       state.currentObject.categories = action.payload.categories
       state.currentObject.filters = action.payload.filters
+      state.currentObject.prices = action.payload.prices
 
       state.isLoading = false
     })
