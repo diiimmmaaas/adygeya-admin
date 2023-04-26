@@ -35,6 +35,22 @@ export const MyEditor: FC<MyEditorPropsType> = ({ value, onEditorStateChange }) 
     <>
       <h4 className={styles.dateText}>Описание</h4>
       <Editor
+        toolbar={{
+          options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+          blockType: {
+            inDropdown: true,
+            options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Blockquote', 'Code'],
+            className: undefined,
+            component: undefined,
+            dropdownClassName: undefined,
+          },
+          fontFamily: {
+            options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana', 'Roboto'],
+            className: undefined,
+            component: undefined,
+            dropdownClassName: undefined,
+          },
+        }}
         editorState={editorStateValue}
         toolbarClassName='toolbarClassName'
         wrapperClassName='wrapperClassName'
