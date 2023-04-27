@@ -36,6 +36,7 @@ const categoriesArray = [
       { id: 20, name: 'Экстрим' },
       { id: 21, name: 'Зимний отдых' },
       { id: 26, name: 'Походы' },
+      { id: 27, name: 'Трансфер' },
     ],
   },
   {
